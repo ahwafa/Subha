@@ -1,0 +1,20 @@
+{
+  "name": "سُبحة",
+  "short_name": "سُبحة",
+  "description": "ورد يومي للتسبيح بأعداد وأوقات ومواقيت الأذان",
+  "lang": "ar",
+  "dir": "rtl",
+  "id": "./",
+  "start_url": "./?source=home",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0C1618",
+  "theme_color": "#0C1618",
+  "categories": ["lifestyle", "productivity"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

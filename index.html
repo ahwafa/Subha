@@ -1,0 +1,2506 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>سُبحة</title>
+<meta name="description" content="ورد يومي للتسبيح بأعداد وأوقات ومواقيت الأذان">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0C1618">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="سُبحة">
+<meta name="format-detection" content="telephone=no">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;600;700&display=swap">
+<style>
+/* Layout: phone-first app shell. Tab content scrolls above a fixed bottom tab bar;
+   the counter is a full-screen sheet built around a bead ring that fills from the imam bead. */
+:root{
+  --bg:#ECEFE8;
+  --surface:#F9FAF6;
+  --surface-2:#E1E6DD;
+  --ink:#15242A;
+  --ink-2:#55666A;
+  --line:#CED6CF;
+  --accent:#A9671A;
+  --on-accent:#FFFFFF;
+  --accent-soft:#F2E1C0;
+  --done:#2D7555;
+  --done-soft:#D5EADD;
+  --danger:#B3261E;
+  --miss:#B4412A;
+  --on-miss:#FFFFFF;
+  --miss-soft:#F7DCD3;
+  --thread:#A7B2AC;
+  --rim:rgba(21,36,42,.22);
+  --glow:rgba(201,128,32,.30);
+  --shade:rgba(21,36,42,.12);
+  --scrim:rgba(13,22,24,.48);
+  --heat-1:#ECD6AB;
+  --heat-2:#D7A55D;
+  --heat-3:#A9671A;
+  --ghost:.20;
+  --font-dhikr:"Amiri","Noto Naskh Arabic","Traditional Arabic","Geeza Pro",serif;
+  --font-display:"Reem Kufi","Noto Kufi Arabic","Geeza Pro","Segoe UI",sans-serif;
+  --font-ui:"IBM Plex Sans Arabic","Noto Sans Arabic","Geeza Pro","Segoe UI",system-ui,sans-serif;
+  --r-card:20px;
+  --tabbar-h:66px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0C1618; --surface:#132225; --surface-2:#1A2D31; --ink:#F1E8D8; --ink-2:#9EB0AD;
+    --line:#233739; --accent:#E8A847; --on-accent:#1C1406; --accent-soft:#3A2A12;
+    --done:#64C397; --done-soft:#16332A; --danger:#FF8A80; --thread:#3C5256;
+    --miss:#F2876B; --on-miss:#2A0E07; --miss-soft:#45221A;
+    --rim:rgba(255,255,255,.16); --glow:rgba(232,168,71,.40); --shade:rgba(0,0,0,.38);
+    --scrim:rgba(0,0,0,.62); --heat-1:#4A3618; --heat-2:#8E6526; --heat-3:#E8A847; --ghost:.36;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C1618; --surface:#132225; --surface-2:#1A2D31; --ink:#F1E8D8; --ink-2:#9EB0AD;
+  --line:#233739; --accent:#E8A847; --on-accent:#1C1406; --accent-soft:#3A2A12;
+  --done:#64C397; --done-soft:#16332A; --danger:#FF8A80; --thread:#3C5256;
+  --miss:#F2876B; --on-miss:#2A0E07; --miss-soft:#45221A;
+  --rim:rgba(255,255,255,.16); --glow:rgba(232,168,71,.40); --shade:rgba(0,0,0,.38);
+  --scrim:rgba(0,0,0,.62); --heat-1:#4A3618; --heat-2:#8E6526; --heat-3:#E8A847; --ghost:.36;
+  color-scheme:dark;
+}
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-ui);font-size:15px;line-height:1.55;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
+body.locked{overflow:hidden}
+/* an app, not a document: no text selection or Copy/Look Up menus outside the fields */
+#app{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#app input,#app textarea,#app select{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+#app{max-width:560px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px calc(var(--tabbar-h) + 28px + env(safe-area-inset-bottom,0px))}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+button:disabled{cursor:default}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ico{width:22px;height:22px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ico-sm{width:17px;height:17px}
+.ico-xs{width:13px;height:13px}
+.flip{transform:scaleX(-1)}
+.muted{color:var(--ink-2)}
+.small{font-size:13px}
+.grow{flex:1}
+h1,h2,h3{text-wrap:balance}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:6px 14px}
+.brand{display:grid;gap:2px;min-width:0}
+.brand h1{font-family:var(--font-display);font-weight:700;font-size:30px;line-height:1.1;margin:0}
+.date{font-size:13px;color:var(--ink-2)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600;white-space:nowrap}
+.streak{background:var(--accent-soft);color:var(--ink)}
+.streak .ico{color:var(--accent)}
+.streak b{font-family:var(--font-display);font-size:18px;font-weight:600;line-height:1}
+
+/* hero */
+.hero{background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:18px;display:grid;gap:16px}
+.hero-main{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center}
+.hero-ring{position:relative;width:118px;height:118px}
+.hero-ring canvas{width:100%;height:100%;display:block}
+.hero-ring .pct{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--font-display);font-size:25px;font-weight:600}
+.hero-txt{min-width:0}
+.hero-txt h2{font-family:var(--font-display);font-size:21px;margin:0;font-weight:600}
+.hero-txt .sub{color:var(--ink-2);font-size:14px;margin:2px 0 0}
+.hero-txt .sub-2{color:var(--ink-2);font-size:13px;margin:6px 0 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 18px;border-radius:14px;font-weight:600;font-size:15px;line-height:1.3}
+.btn-primary{background:var(--accent);color:var(--on-accent)}
+.btn-soft{background:var(--surface-2);color:var(--ink)}
+.btn-line{border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.btn-danger{border:1px solid var(--line);background:var(--surface);color:var(--danger)}
+.btn-sm{min-height:38px;padding:0 14px;border-radius:12px;font-size:14px}
+.btn-block{width:100%}
+.btn.is-armed{background:var(--danger);color:var(--surface);border-color:var(--danger)}
+.continue{justify-content:space-between;text-align:start;min-height:50px}
+.continue span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.continue.is-done{background:var(--done-soft);color:var(--done)}
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center}
+.week .d{display:grid;justify-items:center;gap:5px;font-size:12px;color:var(--ink-2)}
+.week .d.today{color:var(--ink);font-weight:700}
+.b{display:inline-block;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--thread)}
+.b.l1,.heat i.l1,.legend i.l1{background:var(--heat-1);border-color:var(--heat-1)}
+.b.l2,.heat i.l2,.legend i.l2{background:var(--heat-2);border-color:var(--heat-2)}
+.b.l3,.heat i.l3,.legend i.l3{background:var(--heat-3);border-color:var(--heat-3);box-shadow:0 0 8px var(--glow)}
+.week .d.today .b{outline:2px solid var(--accent);outline-offset:2px}
+.next{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:12px}
+.next b{color:var(--ink);font-weight:600}
+
+/* the "now" card: whatever the person should recite at this moment */
+@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
+.feat{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:26px;padding:16px 16px 14px;display:grid;gap:12px}
+.feat-top{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:30px}
+.fchip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:13px;font-weight:700;background:var(--surface-2);color:var(--ink-2)}
+.fchip.due{background:var(--accent);color:var(--on-accent)}
+.fchip.ok{background:var(--done-soft);color:var(--done)}
+.feat-when{font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums;text-align:end}
+.feat-body{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center}
+.feat-ring{position:relative;width:100px;height:100px}
+.feat-ring canvas{width:100%;height:100%;display:block}
+.feat-count{position:absolute;inset:0;display:grid;place-content:center;text-align:center;font-family:var(--font-display);font-size:24px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
+.feat-count small{display:block;font-family:var(--font-ui);font-size:11px;font-weight:500;color:var(--ink-2);margin-top:4px}
+.feat-text{font-family:var(--font-dhikr);font-weight:700;font-size:clamp(23px,6.6vw,31px);line-height:1.6;text-wrap:balance;overflow-wrap:anywhere}
+.feat-text.long{font-size:clamp(18px,4.8vw,22px)}
+.feat-words{display:grid;gap:2px;min-width:0}
+.feat-tag{font-size:13px;font-weight:700;color:var(--accent)}
+.feat-go{min-height:52px;font-size:16px}
+.feat-note{margin:0;color:var(--ink-2)}
+.feat-dua{margin:0;font-family:var(--font-dhikr);font-size:22px;color:var(--ink-2)}
+.feat-more{display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;color:var(--ink-2);text-align:center;min-width:0}
+.feat-more span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+button.feat-more{color:var(--accent);font-weight:600;padding-block:2px}
+.feat--due{border:2px solid transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,conic-gradient(from var(--ang),var(--accent) 0%,var(--accent-soft) 22%,var(--accent) 50%,var(--accent-soft) 72%,var(--accent) 100%) border-box;animation:spin 4s linear infinite,breathe 2.6s ease-in-out infinite}
+.feat--due .feat-text{color:var(--ink)}
+.feat--done{background:var(--done-soft);border-color:transparent}
+.feat.arrive{animation:arrive .9s cubic-bezier(.2,1.4,.4,1) 1,spin 4s linear infinite,breathe 2.6s ease-in-out infinite}
+@keyframes spin{to{--ang:360deg}}
+@keyframes breathe{0%,100%{box-shadow:0 0 0 0 var(--glow)}50%{box-shadow:0 0 30px 4px var(--glow)}}
+@keyframes arrive{0%{transform:scale(.94)}45%{transform:scale(1.03)}100%{transform:none}}
+.bell-swing{transform-origin:50% 12%;animation:swing 2.4s ease-in-out infinite}
+@keyframes swing{0%,60%,100%{transform:rotate(0)}10%{transform:rotate(16deg)}20%{transform:rotate(-13deg)}30%{transform:rotate(9deg)}40%{transform:rotate(-5deg)}50%{transform:rotate(2deg)}}
+
+/* compact day progress under it */
+.daybar{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;align-items:center;margin-top:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:22px}
+.daybar .hero-ring{width:64px;height:64px}
+.daybar .pct{font-size:16px}
+.daybar-txt{display:grid;gap:1px;min-width:0}
+.daybar-txt b{font-family:var(--font-display);font-weight:600;font-size:17px}
+.daybar-txt span{font-size:13px;color:var(--ink-2)}
+.daybar .week{grid-column:1/-1;margin-top:6px}
+
+/* sample note */
+.note{display:grid;gap:10px;background:var(--accent-soft);border-radius:18px;padding:14px 16px;margin-top:14px;font-size:14px}
+.note p{margin:0}
+.note-actions{display:flex;gap:8px;flex-wrap:wrap}
+.note.install{background:var(--surface);border:1.5px dashed var(--accent)}
+
+/* slots and items */
+.slot{margin-top:24px}
+.slot-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.slot-h h3{font-family:var(--font-display);font-weight:600;font-size:19px;margin:0}
+.slot-meta{display:flex;align-items:center;gap:8px;color:var(--ink-2);font-size:13px;flex-wrap:wrap;justify-content:flex-end}
+.tag{padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600}
+.tag-done{background:var(--done-soft);color:var(--done)}
+.tag-due{background:var(--accent);color:var(--on-accent)}
+.items{display:grid;gap:10px}
+.item{display:grid;grid-template-columns:minmax(0,1fr) auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden}
+.item-main{display:grid;gap:6px;padding:12px 16px 14px;text-align:start;min-width:0}
+.item-top{display:flex;align-items:center;gap:8px;min-height:22px}
+.when{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
+.when.free{color:var(--ink-2);font-weight:500}
+.item.is-due{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.dtag{display:inline-flex;align-items:center;padding:2px 10px;border-radius:999px;background:var(--accent-soft);color:var(--ink);font-size:12px;font-weight:700;white-space:nowrap}
+.item-top{flex-wrap:wrap}
+.item-text{font-family:var(--font-dhikr);font-size:20px;line-height:1.6;overflow-wrap:anywhere}
+.item-row{display:flex;align-items:center;gap:12px}
+.bar{flex:1;height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden;display:block}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:inherit;transition:width .3s}
+.item-count{font-size:13px;color:var(--ink-2);white-space:nowrap;font-variant-numeric:tabular-nums;display:inline-flex;align-items:center;gap:4px}
+.item-count b{color:var(--ink);font-size:15px}
+.item.is-done .bar i{background:var(--done)}
+.item.is-done .item-count{color:var(--done);font-weight:600}
+.item-edit{display:grid;place-items:center;width:52px;color:var(--ink-2);border-inline-start:1px solid var(--line)}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+.empty{text-align:center;padding:28px 18px;border:1.5px dashed var(--line);border-radius:22px;color:var(--ink-2);margin-top:18px;display:grid;gap:12px;justify-items:center}
+.empty p{margin:0}
+
+/* tab bar */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);padding-top:6px;padding-bottom:calc(6px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.tabbar-in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.tab-ico{position:relative;display:grid}
+.tab-badge{position:absolute;top:-7px;left:-11px;min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:var(--miss);color:var(--on-miss);font-size:11px;font-weight:700;line-height:19px;text-align:center;box-shadow:0 0 0 2px var(--surface);font-variant-numeric:tabular-nums}
+.tab.has-miss:not([aria-current="page"]){color:var(--miss)}
+.tab.has-miss .tab-badge{animation:redpulse 2.4s ease-in-out infinite}
+@keyframes redpulse{0%,100%{box-shadow:0 0 0 2px var(--surface)}50%{box-shadow:0 0 0 2px var(--surface),0 0 10px 3px var(--miss)}}
+.view-sub{margin:-6px 0 16px;color:var(--ink-2);font-size:14px}
+.msum{display:grid;gap:12px}
+.msum-top{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center}
+.miss-num{color:var(--miss)}
+.miss-num.ok{color:var(--done)}
+.mempty{display:grid;justify-items:center;gap:6px;text-align:center;padding:28px 18px}
+.mempty .ico{width:38px;height:38px;color:var(--done)}
+.mempty b{font-family:var(--font-display);font-size:19px;font-weight:600}
+.tab{display:grid;justify-items:center;gap:2px;padding:6px 0;border-radius:14px;font-size:12px;font-weight:500;color:var(--ink-2);min-height:52px}
+.tab[aria-current="page"]{color:var(--accent);font-weight:700}
+.tab[aria-current="page"] .ico{stroke-width:2.2}
+
+/* shared blocks */
+.view-h{font-family:var(--font-display);font-size:28px;font-weight:700;margin:8px 0 14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:16px}
+.sec{margin-top:22px}
+.sec > h3{font-family:var(--font-display);font-size:18px;font-weight:600;margin:0 0 10px;display:flex;align-items:baseline;gap:8px}
+
+/* achievements */
+.ach-hero{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center}
+.big-num{font-family:var(--font-display);font-size:66px;line-height:1;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+.lbl{font-weight:700;font-size:16px}
+.hadith{font-family:var(--font-dhikr);font-size:18px;line-height:1.7;margin:14px 0 0;padding-top:12px;border-top:1px solid var(--line)}
+.hadith cite{font-family:var(--font-ui);font-style:normal;font-size:12px;color:var(--ink-2);display:block}
+.level{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center}
+.level .bar{margin-top:8px}
+.swatch{display:inline-block;width:46px;height:46px;border-radius:50%;flex:none;background:radial-gradient(circle at 34% 30%,var(--l) 0%,var(--b) 52%,var(--d) 100%);box-shadow:inset 0 0 0 1px var(--rim),0 2px 6px var(--shade)}
+.swatch.sm{width:26px;height:26px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px;display:grid;gap:2px;min-width:0}
+.stat b{font-family:var(--font-display);font-size:22px;font-weight:600;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.stat span{font-size:12px;color:var(--ink-2)}
+.mats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
+.mat{display:grid;justify-items:center;gap:6px;padding:14px 6px;border-radius:18px;background:var(--surface);border:1.5px solid var(--line);text-align:center}
+.mat[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.mat.locked .swatch{opacity:.4;filter:grayscale(.6)}
+.mat .nm{font-weight:600}
+.mat .cond{font-size:11.5px;color:var(--ink-2);display:inline-flex;align-items:center;gap:3px}
+.heat-wrap{overflow-x:auto}
+.heat{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,16px);grid-auto-columns:16px;gap:5px;justify-content:start}
+.heat i,.legend i{display:block;width:16px;height:16px;border-radius:50%;border:1.5px solid var(--thread)}
+.heat i.future{visibility:hidden}
+.heat i.today{outline:2px solid var(--accent);outline-offset:1px}
+.legend{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-2);margin-top:12px}
+.legend i{width:12px;height:12px}
+.badges{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.badge{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:center;padding:12px;border-radius:18px;background:var(--surface);border:1px solid var(--line)}
+.badge .em{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}
+.badge.locked .em{background:var(--surface-2);color:var(--ink-2)}
+.badge.locked b{color:var(--ink-2)}
+.badge b{display:block;font-size:14px}
+.badge span{font-size:12px;color:var(--ink-2)}
+
+/* settings */
+.rows{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;border-top:1px solid var(--line);min-height:56px}
+.row:first-child,.slot-row:first-child{border-top:0}
+.row > div{min-width:0}
+.row b{font-weight:600}
+.slot-row{display:grid;gap:10px;padding:14px 16px;border-top:1px solid var(--line)}
+.slot-line{display:flex;align-items:center;gap:10px}
+.field{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:9px 12px;width:100%;min-height:44px;min-width:0}
+.field.time{width:auto;direction:ltr;font-variant-numeric:tabular-nums}
+select.field{width:auto;padding-inline:10px}
+.sw{position:relative;display:inline-block;width:52px;height:32px;flex:none}
+.sw input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer;z-index:1}
+.sw span{position:absolute;inset:0;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);transition:background .2s}
+.sw span::after{content:"";position:absolute;top:3px;right:3px;width:24px;height:24px;border-radius:50%;background:var(--surface);box-shadow:0 1px 3px var(--shade);transition:transform .2s}
+.sw input:checked + span{background:var(--accent);border-color:var(--accent)}
+.sw input:checked + span::after{transform:translateX(-20px)}
+.sw input:focus-visible + span{outline:2px solid var(--accent);outline-offset:2px}
+.row-col{flex-direction:column;align-items:stretch}
+.sounds{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.sounds button{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:8px;padding:10px 12px;border-radius:14px;background:var(--bg);border:1.5px solid var(--line);text-align:start}
+.sounds button[aria-checked="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.snd-ic{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--surface-2);color:var(--ink-2)}
+.sounds button[aria-checked="true"] .snd-ic{background:var(--accent);color:var(--on-accent)}
+.snd-t{display:grid;min-width:0}
+.snd-t b{font-size:14px}
+.snd-t span{font-size:12px;color:var(--ink-2)}
+.seg{display:inline-flex;background:var(--surface-2);border-radius:12px;padding:3px;gap:2px;flex:none}
+.seg button{padding:6px 12px;border-radius:9px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px var(--shade)}
+.icon-btn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:var(--ink);flex:none}
+.icon-btn.danger{color:var(--danger)}
+.icon-btn.is-armed{background:var(--danger);color:var(--surface)}
+.info{display:grid;gap:12px;margin-top:10px;font-size:14px}
+.info p{margin:0}
+.copybox{font:inherit;font-size:13px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px;width:100%;min-height:72px;resize:none}
+.row-actions{display:flex;gap:8px;margin-top:10px}
+.rem-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;align-items:center;gap:12px;width:100%;padding:13px 16px;border-top:1px solid var(--line);text-align:start;min-height:54px}
+.rem-row:first-child{border-top:0}
+.rem-time{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+.rem-text{font-family:var(--font-dhikr);font-size:18px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rem-n{font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.rem-row .ico{color:var(--ink-2)}
+.seg-wide{display:grid;grid-template-columns:1fr 1fr;width:100%}
+.seg-wide button{padding:10px 12px;font-size:14px}
+.when-pick{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--accent-soft);border-radius:14px;padding:10px 12px}
+.when-label{display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.when-label .ico{color:var(--accent)}
+.field.time.big{font-family:var(--font-display);font-size:20px;min-height:48px;background:var(--surface)}
+.hint{margin:0}
+.seg-3{grid-template-columns:repeat(3,1fr)}
+.seg-3 button{padding:10px 4px}
+.seg-4{grid-template-columns:repeat(4,1fr)}
+.seg-4 button{padding:9px 4px;font-size:12.5px}
+.prayer-pick{display:grid;gap:8px;background:var(--accent-soft);border-radius:14px;padding:12px}
+.small-label{font-size:13px;color:var(--ink-2)}
+.pchips{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.pchips button{display:grid;justify-items:center;gap:1px;padding:8px 2px;border-radius:12px;background:var(--surface);border:1.5px solid var(--line);color:var(--ink-2)}
+.pchips button b{font-size:13px}
+.pchips button span{font-size:11px;font-variant-numeric:tabular-nums}
+.pchips button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent);color:var(--on-accent)}
+.prayer-pick .seg{background:var(--surface)}
+.prayer-pick .seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.ed-total{margin:0;font-size:13px;font-weight:600;color:var(--accent)}
+.preset{min-height:58px;margin:-4px 0 18px;text-align:center}
+.preset span{display:grid;gap:2px}
+.preset small{font-size:12px;font-weight:500;color:var(--ink-2)}
+.ptimes{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--line)}
+.pt{display:grid;justify-items:center;gap:2px;padding:12px 2px;font-size:12.5px;color:var(--ink-2)}
+.pt b{font-size:14px;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* after-adhan dhikr: one card, a pill for each prayer */
+.pr-item{grid-template-columns:minmax(0,1fr) auto}
+.pr-main{display:grid;gap:10px;padding:12px 16px 14px;min-width:0}
+.pr-open{display:grid;gap:6px;text-align:start;min-width:0}
+.pr-sum{font-size:12.5px;color:var(--ink-2)}
+.pills{display:grid;gap:5px}
+.pill{display:grid;justify-items:center;gap:1px;padding:6px 2px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink-2);min-width:0}
+.pill b{font-size:12px;font-weight:600}
+.pill span{font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap;display:inline-flex;align-items:center;min-height:14px}
+.pill--done{background:var(--done-soft);border-color:transparent;color:var(--done)}
+.pill--now{background:var(--accent);border-color:var(--accent);color:var(--on-accent);animation:breathe 2.6s ease-in-out infinite}
+.pill--missed{background:var(--miss-soft);border-color:var(--miss);color:var(--miss)}
+.pill--missed b{color:var(--miss)}
+.tag-miss{background:var(--miss-soft);color:var(--miss)}
+.fchip.miss{background:var(--miss);color:var(--on-miss)}
+.feat--missed{border:2px solid var(--miss)}
+.btn-miss{background:var(--miss);color:var(--on-miss)}
+button.feat-more.miss{color:var(--miss)}
+.counter.is-qada .c-head .ttl{color:var(--miss);font-weight:600}
+
+/* missed adhkar, gathered to make up */
+.missed{margin-top:22px}
+.mcard{display:grid;gap:12px;background:var(--surface);border:1.5px solid var(--miss-soft);border-radius:22px;padding:12px}
+.mgroup{display:grid;gap:6px}
+.mgroup-h{font-size:12.5px;font-weight:700;color:var(--ink-2);padding-inline:4px}
+.mrow{display:grid;gap:8px;padding:10px 12px;border-radius:14px}
+.mrow-main{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;text-align:start;width:100%}
+.mchips{display:flex;flex-wrap:wrap;gap:6px;padding-inline-start:30px}
+.mchip{display:inline-flex;align-items:center;gap:3px;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:600;border:1.5px solid var(--miss);color:var(--miss);background:var(--surface)}
+.mchip.is-done{border-color:transparent;background:var(--done);color:var(--surface)}
+.mrow--miss{background:var(--miss-soft)}
+.mrow--miss .mdot{color:var(--miss)}
+.mrow--done{background:var(--done-soft)}
+.mrow--done .mdot,.mrow--done .mcount{color:var(--done)}
+.mdot{display:grid;place-items:center}
+.mtxt{display:grid;min-width:0}
+.mtxt b{font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.mtxt span{font-family:var(--font-dhikr);font-size:17px;line-height:1.5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mtxt span.is-tag{font-family:var(--font-display);font-size:16px;font-weight:600}
+.mrow--done .mtxt span{color:var(--ink-2)}
+.mcount{font-size:13px;font-weight:700;color:var(--miss);font-variant-numeric:tabular-nums;white-space:nowrap}
+.mmore{font-size:13px;font-weight:600;color:var(--miss);padding:4px;justify-self:center}
+
+/* bottom sheet editor */
+.sheet{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center;background:var(--scrim)}
+.sheet-card{background:var(--surface);width:100%;max-width:560px;max-height:calc(100% - env(safe-area-inset-top,0px) - 24px);overflow:auto;border-radius:26px 26px 0 0;padding-top:8px;padding-bottom:calc(18px + env(safe-area-inset-bottom,0px));padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));overscroll-behavior:contain;animation:up .28s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:.4}}
+.grab{width:42px;height:5px;border-radius:9px;background:var(--line);margin:4px auto 12px}
+.sheet-card h3{font-family:var(--font-display);font-size:22px;margin:0 0 14px}
+.fgroup{display:grid;gap:8px;margin-bottom:18px}
+.fgroup > label,.flabel{font-weight:600;font-size:14px}
+textarea.field{min-height:84px;resize:vertical;font-family:var(--font-dhikr);font-size:20px;line-height:1.6}
+textarea.field.plain{font-family:var(--font-ui);font-size:15px;min-height:64px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none;padding:7px 13px;border-radius:999px;background:var(--surface-2);font-size:14px;white-space:nowrap}
+.chips.dhikr button{font-family:var(--font-dhikr);font-size:17px;padding:5px 14px}
+.chips button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.chips.wrap{flex-wrap:wrap;overflow:visible}
+.stepper{display:flex;align-items:center;gap:8px}
+.stepper .field{text-align:center;font-family:var(--font-display);font-size:22px;width:120px;flex:none}
+.stepper button{width:46px;height:46px;border-radius:14px;background:var(--surface-2);display:grid;place-items:center;font-size:22px}
+.err{color:var(--danger);font-size:14px;margin:0 0 12px}
+.sheet-actions{display:flex;gap:10px;margin-top:4px}
+.sheet-actions .btn-primary{flex:1}
+
+/* counter */
+.counter{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;background:var(--bg);background-image:radial-gradient(120% 70% at 50% 56%,var(--surface) 0%,var(--bg) 72%);padding-top:calc(env(safe-area-inset-top,0px) + 6px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 14px);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;touch-action:manipulation;overscroll-behavior:contain;cursor:pointer}
+.c-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:6px;min-height:48px;cursor:default}
+.c-head .ttl{text-align:center;font-size:13px;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.c-tools{display:flex;gap:2px}
+.c-tools .icon-btn[aria-pressed="false"]{color:var(--ink-2);opacity:.55}
+.c-text{font-family:var(--font-dhikr);font-weight:700;font-size:clamp(26px,7.6vw,38px);line-height:1.65;text-align:center;text-wrap:balance;margin:4px auto 0;max-width:20ch;min-height:2.3em;display:grid;place-items:center;transition:opacity .25s}
+.c-text.long{font-size:clamp(20px,5.4vw,27px);max-width:28ch}
+.c-text.swap,.c-fadl.swap{opacity:0}
+.c-tag{justify-self:center;margin:2px auto 0;padding:3px 12px;border-radius:999px;background:var(--accent-soft);color:var(--ink);font-size:13px;font-weight:700;cursor:default}
+.c-mean-btn{display:inline-flex;align-items:center;gap:6px;margin:6px auto 0;padding:6px 14px;border-radius:999px;background:var(--surface-2);color:var(--ink);font-size:13px;font-weight:600;cursor:pointer}
+.c-mean-btn .ico{width:18px;height:18px;color:var(--accent)}
+.c-mean-btn[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.c-mean-btn[aria-pressed="true"] .ico{color:var(--on-accent)}
+.meaning{position:absolute;left:max(16px,env(safe-area-inset-left,0px));right:max(16px,env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 82px);z-index:3;max-width:520px;margin:0 auto;max-height:36vh;overflow:auto;background:var(--accent);color:var(--on-accent);border-radius:20px;padding:12px 16px 14px;box-shadow:0 14px 40px var(--shade);touch-action:pan-y;animation:mnin .3s ease-out}
+@keyframes mnin{from{transform:translateY(16px);opacity:0}}
+.mn-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px}
+.mn-head b{font-family:var(--font-display);font-size:17px;font-weight:600}
+.mn-close{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.14);color:inherit;flex:none}
+.meaning p{margin:0;font-size:15px;line-height:1.85}
+.mn-hint{font-size:11.5px;opacity:.8;margin-top:8px}
+.counter.mn-open .tapzone{min-height:150px;margin-bottom:calc(var(--mnh, 0px) + 16px)}
+.counter.mn-open .c-fadl,.counter.mn-open .c-hint{display:none}
+.c-fadl{font-size:12.5px;line-height:1.7;color:var(--ink-2);text-align:center;max-width:38ch;margin:2px auto 0;min-height:1.7em;transition:opacity .25s}
+.tapzone{flex:1;position:relative;display:grid;place-items:center;min-height:240px;outline:none;margin-top:4px}
+.tapzone canvas{position:absolute;inset:0;width:100%;height:100%}
+.c-center{position:relative;display:grid;justify-items:center;gap:4px;pointer-events:none}
+.c-count{font-family:var(--font-display);font-weight:600;font-size:clamp(60px,19vw,100px);line-height:1;font-variant-numeric:tabular-nums;transition:transform .12s ease-out,color .3s}
+.c-count.bump{transform:scale(1.08)}
+.c-of{font-size:15px;color:var(--ink-2)}
+.c-round{font-size:12px;font-weight:600;color:var(--accent);min-height:1.2em}
+.c-hint{position:absolute;bottom:2px;left:0;right:0;text-align:center;font-size:12.5px;color:var(--ink-2);pointer-events:none;transition:opacity .4s}
+.c-foot{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:8px;cursor:default}
+.c-foot .btn{min-height:50px;padding:0 10px}
+.counter.is-complete .c-count{color:var(--done)}
+.counter.is-complete .c-of{color:var(--done);font-weight:600}
+.ripple{position:absolute;width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:50%;background:radial-gradient(circle,var(--glow) 0%,transparent 70%);pointer-events:none;animation:rip .55s ease-out forwards}
+@keyframes rip{from{transform:scale(.2);opacity:1}to{transform:scale(1.6);opacity:0}}
+.tapzone.flash::before{content:"";position:absolute;inset:6%;border-radius:50%;background:radial-gradient(circle,var(--glow) 0%,transparent 66%);animation:fade .8s ease-out forwards;pointer-events:none}
+@keyframes fade{from{opacity:1}to{opacity:0}}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:45}
+
+/* day complete */
+.dayDone{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:var(--scrim);padding-top:calc(env(safe-area-inset-top,0px) + 20px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 20px);padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.dd-card{background:var(--surface);border-radius:28px;padding:22px 20px;max-width:380px;width:100%;text-align:center;display:grid;gap:8px;justify-items:center;box-shadow:0 20px 60px var(--shade);animation:pop .45s cubic-bezier(.2,1.3,.4,1)}
+@keyframes pop{from{transform:scale(.86);opacity:0}}
+.dd-card canvas{width:150px;height:150px}
+.dd-card h2{font-family:var(--font-display);font-size:26px;margin:0}
+.dd-card .dua{font-family:var(--font-dhikr);font-size:21px;color:var(--ink-2);margin:0}
+.unlocks{display:grid;gap:8px;width:100%;margin:6px 0 4px}
+.unlock{display:flex;align-items:center;gap:10px;background:var(--accent-soft);border-radius:14px;padding:10px 12px;font-size:14px;text-align:start}
+.unlock .ico{color:var(--accent)}
+
+/* toasts and reminder */
+.toasts{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);left:0;right:0;z-index:90;display:grid;justify-items:center;gap:8px;pointer-events:none;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.toast{background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:14px;font-size:14px;font-weight:500;box-shadow:0 8px 24px var(--shade);animation:tin .3s ease-out;max-width:100%;transition:opacity .3s}
+@keyframes tin{from{transform:translateY(-10px);opacity:0}}
+.remind{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));z-index:85;max-width:520px;margin:0 auto;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:0 12px 40px var(--shade);display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:center;animation:tin .35s ease-out}
+.remind .bell{width:42px;height:42px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center}
+.remind-actions{grid-column:1/-1;display:flex;gap:8px}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+@media (max-width:360px){
+  .stats{grid-template-columns:1fr 1fr}
+  .badges{grid-template-columns:1fr}
+}
+</style>
+<style>
+/* standalone web app: clear the status bar and home indicator, keep the status bar legible in both themes */
+:root{--statusbar:#16252A;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme: dark){:root{--statusbar:#0C1618}}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
+body{margin:0}
+img{max-width:100%}
+body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area-inset-top,0px);background:var(--statusbar);z-index:95;pointer-events:none}
+</style>
+</head>
+<body>
+<div id="app" dir="rtl" lang="ar">
+  <main>
+    <!-- اليوم -->
+    <section class="view" data-view="today">
+      <header class="top">
+        <div class="brand">
+          <h1>سُبحة</h1>
+          <div class="date" id="date"></div>
+        </div>
+        <span class="chip streak" id="streakChip"><i data-ico="chain"></i><span>مداومة</span><b id="streakNum">٠</b></span>
+      </header>
+
+      <!-- الذكر الذي عليك الآن -->
+      <div class="feat" id="feat" aria-live="polite"></div>
+
+      <div class="daybar">
+        <div class="hero-ring"><canvas id="heroRing" aria-hidden="true"></canvas><div class="pct" id="pct">٠٪</div></div>
+        <div class="daybar-txt"><b>ورد اليوم</b><span id="heroSub"></span></div>
+        <div class="week" id="week" aria-label="آخر سبعة أيام"></div>
+      </div>
+
+      <div class="note install" id="installHint" hidden>
+        <p><b>ثبّت سُبحة على الشاشة الرئيسية:</b> اضغط زر المشاركة في سفاري ثم «إضافة إلى الشاشة الرئيسية»، فيفتح كتطبيق مستقل ويعمل بدون إنترنت.</p>
+        <div class="note-actions"><button class="btn btn-line btn-sm" data-act="dismiss-install">حسنًا</button></div>
+      </div>
+
+      <div class="note" id="sampleNote" hidden>
+        <p>هذا ورد مقترح للبداية. اضغط القلم بجانب أي ذكر لتغيّر نصه أو عدده في اليوم أو وقت تذكيره، أو استورد بياناتك إن كانت عندك نسخة سابقة.</p>
+        <div class="note-actions">
+          <button class="btn btn-line btn-sm" data-act="dismiss-sample">حسنًا</button>
+          <button class="btn btn-soft btn-sm" data-act="import">استيراد بياناتي</button>
+        </div>
+      </div>
+
+      <div id="list"></div>
+
+      <div class="actions">
+        <button class="btn btn-line" data-act="add"><i data-ico="plus"></i>إضافة ذكر</button>
+        <button class="btn btn-line" data-act="free"><i data-ico="beads"></i>مسبحة حرة</button>
+      </div>
+    </section>
+
+    <!-- الفائتة -->
+    <section class="view" data-view="missed" hidden>
+      <div id="missedBody"></div>
+    </section>
+
+    <!-- الإنجازات -->
+    <section class="view" data-view="progress" hidden>
+      <div id="progressBody"></div>
+    </section>
+
+    <!-- الإعدادات -->
+    <section class="view" data-view="settings" hidden>
+      <h2 class="view-h">الإعدادات</h2>
+
+      <div class="sec">
+        <h3>مواقيت الصلاة</h3>
+        <div class="rows">
+          <div class="row">
+            <div><b>المدينة</b><div class="muted small">بطريقة تقويم أم القرى، وقد تختلف دقيقة عن مسجدك</div></div>
+            <select class="field" id="setCity" aria-label="المدينة"></select>
+          </div>
+          <div class="ptimes" id="ptimes"></div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h3>التذكيرات</h3>
+        <div class="rows" id="remRows"></div>
+        <div class="card info">
+          <p>حين يحين وقت ذكر يتصدّر أعلى الشاشة ويظهر تنبيهه، ما دام التطبيق مفتوحًا. ولتصلك التذكيرات والجوال مقفل، انسخ الأوقات وأرسلها في محادثتك مع Claude ليضبطها في تطبيق التذكيرات بجوالك.</p>
+          <div><button class="btn btn-soft btn-sm" id="copyTimes"><i data-ico="copy"></i>نسخ الأوقات</button></div>
+          <textarea class="copybox" id="copyBox" readonly hidden aria-label="نص الأوقات"></textarea>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h3>المؤثرات الحسية</h3>
+        <div class="rows">
+          <div class="row">
+            <div><b>الاهتزاز مع كل تسبيحة</b><div class="muted small" id="hapticStatus"></div></div>
+            <label class="sw"><input type="checkbox" id="setHaptics" aria-label="الاهتزاز"><span></span></label>
+          </div>
+          <div class="row">
+            <b>قوة الاهتزاز</b>
+            <div class="seg" id="setStrength"><button data-v="light">خفيف</button><button data-v="medium">متوسط</button><button data-v="strong">قوي</button></div>
+          </div>
+          <div class="row">
+            <div><b>صوت حبّات المسبحة</b><div class="muted small">يتبع وضع الصامت في جوالك</div></div>
+            <label class="sw"><input type="checkbox" id="setSound" aria-label="الصوت"><span></span></label>
+          </div>
+          <div class="row row-col">
+            <div><b>صوت التسبيح</b><div class="muted small">المس أي صوت لتسمعه وتختاره</div></div>
+            <div class="sounds" id="setSoundStyle" role="radiogroup" aria-label="صوت التسبيح"></div>
+          </div>
+          <div class="row">
+            <b>إبقاء الشاشة مضيئة أثناء التسبيح</b>
+            <label class="sw"><input type="checkbox" id="setWake" aria-label="إبقاء الشاشة مضيئة"><span></span></label>
+          </div>
+          <div class="row">
+            <button class="btn btn-soft btn-sm" id="testFx"><i data-ico="vib"></i>جرّب الاهتزاز والصوت</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h3>العرض</h3>
+        <div class="rows">
+          <div class="row">
+            <b>الأرقام</b>
+            <div class="seg" id="setDigits"><button data-v="arab">٣٣</button><button data-v="latn">33</button></div>
+          </div>
+          <div class="row">
+            <div><b>بداية اليوم الجديد</b><div class="muted small">ما تسبّحه بعد منتصف الليل يُحسب لليوم السابق حتى هذا الوقت</div></div>
+            <select class="field" id="setDayStart" aria-label="بداية اليوم الجديد">
+              <option value="0">١٢ ليلًا</option>
+              <option value="2">٢ فجرًا</option>
+              <option value="3">٣ فجرًا</option>
+              <option value="4">٤ فجرًا</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h3>البيانات</h3>
+        <div class="rows">
+          <div class="row"><div><b>الحفظ</b><div class="muted small" id="saveStatus"></div></div></div>
+          <div class="row row-col" id="backupRow">
+            <div><b>نقل بياناتك</b><div class="muted small">انسخ أذكارك وسجلك لتنقلها إلى سُبحة على جهاز آخر أو على الشاشة الرئيسية، ثم الصقها هناك</div></div>
+            <div class="row-actions"><button class="btn btn-soft btn-sm" id="exportData"><i data-ico="copy"></i>نسخ بياناتي</button><button class="btn btn-line btn-sm" id="importOpen">استيراد بيانات</button></div>
+            <textarea class="copybox" id="backupBox" hidden aria-label="بياناتك" placeholder="الصق هنا البيانات التي نسختها"></textarea>
+            <p class="err" id="importErr" hidden></p>
+            <div class="row-actions" id="importActions" hidden><button class="btn btn-primary btn-sm" id="importDo">استيراد واستبدال</button><button class="btn btn-soft btn-sm" id="importCancel">إلغاء</button></div>
+          </div>
+          <div class="row">
+            <div><b>البدء من جديد</b><div class="muted small">يمسح الأذكار والسجل ويعيد الورد المقترح</div></div>
+            <button class="btn btn-danger btn-sm" id="resetAll">مسح</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar" aria-label="الأقسام">
+    <div class="tabbar-in">
+      <button class="tab" data-tab="today"><i data-ico="beads"></i>اليوم</button>
+      <button class="tab" data-tab="missed"><span class="tab-ico"><i data-ico="clock"></i><span class="tab-badge" id="missBadge" hidden></span></span>الفائتة</button>
+      <button class="tab" data-tab="progress"><i data-ico="medal"></i>إنجازاتي</button>
+      <button class="tab" data-tab="settings"><i data-ico="sliders"></i>الإعدادات</button>
+    </div>
+  </nav>
+
+  <!-- المسبحة -->
+  <section class="counter" id="counter" hidden aria-label="المسبحة">
+    <div class="c-head">
+      <button class="icon-btn" id="cClose" aria-label="إغلاق المسبحة"><i data-ico="x"></i></button>
+      <div class="ttl" id="cTitle"></div>
+      <div class="c-tools">
+        <button class="icon-btn" id="cSound" aria-label="الصوت"></button>
+        <button class="icon-btn" id="cHaptic" aria-label="الاهتزاز"><i data-ico="vib"></i></button>
+      </div>
+    </div>
+    <div class="c-tag" id="cTag" hidden></div>
+    <div class="c-text" id="cText"></div>
+    <div class="c-fadl" id="cFadl"></div>
+    <button class="c-mean-btn" id="cMeanBtn" hidden><i data-ico="book"></i>المعنى</button>
+    <div class="meaning" id="cMeaning" hidden role="note" aria-live="polite">
+      <div class="mn-head"><b id="mnTitle"></b><button class="mn-close" id="mnClose" aria-label="إغلاق المعنى"><i data-ico="x"></i></button></div>
+      <p id="mnText"></p>
+      <div class="mn-hint">المس الشاشة في أي مكان لتكمل التسبيح والمعنى أمامك</div>
+    </div>
+    <div class="tapzone" id="tapzone" tabindex="0" role="button" aria-label="سبّح">
+      <canvas id="ring" aria-hidden="true"></canvas>
+      <div class="c-center">
+        <div class="c-count" id="cCount">٠</div>
+        <div class="c-of" id="cOf"></div>
+        <div class="c-round" id="cRound"></div>
+      </div>
+      <div class="c-hint" id="cHint">المس الشاشة في أي مكان للتسبيح</div>
+    </div>
+    <div class="c-foot">
+      <button class="btn btn-soft" id="cUndo"><i data-ico="undo"></i>تراجع</button>
+      <button class="btn btn-soft" id="cReset"><i data-ico="reset"></i>تصفير</button>
+      <button class="btn btn-soft" id="cNext">التالي<i data-ico="left"></i></button>
+    </div>
+  </section>
+  <canvas id="fx" hidden aria-hidden="true"></canvas>
+
+  <!-- محرر الذكر -->
+  <div class="sheet" id="editor" hidden>
+    <div class="sheet-card" role="dialog" aria-modal="true" aria-labelledby="edTitle">
+      <div class="grab"></div>
+      <h3 id="edTitle">ذكر جديد</h3>
+      <div class="fgroup">
+        <label for="edText">نص الذكر</label>
+        <textarea class="field" id="edText" rows="2" maxlength="300" placeholder="اكتب الذكر أو اختر من المقترحات"></textarea>
+        <div class="chips dhikr" id="edQuick"></div>
+      </div>
+      <div class="fgroup">
+        <label for="edTag">المسمّى <span class="muted small">(اختياري، يظهر على بطاقة الذكر)</span></label>
+        <input class="field" id="edTag" type="text" maxlength="40" placeholder="مثل: تاج الذكر" autocomplete="off">
+      </div>
+      <div class="fgroup">
+        <span class="flabel">متى تقرؤه؟</span>
+        <div class="seg seg-wide seg-3" id="edWhenSeg"><button type="button" data-v="none">في أي وقت</button><button type="button" data-v="time">وقت محدد</button><button type="button" data-v="prayer">بعد الأذان</button></div>
+        <div class="when-pick" id="edWhenPick" hidden>
+          <label class="when-label" for="edTime"><i data-ico="bell"></i>ذكّرني الساعة</label>
+          <input class="field time big" type="time" id="edTime">
+        </div>
+        <div class="prayer-pick" id="edPrayerPick" hidden>
+          <span class="flabel small-label">بعد أذان</span>
+          <div class="pchips" id="edPrayers"></div>
+          <span class="flabel small-label">يظهر</span>
+          <div class="seg seg-wide seg-4" id="edDelays"></div>
+        </div>
+        <p class="muted small hint" id="edWhenHint"></p>
+      </div>
+      <div class="fgroup">
+        <label for="edCount" id="edCountLabel">العدد في اليوم</label>
+        <div class="stepper">
+          <button type="button" id="edPlus" aria-label="زيادة">+</button>
+          <input class="field" id="edCount" type="text" inputmode="numeric" autocomplete="off">
+          <button type="button" id="edMinus" aria-label="إنقاص">−</button>
+        </div>
+        <div class="chips wrap" id="edCounts"></div>
+        <p class="ed-total" id="edTotal" hidden></p>
+      </div>
+      <button type="button" class="btn btn-soft btn-block preset" id="edPreset" hidden>
+        <span><b>أضف تسبيح ما بعد الصلاة كاملًا</b><small>سبحان الله، الحمد لله، الله أكبر، لكلٍّ ثلاث وثلاثون، وتمام المئة</small></span>
+      </button>
+      <div class="fgroup">
+        <label for="edMeaning">معنى الذكر <span class="muted small">(اختياري، يظهر بزر «المعنى» في المسبحة)</span></label>
+        <textarea class="field plain" id="edMeaning" rows="3" maxlength="800" placeholder="اكتب شرحًا مختصرًا لمعنى الذكر"></textarea>
+      </div>
+      <div class="fgroup">
+        <label for="edNote">فضل الذكر أو ملاحظة <span class="muted small">(اختياري)</span></label>
+        <textarea class="field plain" id="edNote" rows="2" maxlength="300"></textarea>
+      </div>
+      <p class="err" id="edErr" hidden></p>
+      <div class="sheet-actions">
+        <button class="btn btn-primary" id="edSave">حفظ</button>
+        <button class="btn btn-soft" id="edCancel">إلغاء</button>
+        <button class="btn btn-danger" id="edDelete" hidden>حذف</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- اكتمال الورد -->
+  <div class="dayDone" id="dayDone" hidden>
+    <div class="dd-card" role="dialog" aria-modal="true" aria-labelledby="ddTitle">
+      <canvas id="ddRing" aria-hidden="true"></canvas>
+      <h2 id="ddTitle">أتممت ورد اليوم</h2>
+      <p class="dua">تقبّل الله منك</p>
+      <div class="unlocks" id="ddList"></div>
+      <button class="btn btn-primary btn-block" id="ddOk">الحمد لله</button>
+    </div>
+  </div>
+
+  <!-- تنبيه الوقت -->
+  <div class="remind" id="remind" hidden role="alert">
+    <span class="bell"><i data-ico="bell"></i></span>
+    <div><b id="rmTitle"></b><div class="muted small" id="rmSub"></div></div>
+    <div class="remind-actions">
+      <button class="btn btn-primary btn-sm" id="rmGo">سبّح الآن</button>
+      <button class="btn btn-soft btn-sm" id="rmLater">لاحقًا</button>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+</div>
+<script>
+(function(){
+'use strict';
+const $ = (s, el) => (el || document).querySelector(s);
+const $$ = (s, el) => Array.from((el || document).querySelectorAll(s));
+document.documentElement.setAttribute('dir', 'rtl');
+document.documentElement.setAttribute('lang', 'ar');
+
+/* ---------- constants ---------- */
+const STORE_KEY = 'subha.state.v1';
+const FIRED_KEY = 'subha.fired.v1';
+const MATERIALS = [
+  {id:'wood',  name:'صندل',  full:'مسبحة الصندل',  need:0,  base:'#8A5A32', light:'#CF9F6E', dark:'#4A2C16'},
+  {id:'agate', name:'عقيق',  full:'مسبحة العقيق',  need:1,  base:'#A8322A', light:'#EC8A6E', dark:'#5A1410'},
+  {id:'turq',  name:'فيروز', full:'مسبحة الفيروز', need:3,  base:'#2C9C93', light:'#9DE6D9', dark:'#11524D'},
+  {id:'amber', name:'كهرمان',full:'مسبحة الكهرمان',need:7,  base:'#DB9024', light:'#FFD887', dark:'#8C4D08'},
+  {id:'yusr',  name:'يُسر',  full:'مسبحة اليُسر',  need:15, base:'#2A2A30', light:'#A3A3AF', dark:'#08080A'},
+  {id:'pearl', name:'لؤلؤ',  full:'مسبحة اللؤلؤ',  need:30, base:'#E4DCCD', light:'#FFFFFF', dark:'#A3977F'}
+];
+const PRAYERS = [
+  {id:'fajr', name:'الفجر'}, {id:'dhuhr', name:'الظهر'}, {id:'asr', name:'العصر'}, {id:'maghrib', name:'المغرب'}, {id:'isha', name:'العشاء'}
+];
+const PIDS = PRAYERS.map(p => p.id);
+/* minutes from adhan to the end of the prayer: Saudi iqama intervals plus about ten minutes of prayer */
+const AFTER_PRAYER = {fajr:35, dhuhr:30, asr:30, maghrib:20, isha:30};
+const DELAYS = [{v:0, l:'عند الأذان'}, {v:10, l:'بعد 10 د'}, {v:20, l:'بعد 20 د'}, {v:'prayer', l:'بعد الصلاة'}];
+const CITIES = [
+  {id:'riyadh', name:'الرياض', lat:24.7136, lng:46.6753},
+  {id:'makkah', name:'مكة المكرمة', lat:21.4225, lng:39.8262},
+  {id:'madinah', name:'المدينة المنورة', lat:24.4672, lng:39.6111},
+  {id:'jeddah', name:'جدة', lat:21.5433, lng:39.1728},
+  {id:'dammam', name:'الدمام', lat:26.4207, lng:50.0888},
+  {id:'taif', name:'الطائف', lat:21.2703, lng:40.4158},
+  {id:'buraidah', name:'بريدة', lat:26.3592, lng:43.9818},
+  {id:'hail', name:'حائل', lat:27.5114, lng:41.7208},
+  {id:'tabuk', name:'تبوك', lat:28.3835, lng:36.5662},
+  {id:'abha', name:'أبها', lat:18.2164, lng:42.5053},
+  {id:'jazan', name:'جازان', lat:16.8892, lng:42.5511}
+];
+/* names and short meanings for well-known adhkar; matched with diacritics and alef forms ignored */
+function normAr(s){
+  return String(s).replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g, '')
+    .replace(/[أإآٱ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه')
+    .replace(/[،,.؛:«»"'()]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+const KNOWN = [
+  {test:t => t.indexOf('كما صليت علي ابراهيم') >= 0, tag:'الصلاة الإبراهيمية',
+   meaning:'صلاة الله على نبيه ﷺ ثناؤه عليه عند الملائكة، كما قال أبو العالية فيما ذكره البخاري. والبركة ثبوت الخير ودوامه وزيادته. «حميد» أي محمود في ذاته وصفاته وأفعاله، و«مجيد» أي عظيم واسع الكرم والشرف. فأنت تسأل الله أن يثني على نبيه ويبارك فيه وفي آله كما فعل بإبراهيم وآله.'},
+  {test:t => t.indexOf('لا اله الا الله وحده لا شريك له') >= 0, tag:'تاج الذكر',
+   meaning:'شهادة بأنه لا معبود بحق إلا الله، منفردًا لا شريك له في ملكه ولا في عبادته. «له الملك» أي يملك كل شيء ويتصرف فيه، «وله الحمد» أي هو المستحق للثناء الكامل على كل حال، «وهو على كل شيء قدير» فلا يعجزه شيء.'},
+  {test:t => /^اللهم صل/.test(t) && t.indexOf('محمد') >= 0, tag:'الصلاة على النبي ﷺ',
+   meaning:'دعاء بأن يثني الله على نبيه ﷺ في الملأ الأعلى ويُعلي ذكره، وأن يسلّمه من كل نقص وآفة.'},
+  {test:t => t.indexOf('استغفر الله') === 0, tag:'الاستغفار',
+   meaning:'طلب المغفرة من الله: أن يستر الذنب ويتجاوز عن المؤاخذة به. و«أتوب إليه» عزم على الرجوع إلى طاعته وترك الذنب.'},
+  {test:t => t.indexOf('لا حول ولا قوه الا بالله') >= 0, tag:'الحوقلة',
+   meaning:'لا تحوّل للعبد من حال إلى حال، ولا قوة له على طاعة ولا على دفع شر، إلا بعون الله وتوفيقه. وهي كلمة استسلام وتفويض لله.'},
+  {test:t => t.indexOf('حسبي الله ونعم الوكيل') >= 0, tag:'الحسبلة',
+   meaning:'الله كافيّ في أموري كلها، ونِعم من أُفوّض إليه أمري وأتوكل عليه.'},
+  {test:t => t === 'سبحان الله وبحمده سبحان الله العظيم', tag:'كلمتان حبيبتان',
+   meaning:'تنزيه الله عن كل نقص مقرونًا بحمده، ثم تنزيهه مع وصفه بالعظمة. وهما «كلمتان خفيفتان على اللسان، ثقيلتان في الميزان، حبيبتان إلى الرحمن» متفق عليه.'},
+  {test:t => t === 'سبحان الله وبحمده', tag:'',
+   meaning:'أنزّه الله عن كل نقص وعيب، وأقرن ذلك بحمده والثناء عليه بصفات الكمال.'},
+  {test:t => t === 'سبحان الله', tag:'التسبيح', meaning:'تنزيه الله عن كل نقص وعيب، وعن كل ما لا يليق بجلاله.'},
+  {test:t => t === 'الحمد لله', tag:'التحميد', meaning:'الثناء على الله بصفات الكمال مع محبته وتعظيمه، والاعتراف بأن كل نعمة منه.'},
+  {test:t => t === 'الله اكبر', tag:'التكبير', meaning:'الله أكبر وأعظم من كل شيء في ذاته وأسمائه وصفاته، فكل ما سواه صغير أمام عظمته.'},
+  {test:t => t === 'لا اله الا الله', tag:'التهليل', meaning:'لا معبود بحق إلا الله وحده، وهي كلمة التوحيد وأفضل الذكر.'}
+];
+function knownFor(text){ const t = normAr(text); const k = KNOWN.find(x => x.test(t)); return k ? {tag:k.tag, meaning:k.meaning} : {tag:'', meaning:''}; }
+function withKnown(x){ const k = knownFor(x.text); return Object.assign(x, {tag:k.tag, meaning:k.meaning}); }
+const SOUNDS = [
+  {id:'beads', name:'حبّات المسبحة', desc:'طقطقة الحبّات، الصوت الأصلي'},
+  {id:'drop', name:'قطرة ماء', desc:'قطرة صافية خفيفة'},
+  {id:'wood', name:'نقرة خشب', desc:'طرقة دافئة هادئة'},
+  {id:'soft', name:'لمسة رقيقة', desc:'صوت صغير ناعم'},
+  {id:'breath', name:'نسمة', desc:'همسة هواء خفيفة'}
+];
+const QUICK_TEXTS = [
+  'سبحان الله', 'الحمد لله', 'الله أكبر', 'لا إله إلا الله', 'سبحان الله وبحمده',
+  'سبحان الله وبحمده، سبحان الله العظيم', 'أستغفر الله وأتوب إليه', 'لا حول ولا قوة إلا بالله',
+  'اللهم صل وسلم على نبينا محمد', 'حسبي الله ونعم الوكيل',
+  'لا إله إلا الله وحده لا شريك له، له الملك وله الحمد، وهو على كل شيء قدير'
+];
+const QUICK_COUNTS = [3, 7, 10, 33, 34, 100, 1000];
+const WD = ['ح','ن','ث','ر','خ','ج','س'];
+const AR_DIGITS = '٠١٢٣٤٥٦٧٨٩';
+
+const ICONS = {
+  x:'<path d="M6 6l12 12M18 6 6 18"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  check:'<path d="m5 12.5 4.5 4.5L19 7"/>',
+  left:'<path d="m15 6-6 6 6 6"/>',
+  undo:'<path d="M15 14l5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/>',
+  reset:'<path d="M20.5 12a8.5 8.5 0 1 1-2.6-6.1l2.6 2.6"/><path d="M20.5 3.5v5h-5"/>',
+  vol:'<path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>',
+  volx:'<path d="M11 5 6 9H3v6h3l5 4z"/><path d="m22 9-6 6M16 9l6 6"/>',
+  vib:'<rect x="8" y="3.5" width="8" height="17" rx="2"/><path d="M4.5 8v8M19.5 8v8M1.5 10v4M22.5 10v4"/>',
+  pencil:'<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
+  bell:'<path d="M6 9a6 6 0 0 1 12 0c0 6.5 2.5 8.5 2.5 8.5h-17S6 15.5 6 9"/><path d="M10.2 20.5a2 2 0 0 0 3.6 0"/>',
+  trash:'<path d="M4 6.5h16M9 6.5v-2h6v2M6.5 6.5l1 13.5h9l1-13.5"/>',
+  copy:'<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5.5 15H5a1.5 1.5 0 0 1-1.5-1.5v-8A1.5 1.5 0 0 1 5 4h8a1.5 1.5 0 0 1 1.5 1.5V6"/>',
+  lock:'<rect x="5" y="11" width="14" height="9.5" rx="2"/><path d="M8 11V7.5a4 4 0 0 1 8 0V11"/>',
+  beads:'<circle cx="12" cy="10" r="6.3" stroke-width="2.7" stroke-dasharray="0 3.958"/><path d="M12 16.8V21M10.2 21h3.6"/>',
+  chain:'<circle cx="5" cy="15" r="2.3"/><circle cx="12" cy="10" r="2.3"/><circle cx="19" cy="15" r="2.3"/><path d="M7 13.6 10 11.4M14 11.4l3 2.2"/>',
+  star:'<path d="m12 3.5 2.6 5.3 5.8.8-4.2 4.1 1 5.8L12 16.8l-5.2 2.7 1-5.8-4.2-4.1 5.8-.8z"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/>',
+  moon:'<path d="M19.5 14.5A8 8 0 0 1 9.5 4.5a8 8 0 1 0 10 10z"/>',
+  medal:'<circle cx="12" cy="15" r="5.5"/><path d="M8.6 10.6 6 3.5h4l2 4 2-4h4l-2.6 7.1"/>',
+  sliders:'<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
+  mosque:'<path d="M5 20v-8a7 7 0 0 1 14 0v8"/><path d="M12 2.5V5M2.5 20.5h19"/><path d="M10 20.5V17a2 2 0 0 1 4 0v3.5"/>',
+  clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  book:'<path d="M12 6.5C10.5 5 8 4.5 3.5 4.5v14c4.5 0 7 .5 8.5 2 1.5-1.5 4-2 8.5-2v-14c-4.5 0-7 .5-8.5 2z"/><path d="M12 6.5v14"/>'
+};
+function icon(name, cls){
+  return '<svg class="' + (cls || 'ico') + '" viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[name] || '') + '</svg>';
+}
+function hydrateIcons(root){
+  $$('i[data-ico]', root).forEach(el => { el.outerHTML = icon(el.dataset.ico); });
+}
+
+/* ---------- sample wird (a starting point the user edits) ---------- */
+/* every dhikr has a count; it is read at any time, at a set time, or after the adhans it names */
+const TAMAM = 'لا إله إلا الله وحده لا شريك له، له الملك وله الحمد، وهو على كل شيء قدير';
+function afterPrayerSet(prayers, delay){
+  return [
+    {target:33, text:'سبحان الله', note:'دبر كل صلاة ثلاثًا وثلاثين. رواه مسلم'},
+    {target:33, text:'الحمد لله', note:'دبر كل صلاة ثلاثًا وثلاثين. رواه مسلم'},
+    {target:33, text:'الله أكبر', note:'دبر كل صلاة ثلاثًا وثلاثين. رواه مسلم'},
+    {target:1, text:TAMAM, note:'تمام المئة: «غُفرت خطاياه وإن كانت مثل زبد البحر» رواه مسلم'}
+  ].map(x => withKnown(Object.assign(x, {time:'', prayers:prayers.slice(), delay})));
+}
+function sampleItems(){
+  const ap = afterPrayerSet(PIDS, 'prayer').map((x, i) => Object.assign(x, {id:'p' + (i + 1)}));
+  return [
+    {id:'i1', target:100, time:'05:30', prayers:[], delay:0, text:'سبحان الله وبحمده', note:'«من قال سبحان الله وبحمده في يوم مائة مرة حُطّت خطاياه وإن كانت مثل زبد البحر» متفق عليه'}
+  ].concat(ap, [
+    {id:'i3', target:100, time:'16:00', prayers:[], delay:0, text:'أستغفر الله وأتوب إليه', note:'«فإني أتوب في اليوم إليه مائة مرة» رواه مسلم'},
+    {id:'i4', target:100, time:'21:00', prayers:[], delay:0, text:'لا حول ولا قوة إلا بالله', note:'كنز من كنوز الجنة. متفق عليه'},
+    {id:'i2', target:10,  time:'',      prayers:[], delay:0, text:'اللهم صل وسلم على نبينا محمد', note:'«من صلّى عليّ صلاة صلّى الله عليه بها عشرًا» رواه مسلم'}
+  ]).map(x => Object.assign(withKnown(x), {created: Date.now()}));   /* a fresh start has nothing missed yet */
+}
+function sampleState(){
+  return {
+    v:3, sample:true, updatedAt:0,
+    items:sampleItems(),
+    days:{},
+    stats:{lifetime:0, best:0, archivedDone:0, maxDone:0, perItem:{}},
+    badges:{},
+    material:'wood',
+    settings:{haptics:true, strength:'medium', sound:true, soundStyle:'beads', wake:true, digits:'arab', dayStart:3, city:'riyadh'}
+  };
+}
+
+/* ---------- helpers ---------- */
+const cloneJSON = o => JSON.parse(JSON.stringify(o));
+function clampInt(v, lo, hi, dflt){ v = parseInt(v, 10); if(!Number.isFinite(v)) return dflt; return Math.min(hi, Math.max(lo, v)); }
+function uid(p){ return p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function digitsToLatin(s){ return String(s).replace(/[٠-٩]/g, d => String(AR_DIGITS.indexOf(d))).replace(/[۰-۹]/g, d => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d))); }
+const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+function normalize(s){
+  const base = sampleState();
+  if(!s || typeof s !== 'object') return base;
+  const validT = t => typeof t === 'string' && /^\d{2}:\d{2}$/.test(t);
+  let items;
+  if(!Array.isArray(s.items)) items = base.items;
+  else if(s.sample && (s.v || 1) < 3) items = sampleItems();   /* untouched older sample: show the current layout */
+  else {
+    const slots = Array.isArray(s.slots) ? s.slots : [];       /* first version grouped items under shared times */
+    items = s.items.filter(x => x && x.id && x.text).map(x => {
+      let time = validT(x.time) ? x.time : '';
+      if(!time && x.slot){ const sl = slots.find(z => z && z.id === x.slot); if(sl && sl.remind !== false && validT(sl.time)) time = sl.time; }
+      const prayers = Array.isArray(x.prayers) ? PIDS.filter(p => x.prayers.indexOf(p) >= 0) : [];
+      const delay = x.delay === 'prayer' ? 'prayer' : clampInt(x.delay, 0, 120, 0);
+      const created = Number.isFinite(+x.created) ? +x.created : 0;
+      const k = (typeof x.tag === 'string' && typeof x.meaning === 'string') ? null : knownFor(x.text);
+      const tag = typeof x.tag === 'string' ? x.tag.slice(0, 40) : k.tag;
+      const meaning = typeof x.meaning === 'string' ? x.meaning.slice(0, 800) : k.meaning;
+      return {id:String(x.id), text:String(x.text), target:clampInt(x.target, 1, 100000, 33), time: prayers.length ? '' : time, prayers, delay, note:String(x.note || ''), created, tag, meaning};
+    });
+  }
+  const out = {
+    v:3,
+    sample: !!s.sample,
+    updatedAt: +s.updatedAt || 0,
+    items,
+    days: (s.days && typeof s.days === 'object') ? cloneJSON(s.days) : {},
+    stats: Object.assign({lifetime:0, best:0, archivedDone:0, maxDone:0, qada:0}, s.stats || {}),
+    badges: Object.assign({}, s.badges || {}),
+    material: MATERIALS.some(m => m.id === s.material) ? s.material : 'wood',
+    settings: Object.assign({}, base.settings, s.settings || {})
+  };
+  out.stats.perItem = Object.assign({}, (s.stats && s.stats.perItem) || {});
+  out.settings.dayStart = clampInt(out.settings.dayStart, 0, 6, 3);
+  if(!CITIES.some(c => c.id === out.settings.city)) out.settings.city = 'riyadh';
+  if(!SOUNDS.some(x => x.id === out.settings.soundStyle)) out.settings.soundStyle = 'beads';
+  return out;
+}
+function loadLocal(){
+  try{ const raw = localStorage.getItem(STORE_KEY); if(raw) return normalize(JSON.parse(raw)); }catch(e){}
+  return null;
+}
+let state = loadLocal() || sampleState();
+
+/* ---------- numbers, dates, times ---------- */
+function digits(str){ str = String(str); return state.settings.digits === 'latn' ? str : str.replace(/[0-9]/g, d => AR_DIGITS[+d]); }
+function n(x){ const s = Math.round(x).toLocaleString('en-US'); return state.settings.digits === 'latn' ? s : digits(s).replace(/,/g, '٬'); }
+function pct(r){ const v = Math.floor(r * 100 + 1e-9); return state.settings.digits === 'latn' ? v + '%' : digits(v) + '٪'; }
+function daysPhrase(k){
+  if(k === 1) return 'يوم واحد';
+  if(k === 2) return 'يومان';
+  if(k >= 3 && k <= 10) return n(k) + ' أيام';
+  return n(k) + ' يومًا';
+}
+function dhikrPhrase(k){
+  if(k === 1) return 'ذكر واحد';
+  if(k === 2) return 'ذكران';
+  if(k >= 3 && k <= 10) return n(k) + ' أذكار';
+  return n(k) + ' ذكرًا';
+}
+function tasbihWord(k){ const t = k % 100; return (t >= 3 && t <= 10) ? 'تسبيحات' : 'تسبيحة'; }
+function ymd(d){ return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+function keyToDate(k){ const p = k.split('-').map(Number); return new Date(p[0], p[1] - 1, p[2], 12); }
+function addDays(k, delta){ const d = keyToDate(k); d.setDate(d.getDate() + delta); return ymd(d); }
+function dayKeyOf(date){ return ymd(new Date(date.getTime() - state.settings.dayStart * 3600e3)); }
+function todayKey(){ return dayKeyOf(new Date()); }
+function toMin(t){ const p = t.split(':').map(Number); return p[0] * 60 + p[1]; }
+function normMin(m){ const B = state.settings.dayStart * 60; return m < B ? m + 1440 : m; }
+function nowMin(){ const d = new Date(); return d.getHours() * 60 + d.getMinutes(); }
+function fmtTime(t){
+  const p = t.split(':').map(Number); const ap = p[0] < 12 ? 'ص' : 'م';
+  let h = p[0] % 12; if(h === 0) h = 12;
+  return digits(h + ':' + String(p[1]).padStart(2, '0')) + ' ' + ap;
+}
+function fmtIn(min){
+  if(min < 60) return 'بعد ' + n(min) + ' د';
+  const h = Math.floor(min / 60), m = min % 60;
+  return 'بعد ' + n(h) + ' س' + (m ? ' و' + n(m) + ' د' : '');
+}
+function dateLine(){
+  const d = keyToDate(todayKey()); const nu = state.settings.digits === 'latn' ? 'latn' : 'arab';
+  const parts = [];
+  try{ parts.push(new Intl.DateTimeFormat('ar-SA', {weekday:'long'}).format(d)); }catch(e){}
+  try{ parts.push(new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura-nu-' + nu, {day:'numeric', month:'long', year:'numeric'}).format(d)); }catch(e){}
+  try{ parts.push(new Intl.DateTimeFormat('ar-SA-u-ca-gregory-nu-' + nu, {day:'numeric', month:'long'}).format(d)); }catch(e){}
+  return parts.join('، ');
+}
+
+/* ---------- wird model ---------- */
+const itemById = id => state.items.find(i => i.id === id);
+
+/* prayer times, Umm al-Qura method: Fajr at 18.5°, Asr at one shadow length,
+   Isha 90 minutes after Maghrib (120 in Ramadan); checked against published Riyadh times */
+const DEG = Math.PI / 180;
+const dsin = d => Math.sin(d * DEG), dcos = d => Math.cos(d * DEG), dtan = d => Math.tan(d * DEG);
+const darcsin = x => Math.asin(x) / DEG, darccos = x => Math.acos(x) / DEG, darctan2 = (y, x) => Math.atan2(y, x) / DEG, darccot = x => Math.atan(1 / x) / DEG;
+const fixAngle = a => a - 360 * Math.floor(a / 360), fixHour = a => a - 24 * Math.floor(a / 24);
+function julian(y, m, d){ if(m <= 2){ y -= 1; m += 12; } const A = Math.floor(y / 100), B = 2 - A + Math.floor(A / 4); return Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + d + B - 1524.5; }
+function sunPos(jd){
+  const D = jd - 2451545.0, g = fixAngle(357.529 + 0.98560028 * D), q = fixAngle(280.459 + 0.98564736 * D);
+  const L = fixAngle(q + 1.915 * dsin(g) + 0.020 * dsin(2 * g)), e = 23.439 - 0.00000036 * D;
+  const RA = darctan2(dcos(e) * dsin(L), dcos(L)) / 15;
+  return {decl: darcsin(dsin(e) * dsin(L)), eqt: q / 15 - fixHour(RA)};
+}
+function calcPrayerHours(y, m, d, lat, lng, tz, ramadan){
+  const jd = julian(y, m, d) - lng / (15 * 24);
+  const mid = t => fixHour(12 - sunPos(jd + t).eqt);
+  const angleT = (ang, t, ccw) => {
+    const s = sunPos(jd + t), v = (-dsin(ang) - dsin(s.decl) * dsin(lat)) / (dcos(s.decl) * dcos(lat));
+    const T = darccos(Math.max(-1, Math.min(1, v))) / 15; return mid(t) + (ccw ? -T : T);
+  };
+  const asrT = t => { const s = sunPos(jd + t); return angleT(-darccot(1 + dtan(Math.abs(lat - s.decl))), t, false); };
+  let h = {fajr:5, sunrise:6, dhuhr:12, asr:13, maghrib:18};
+  for(let i = 0; i < 2; i++) h = {fajr:angleT(18.5, h.fajr / 24, true), sunrise:angleT(0.833, h.sunrise / 24, true), dhuhr:mid(h.dhuhr / 24), asr:asrT(h.asr / 24), maghrib:angleT(0.833, h.maghrib / 24, false)};
+  const out = {}; for(const k in h) out[k] = h[k] + tz - lng / 15;
+  out.isha = out.maghrib + (ramadan ? 2 : 1.5);
+  return out;
+}
+function hm(mins){ mins = ((Math.round(mins) % 1440) + 1440) % 1440; return String(Math.floor(mins / 60)).padStart(2, '0') + ':' + String(mins % 60).padStart(2, '0'); }
+function addMin(t, m){ return hm(toMin(t) + m); }
+const ptCache = {};
+function currentCity(){ return CITIES.find(c => c.id === state.settings.city) || CITIES[0]; }
+function prayerTimesFor(k){
+  const city = currentCity(); const ck = k + '|' + city.id;
+  if(ptCache[ck]) return ptCache[ck];
+  const d = keyToDate(k); let ramadan = false;
+  try{ ramadan = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura', {month:'numeric'}).format(d).replace(/\D/g, '') === '9'; }catch(e){}
+  const raw = calcPrayerHours(d.getFullYear(), d.getMonth() + 1, d.getDate(), city.lat, city.lng, 3, ramadan);
+  const out = {}; for(const p in raw) out[p] = hm(raw[p] * 60);
+  return (ptCache[ck] = out);
+}
+function delayOf(it, p){ return it.delay === 'prayer' ? AFTER_PRAYER[p] : (+it.delay || 0); }
+function delayLabel(d){ const x = DELAYS.find(o => String(o.v) === String(d)); return x ? digits(x.l) : ''; }
+
+/* today's occurrences: one per dhikr, or one per chosen prayer for after-adhan adhkar.
+   Counts are kept per occurrence key ("id" or "id#prayer"). */
+function entries(){
+  const k = todayKey(); const out = []; const pt = prayerTimesFor(k); const base = keyToDate(k).setHours(0, 0, 0, 0);
+  for(const it of state.items){
+    if(it.prayers.length){
+      for(const p of PRAYERS) if(it.prayers.indexOf(p.id) >= 0 && !(it.created && base + prayerWindowEnd(p.id, pt) * 60000 <= it.created)) out.push({key:it.id + '#' + p.id, item:it, target:it.target, time:addMin(pt[p.id], delayOf(it, p.id)), prayer:p, day:k});
+    } else out.push({key:it.id, item:it, target:it.target, time:it.time || '', prayer:null, day:k});
+  }
+  return out;
+}
+function entryByKey(key){ return entries().find(e => e.key === key) || null; }
+/* a past day's occurrences come from the goal snapshot saved that day */
+function dayEntriesFor(k){
+  if(k === todayKey()) return entries();
+  const rec = state.days[k]; if(!rec || !rec.g) return [];
+  const out = [];
+  for(const key of Object.keys(rec.g)){
+    const parts = key.split('#'); const it = itemById(parts[0]); if(!it) continue;
+    out.push({key, item:it, target:rec.g[key], time:'', prayer:parts[1] ? PRAYERS.find(p => p.id === parts[1]) || null : null, day:k});
+  }
+  return out;
+}
+function entryFor(key, k){ return dayEntriesFor(k || todayKey()).find(e => e.key === key) || null; }
+const timeKey = e => e.time ? normMin(toMin(e.time)) : Infinity;
+function isDue(e, now){ return !!e.time && timeKey(e) <= (now == null ? normMin(nowMin()) : now); }
+function minsUntil(t){ let d = toMin(t) - nowMin(); if(d <= 0) d += 1440; return d; }
+function sameGroup(e){
+  const all = entries();
+  if(e.prayer) return all.filter(x => x.prayer && x.prayer.id === e.prayer.id);
+  if(e.time) return all.filter(x => !x.prayer && x.time === e.time);
+  return all.filter(x => !x.time);
+}
+/* minutes after midnight (day-start aware) when a prayer's wird is overdue: the next adhan, or the end of the day */
+function prayerWindowEnd(pid, pt){
+  const i = PIDS.indexOf(pid);
+  return i < PIDS.length - 1 ? normMin(toMin(pt[PIDS[i + 1]])) : state.settings.dayStart * 60 + 1440;
+}
+function windowEnd(e){
+  if(e.prayer) return prayerWindowEnd(e.prayer.id, prayerTimesFor(todayKey()));
+  return state.settings.dayStart * 60 + 1440;
+}
+/* 'done' | 'up' (not yet) | 'now' (its time) | 'missed' (window closed) | 'free' (any time) */
+function stateOf(e, rec, now){
+  if(countOf(e.key, rec) >= e.target) return 'done';
+  if(!e.time) return 'free';
+  if(now == null) now = normMin(nowMin());
+  if(timeKey(e) > now) return 'up';
+  return now >= windowEnd(e) ? 'missed' : 'now';
+}
+/* keep today's goals so tomorrow knows what was left undone */
+function snapshotToday(){
+  const k = todayKey(); const g = {};
+  for(const e of entries()) g[e.key] = e.target;
+  const rec = state.days[k];
+  if(rec && rec.g && JSON.stringify(rec.g) === JSON.stringify(g)) return false;
+  ensureDay(k).g = g; refreshDay(k); markDirty(); return true;
+}
+/* record what slipped: today's closed windows, and yesterday's leftovers once the day is over */
+function flagMissed(){
+  const k = todayKey(); const now = normMin(nowMin()); let changed = false;
+  for(const e of entries()){
+    if(stateOf(e, state.days[k], now) !== 'missed') continue;
+    const r = ensureDay(k); r.m = r.m || {};
+    if(!r.m[e.key]){ r.m[e.key] = 1; changed = true; }
+  }
+  if(changed) markDirty();
+  return changed;
+}
+/* today's missed adhkar only, so they never pile up across days; each says whether it was made up */
+function missedList(){
+  const out = []; const k = todayKey();
+  for(const day of [k]){
+    const rec = state.days[day]; if(!rec || !rec.m) continue;
+    for(const e of dayEntriesFor(day)) if(rec.m[e.key]) out.push(Object.assign({}, e, {done: countOf(e.key, rec) >= e.target, count: Math.min(countOf(e.key, rec), e.target)}));
+  }
+  return out;
+}
+function dname(it){ return it.tag || it.text; }
+function isMissedEntry(key, k){ const rec = state.days[k || todayKey()]; return !!(rec && rec.m && rec.m[key]); }
+function missLabel(e){
+  if(e.prayer) return (e.item.delay === 'prayer' ? 'بعد صلاة ' : 'بعد أذان ') + e.prayer.name;
+  if(e.day !== todayKey()) return e.item.time ? 'الساعة ' + fmtTime(e.item.time) : 'في أي وقت';
+  return e.time ? 'الساعة ' + fmtTime(e.time) : 'في أي وقت';
+}
+function whenLabel(e){
+  if(e.prayer) return (e.item.delay === 'prayer' ? 'بعد صلاة ' : 'بعد أذان ') + e.prayer.name + '، ' + fmtTime(e.time);
+  return e.time ? fmtTime(e.time) : '';
+}
+/* the occurrence that belongs at the top of the screen right now */
+function featured(){
+  if(!state.items.length) return {kind:'empty'};
+  const rec = state.days[todayKey()]; const now = normMin(nowMin());
+  const all = entries(); const inc = all.filter(e => countOf(e.key, rec) < e.target);
+  const missed = missedList().filter(x => !x.done);
+  if(!inc.length && !missed.length) return {kind:'done'};
+  const due = inc.filter(e => stateOf(e, rec, now) === 'now').sort((a, b) => timeKey(b) - timeKey(a));
+  const upcoming = inc.filter(e => stateOf(e, rec, now) === 'up').sort((a, b) => timeKey(a) - timeKey(b));
+  const anytime = inc.filter(e => !e.time);
+  if(due.length){
+    const g = due.filter(e => due[0].prayer ? (e.prayer && e.prayer.id === due[0].prayer.id) : e.time === due[0].time);
+    return {kind:'due', entry:g[0], more:g.length - 1};
+  }
+  if(anytime.length) return {kind:'anytime', entry:anytime[0], next:upcoming[0] || null};
+  if(upcoming.length) return {kind:'upcoming', entry:upcoming[0]};
+  return {kind: missed.length ? 'idle' : 'done'};
+}
+/* what to recite after finishing (or skipping) `cur`: the rest of its group first, then whatever is due */
+function queueAfter(cur){
+  const rec = state.days[todayKey()]; const now = normMin(nowMin());
+  const inc = entries().filter(e => e.key !== cur.key && countOf(e.key, rec) < e.target);
+  const g = sameGroup(cur).map(x => x.key);
+  const same = inc.filter(e => g.indexOf(e.key) >= 0); if(same.length) return same[0];
+  const due = inc.filter(e => stateOf(e, rec, now) === 'now').sort((a, b) => timeKey(b) - timeKey(a));
+  return due[0] || null;
+}
+/* making up: the next missed occurrence still open */
+function nextMissedAfter(key, k){
+  const open = missedList().filter(x => !x.done && !(x.key === key && x.day === k));
+  return open[0] || null;
+}
+function countOf(id, rec){ if(rec === undefined) rec = state.days[todayKey()]; return (rec && rec.c && rec.c[id]) || 0; }
+function progressOf(list, rec){
+  let goal = 0, got = 0;
+  for(const e of list){ goal += e.target; got += Math.min(countOf(e.key, rec), e.target); }
+  return {goal, got, ratio: goal ? got / goal : 0, done: goal > 0 && got >= goal};
+}
+function ensureDay(k){ if(!state.days[k]) state.days[k] = {c:{}, f:0, t:0, p:0, d:0}; return state.days[k]; }
+function refreshDay(k){
+  const rec = state.days[k]; if(!rec) return {wasDone:false, nowDone:false};
+  let pr;
+  if(k === todayKey()) pr = progressOf(entries(), rec);
+  else if(rec.g){
+    let goal = 0, got = 0;
+    for(const key in rec.g){ goal += rec.g[key]; got += Math.min((rec.c && rec.c[key]) || 0, rec.g[key]); }
+    pr = {goal, got, ratio: goal ? got / goal : 0, done: goal > 0 && got >= goal};
+  } else return {wasDone:!!rec.d, nowDone:!!rec.d};
+  const wasDone = !!rec.d;
+  rec.p = Math.round(pr.ratio * 100) / 100; rec.d = pr.done ? 1 : 0;
+  return {wasDone, nowDone: !!rec.d};
+}
+function refreshToday(){ return refreshDay(todayKey()); }
+function streakInfo(){
+  const k0 = todayKey(); const todayDone = !!(state.days[k0] && state.days[k0].d);
+  let k = todayDone ? k0 : addDays(k0, -1), s = 0;
+  while(state.days[k] && state.days[k].d){ s++; k = addDays(k, -1); }
+  return {streak:s, todayDone};
+}
+function bestStreak(){ return Math.max(state.stats.best || 0, streakInfo().streak); }
+function doneCount(){ return (state.stats.archivedDone || 0) + Object.values(state.days).filter(d => d && d.d).length; }
+function maxDayTotal(){ let m = 0; for(const d of Object.values(state.days)) if(d && d.t > m) m = d.t; return m; }
+function currentMat(){ return MATERIALS.find(m => m.id === state.material) || MATERIALS[0]; }
+function matStyle(m){ return '--l:' + m.light + ';--b:' + m.base + ';--d:' + m.dark; }
+
+const BADGES = [
+  {id:'first',    icon:'beads', name:'أول تسبيحة',   desc:() => 'بداية الطريق',                    test:() => state.stats.lifetime >= 1},
+  {id:'firstday', icon:'check', name:'أول ورد كامل', desc:() => 'أتممت وردك ليوم كامل',            test:() => doneCount() >= 1},
+  {id:'k1',       icon:'star',  name:'ألف تسبيحة',   desc:() => n(1000) + ' في المجموع',           test:() => state.stats.lifetime >= 1000},
+  {id:'dayk',     icon:'sun',   name:'ألف في يوم',   desc:() => n(1000) + ' تسبيحة في يوم واحد',    test:() => maxDayTotal() >= 1000},
+  {id:'week',     icon:'chain', name:'أسبوع مداومة', desc:() => n(7) + ' أيام متتالية',            test:() => bestStreak() >= 7},
+  {id:'k10',      icon:'star',  name:'عشرة آلاف',    desc:() => n(10000) + ' في المجموع',          test:() => state.stats.lifetime >= 10000},
+  {id:'month',    icon:'moon',  name:'شهر مداومة',   desc:() => n(30) + ' يومًا متتاليًا',         test:() => bestStreak() >= 30},
+  {id:'k100',     icon:'medal', name:'مئة ألف',      desc:() => n(100000) + ' في المجموع',         test:() => state.stats.lifetime >= 100000},
+  {id:'qada',     icon:'reset', name:'قضاء الفائت',  desc:() => 'قضيت وردًا فاتك',                 test:() => (state.stats.qada || 0) >= 1}
+];
+
+/* add (or undo) counts for an item, or for the free counter when id is null */
+function addCount(id, delta, day){
+  const k = day || todayKey(); const rec = ensureDay(k); if(!rec.c) rec.c = {};
+  const cur = id ? (rec.c[id] || 0) : (rec.f || 0);
+  const nv = Math.max(0, cur + delta); const applied = nv - cur;
+  if(!applied) return null;
+  if(id){ rec.c[id] = nv; const iid = id.split('#')[0]; state.stats.perItem[iid] = Math.max(0, (state.stats.perItem[iid] || 0) + applied); }
+  else rec.f = nv;
+  rec.t = Math.max(0, (rec.t || 0) + applied);
+  state.stats.lifetime = Math.max(0, (state.stats.lifetime || 0) + applied);
+  const r = refreshDay(k);
+  state.stats.best = Math.max(state.stats.best || 0, streakInfo().streak);
+  markDirty();
+  return {applied, dayJustDone: !r.wasDone && r.nowDone, day:k};
+}
+function checkUnlocks(){
+  const out = {badges:[], material:null};
+  for(const b of BADGES){ if(!state.badges[b.id] && b.test()){ state.badges[b.id] = todayKey(); out.badges.push(b); } }
+  const dc = doneCount(); const prev = state.stats.maxDone || 0;
+  if(dc > prev){
+    state.stats.maxDone = dc;
+    const m = MATERIALS.filter(x => x.need > prev && x.need <= dc).pop();
+    if(m){ out.material = m; state.material = m.id; }
+  }
+  if(out.badges.length || out.material) markDirty();
+  return out;
+}
+function prune(){
+  const today = todayKey(), cutoff = addDays(today, -730), snapCut = addDays(today, -1), countCut = addDays(today, -14);
+  let changed = false;
+  for(const k of Object.keys(state.days)){
+    const d = state.days[k];
+    if(k < cutoff){ if(d && d.d) state.stats.archivedDone = (state.stats.archivedDone || 0) + 1; delete state.days[k]; changed = true; continue; }
+    if(!d) continue;
+    if(k < snapCut && (d.g || d.m || d.mc)){ delete d.g; delete d.m; delete d.mc; changed = true; }
+    if(k < countCut && d.c){ delete d.c; changed = true; }
+  }
+  if(changed) markDirty();
+}
+
+/* ---------- saving: this device first, then the person's private store ---------- */
+let localTimer = null;
+const remote = {ref:null, status:'local', writing:false, again:false, saveT:null, maxT:null, retried:false};
+function saveLocal(){ clearTimeout(localTimer); localTimer = null; try{ localStorage.setItem(STORE_KEY, JSON.stringify(state)); }catch(e){} }
+function markDirty(){
+  state.updatedAt = Date.now();
+  if(!localTimer) localTimer = setTimeout(saveLocal, 400);
+  scheduleRemote();
+}
+function scheduleRemote(){
+  if(!remote.ref) return;
+  clearTimeout(remote.saveT); remote.saveT = setTimeout(flushRemote, 1800);
+  if(!remote.maxT) remote.maxT = setTimeout(flushRemote, 15000);
+}
+async function flushRemote(){
+  clearTimeout(remote.saveT); clearTimeout(remote.maxT); remote.saveT = remote.maxT = null;
+  if(!remote.ref) return;
+  if(remote.writing){ remote.again = true; return; }
+  remote.writing = true; setSaveStatus('saving');
+  try{
+    await remote.ref.set(cloneJSON(state));
+    remote.retried = false; setSaveStatus('saved');
+  }catch(e){
+    const code = e && e.code;
+    if(code === 'unavailable' && !remote.retried){ remote.retried = true; setTimeout(flushRemote, 1500 + Math.random() * 2000); }
+    else if(code === 'quota_exceeded' || code === 'resource_exhausted'){ setSaveStatus('error'); }
+    else { remote.ref = null; setSaveStatus(code === 'unavailable' ? 'error' : 'local'); }
+  }finally{
+    remote.writing = false;
+    if(remote.again){ remote.again = false; scheduleRemote(); }
+  }
+}
+function flushAll(){ saveLocal(); if(remote.ref && (remote.saveT || remote.maxT)) flushRemote(); }
+function mergeStates(a, b){
+  const A = a.updatedAt || 0, B = b.updatedAt || 0;
+  const newer = B > A ? b : a, older = newer === a ? b : a;
+  const out = normalize(cloneJSON(newer));
+  for(const [k, d] of Object.entries(older.days || {})){
+    const cur = out.days[k];
+    if(d && (!cur || (d.t || 0) > (cur.t || 0))) out.days[k] = cloneJSON(d);
+  }
+  for(const f of ['lifetime', 'best', 'maxDone', 'archivedDone']) out.stats[f] = Math.max(a.stats[f] || 0, b.stats[f] || 0);
+  for(const src of [a.stats.perItem || {}, b.stats.perItem || {}]) for(const [k, v] of Object.entries(src)) out.stats.perItem[k] = Math.max(out.stats.perItem[k] || 0, v);
+  out.badges = Object.assign({}, older.badges, newer.badges);
+  out.updatedAt = Math.max(A, B);
+  return out;
+}
+async function connectRemote(){
+  if(!window.claude || typeof window.claude.use !== 'function'){ setSaveStatus('local'); return; }
+  try{
+    const [db, user] = await Promise.all([window.claude.use('db'), window.claude.use('user')]);
+    if(!db || !user){ setSaveStatus('local'); return; }
+    const id = await user.id();
+    if(!id){ setSaveStatus('local'); return; }
+    const ref = db.doc('data/users/' + id + '/state');
+    const snap = await ref.get();
+    let pushNeeded = true;
+    if(snap.exists){
+      const theirs = normalize(cloneJSON(snap.data()));
+      pushNeeded = (state.updatedAt || 0) > (theirs.updatedAt || 0);
+      state = mergeStates(state, theirs);
+      saveLocal(); renderAll();
+    }
+    remote.ref = ref; setSaveStatus('saved');
+    if(pushNeeded) flushRemote();
+  }catch(e){ setSaveStatus('local'); }
+}
+function setSaveStatus(s){
+  remote.status = s;
+  const el = $('#saveStatus'); if(!el) return;
+  el.textContent = ({
+    saved:'محفوظ في حسابك، ويظهر لك وحدك',
+    saving:'جارٍ الحفظ…',
+    local:'محفوظ على هذا الجهاز فقط',
+    error:'تعذّر الحفظ في حسابك الآن، وبياناتك محفوظة على هذا الجهاز'
+  })[s] || '';
+}
+
+/* ---------- views ---------- */
+let tab = 'today';
+function setTab(t){
+  tab = t;
+  $$('.view').forEach(v => { v.hidden = v.dataset.view !== t; });
+  $$('.tab').forEach(b => b.setAttribute('aria-current', b.dataset.tab === t ? 'page' : 'false'));
+  renderTab();
+  window.scrollTo(0, 0);
+}
+function renderTab(){
+  if(tab === 'today') renderToday();
+  else {
+    stopFeatAnim(); flagMissed();
+    if(tab === 'missed') renderMissedPage(); else if(tab === 'progress') renderProgress(); else renderSettings();
+  }
+  renderBadge();
+}
+function renderAll(){
+  renderTab();
+  if(C.open) renderCounter();
+}
+function heatLevel(d){ if(!d) return 0; if(d.d) return 3; const p = d.p || 0; return p >= 0.5 ? 2 : (p > 0 ? 1 : 0); }
+/* what the Today screen depends on, so the clock tick only re-renders when something changed */
+function todaySig(){
+  const f = featured(); const now = normMin(nowMin()); const rec = state.days[todayKey()];
+  return [todayKey(), state.settings.city, f.kind, f.entry ? f.entry.key : '',
+    entries().map(e => stateOf(e, rec, now)[0]).join(''), missedList().map(x => x.done ? 1 : 0).join('')].join('|');
+}
+let lastSig = '';
+
+function renderToday(){
+  flagMissed();
+  const rec = state.days[todayKey()];
+  const pr = progressOf(entries(), rec);
+  $('#date').textContent = dateLine();
+  const st = streakInfo();
+  $('#streakNum').textContent = n(st.streak);
+  $('#streakChip').setAttribute('aria-label', 'المداومة: ' + (st.streak ? daysPhrase(st.streak) : 'لم تبدأ بعد'));
+  renderFeat(rec);
+  $('#pct').textContent = pr.done ? pct(1) : pct(pr.ratio);
+  $('#heroSub').textContent = state.items.length ? (n(pr.got) + ' من ' + n(pr.goal) + ' ' + tasbihWord(pr.goal)) : 'لا أذكار بعد';
+  drawHeroRing(pr);
+  renderWeek();
+  $('#sampleNote').hidden = !state.sample;
+  renderList(rec);
+  lastSig = todaySig();
+}
+
+/* ---------- the "now" card ---------- */
+function moreDuePhrase(k){ return 'ثم ' + dhikrPhrase(k) + ' في هذا الورد'; }
+function renderFeat(rec){
+  const host = $('#feat'); const f = featured();
+  host.className = 'feat feat--' + f.kind;
+  stopFeatAnim();
+  if(f.kind === 'empty'){
+    host.innerHTML = '<div class="feat-top"><span class="fchip">ابدأ وردك</span></div>'
+      + '<p class="feat-note">أضف أول ذكر وحدّد عدده، وإن أردت اربطه بوقت أو بالأذان ليتصدّر الشاشة في وقته.</p>'
+      + '<button class="btn btn-primary btn-block" data-act="add">' + icon('plus') + 'إضافة ذكر</button>';
+    return;
+  }
+  if(f.kind === 'idle'){
+    host.innerHTML = '<div class="feat-top"><span class="fchip">' + icon('check', 'ico ico-sm') + 'لا ورد الآن</span></div>'
+      + '<p class="feat-note">أنهيت ما حان وقته اليوم، تقبّل الله منك.</p>'
+      + '<button class="btn btn-line btn-block" data-act="free">' + icon('beads') + 'مسبحة حرة</button>';
+    return;
+  }
+  if(f.kind === 'done'){
+    host.innerHTML = '<div class="feat-top"><span class="fchip ok">' + icon('check', 'ico ico-sm') + 'أتممت ورد اليوم</span></div>'
+      + '<p class="feat-dua">تقبّل الله منك</p>'
+      + '<button class="btn btn-line btn-block" data-act="free">' + icon('beads') + 'مسبحة حرة</button>';
+    return;
+  }
+  const e = f.entry; const c = Math.min(countOf(e.key, state.days[e.day || todayKey()]), e.target);
+  let chip, when = '', go;
+  if(f.kind === 'missed'){ chip = '<span class="fchip miss">' + icon('clock', 'ico ico-sm') + 'فاتك</span>'; when = missLabel(e) + (e.day !== todayKey() ? '، أمس' : ''); go = 'اقضِه الآن'; }
+  else if(f.kind === 'due'){ chip = '<span class="fchip due">' + icon(e.prayer ? 'mosque' : 'bell', 'ico ico-sm bell-swing') + 'حان وقته</span>'; when = whenLabel(e); go = c ? 'تابع التسبيح' : 'سبّح الآن'; }
+  else if(f.kind === 'upcoming'){ chip = '<span class="fchip">' + icon('bell', 'ico ico-sm') + 'القادم</span>'; when = whenLabel(e) + '، ' + fmtIn(minsUntil(e.time)); go = 'ابدأ مبكرًا'; }
+  else { chip = '<span class="fchip">في أي وقت</span>'; go = c ? 'تابع' : 'ابدأ'; }
+  let foot = '';
+  if(f.kind === 'due' && f.more) foot = '<button class="feat-more" data-act="to-list">' + moreDuePhrase(f.more) + '</button>';
+  else if(f.kind === 'missed' && f.more) foot = '<button class="feat-more miss" data-act="to-missed">و' + dhikrPhrase(f.more) + ' فائتة أخرى</button>';
+  else if(f.kind === 'anytime' && f.next) foot = '<div class="feat-more">' + icon('bell', 'ico ico-xs') + '<span>التالي ' + (f.next.prayer ? whenLabel(f.next) : 'الساعة ' + fmtTime(f.next.time)) + ': ' + escapeHtml(dname(f.next.item)) + '</span></div>';
+  const text = e.item.text;
+  host.innerHTML = '<div class="feat-top">' + chip + '<span class="feat-when" id="featWhen">' + when + '</span></div>'
+    + '<div class="feat-body"><div class="feat-ring"><canvas id="featRing" aria-hidden="true"></canvas>'
+    + '<div class="feat-count">' + n(c) + '<small>من ' + n(e.target) + '</small></div></div>'
+    + '<div class="feat-words">' + (e.item.tag ? '<span class="feat-tag">' + escapeHtml(e.item.tag) + '</span>' : '') + '<div class="feat-text' + (text.length > 40 ? ' long' : '') + '">' + escapeHtml(text) + '</div></div></div>'
+    + '<button class="btn ' + (f.kind === 'missed' ? 'btn-miss' : 'btn-primary') + ' btn-block feat-go" data-open="' + e.key + '" data-day="' + (e.day || todayKey()) + '"><span>' + go + '</span>' + icon('left') + '</button>' + foot;
+  FA.entry = e; FA.ctx = null;
+  drawFeatRing(null);
+  if(f.kind === 'due') startFeatAnim();
+}
+function featLit(e){ const c = Math.min(countOf(e.key, state.days[e.day || todayKey()]), e.target); return c >= e.target ? 33 : Math.floor(c / e.target * 33); }
+function drawFeatRing(beam){
+  const cv = $('#featRing'); if(!cv || !FA.entry) return;
+  if(!FA.ctx || !FA.ctx._w) FA.ctx = prepCanvas(cv);
+  if(!FA.ctx) return;
+  drawRing(FA.ctx, {cap:33, lit:featLit(FA.entry), mat:currentMat(), tassel:false, highlight:-1, sep:11, beam});
+}
+/* a light that keeps travelling round the beads while a dhikr is waiting */
+const FA = {raf:0, last:0, t0:0, entry:null, ctx:null};
+function startFeatAnim(){
+  if(reduceMotion || FA.raf) return;
+  FA.t0 = performance.now();
+  const step = t => {
+    FA.raf = 0;
+    if(tab !== 'today' || C.open || document.hidden || !$('#featRing')) return;
+    if(t - FA.last > 33){ FA.last = t; drawFeatRing(((t - FA.t0) / 2600) % 1); }
+    FA.raf = requestAnimationFrame(step);
+  };
+  FA.raf = requestAnimationFrame(step);
+}
+function stopFeatAnim(){ if(FA.raf){ cancelAnimationFrame(FA.raf); FA.raf = 0; } }
+
+function renderWeek(){
+  const k0 = todayKey(); const cells = [];
+  for(let i = 6; i >= 0; i--){
+    const k = addDays(k0, -i);
+    cells.push('<div class="d' + (i === 0 ? ' today' : '') + '"><span class="b l' + heatLevel(state.days[k]) + '"></span><span>' + WD[keyToDate(k).getDay()] + '</span></div>');
+  }
+  $('#week').innerHTML = cells.join('');
+}
+
+/* ---------- missed adhkar: their own tab, today only ---------- */
+function timesPhrase(k){ if(k === 1) return 'مرة'; if(k === 2) return 'مرتين'; return n(k) + (k <= 10 ? ' مرات' : ' مرة'); }
+function leftPhrase(k){ if(k === 1) return 'ورد باقٍ للقضاء'; if(k === 2) return 'وردان باقيان للقضاء'; return (k <= 10 ? 'أوراد باقية' : 'وردًا باقيًا') + ' للقضاء'; }
+function missedRow(g){
+  const open = g.list.filter(x => !x.done); const done = !open.length; const first = open[0] || g.list[0];
+  const rest = open.reduce((a, x) => a + (x.target - x.count), 0);
+  const sub = g.list.length === 1 ? missLabel(g.list[0]) : (done ? 'قضيت ' + timesPhrase(g.list.length) : 'فاتك ' + timesPhrase(g.list.length) + (open.length < g.list.length ? '، قضيت ' + n(g.list.length - open.length) : ''));
+  const chips = g.list.length > 1 || g.list[0].prayer
+    ? '<div class="mchips">' + g.list.map(x => '<button class="mchip ' + (x.done ? 'is-done' : 'is-miss') + '" data-open="' + x.key + '">' + (x.done ? icon('check', 'ico ico-xs') : '') + (x.prayer ? x.prayer.name : missLabel(x)) + '</button>').join('') + '</div>' : '';
+  return '<div class="mrow ' + (done ? 'mrow--done' : 'mrow--miss') + '"><button class="mrow-main" data-open="' + first.key + '">'
+    + '<span class="mdot">' + icon(done ? 'check' : 'clock', 'ico ico-sm') + '</span>'
+    + '<span class="mtxt"><span' + (g.item.tag ? ' class="is-tag"' : '') + '>' + escapeHtml(dname(g.item)) + '</span><b>' + sub + '</b></span>'
+    + '<span class="mcount">' + (done ? 'قُضي' : 'باقي ' + n(rest)) + '</span></button>' + chips + '</div>';
+}
+function renderMissedPage(){
+  flagMissed();
+  const host = $('#missedBody'); const all = missedList(); const left = all.filter(x => !x.done);
+  let h = '<h2 class="view-h">الفائتة</h2><p class="view-sub">ما فاتك اليوم من أوراد بعد الأذان حتى دخل الأذان التالي. اقضه قبل نهاية اليوم، ومع كل يوم جديد تبدأ صفحة نظيفة.</p>';
+  if(!all.length){
+    host.innerHTML = h + '<div class="card mempty">' + icon('check') + '<b>ما فاتك شيء اليوم</b><span class="muted small">الحمد لله، أوراد ما بعد الأذان في وقتها.</span></div>';
+    return;
+  }
+  const remain = left.reduce((a, x) => a + (x.target - x.count), 0); const doneN = all.length - left.length;
+  h += '<div class="card msum"><div class="msum-top"><b class="big-num miss-num' + (left.length ? '' : ' ok') + '">' + n(left.length) + '</b><div><div class="lbl">' + (left.length ? leftPhrase(left.length) : 'قضيت كل ما فاتك اليوم') + '</div>'
+    + '<div class="muted small">' + (left.length ? 'باقي ' + n(remain) + ' ' + tasbihWord(remain) + '، وقضيت ' + n(doneN) + ' من ' + n(all.length) : 'تقبّل الله منك') + '</div></div></div>'
+    + '<span class="bar"><i style="width:' + Math.round(doneN / all.length * 100) + '%;background:var(--done)"></i></span>'
+    + (left.length ? '<button class="btn btn-miss btn-block" data-act="qada-all">' + icon('reset') + 'ابدأ القضاء واحدًا تلو الآخر</button>' : '') + '</div>';
+  const m = new Map(); for(const x of all){ const g = m.get(x.item.id) || {item:x.item, list:[]}; g.list.push(x); m.set(x.item.id, g); }
+  const gs = Array.from(m.values()).sort((a, b) => (a.list.every(x => x.done) ? 1 : 0) - (b.list.every(x => x.done) ? 1 : 0));
+  host.innerHTML = h + '<div class="sec"><div class="mcard">' + gs.map(missedRow).join('') + '</div></div>';
+}
+/* the red mark on the tab bar */
+function renderBadge(){
+  const k = missedList().filter(x => !x.done).length;
+  const b = $('#missBadge'); b.hidden = !k; b.textContent = k > 9 ? digits('9') + '+' : n(k);
+  const t = $('.tab[data-tab="missed"]'); t.classList.toggle('has-miss', k > 0);
+  t.setAttribute('aria-label', k ? 'الفائتة: ' + n(k) : 'الفائتة');
+}
+
+/* ---------- the list: after the adhan, at set times, any time ---------- */
+function renderList(rec){
+  const host = $('#list');
+  if(!state.items.length){ host.innerHTML = ''; return; }
+  const now = normMin(nowMin()); const all = entries();
+  const head = (title, meta, id) => '<section class="slot"' + (id ? ' id="' + id + '"' : '') + '><div class="slot-h"><h3>' + title + '</h3><span class="slot-meta">' + meta + '</span></div><div class="items">';
+  const doneOf = list => list.filter(e => countOf(e.key, rec) >= e.target).length;
+  let h = '';
+  const pItems = state.items.filter(it => it.prayers.length);
+  if(pItems.length){
+    const pe = all.filter(e => e.prayer);
+    h += head('بعد الأذان', 'حسب توقيت ' + currentCity().name + '، ' + n(doneOf(pe)) + ' من ' + n(pe.length), 'prayerSec')
+      + pItems.map(it => prayerCard(it, all.filter(e => e.item === it), rec, now)).join('') + '</div></section>';
+  }
+  const timed = all.filter(e => !e.prayer && e.time).sort((a, b) => timeKey(a) - timeKey(b));
+  if(timed.length) h += head('بوقت محدد', n(doneOf(timed)) + ' من ' + n(timed.length), 'timedSec') + timed.map(e => itemCard(e, rec, now)).join('') + '</div></section>';
+  const free = all.filter(e => !e.time);
+  if(free.length) h += head('في أي وقت خلال اليوم', n(doneOf(free)) + ' من ' + n(free.length), 'freeSec') + free.map(e => itemCard(e, rec, now)).join('') + '</div></section>';
+  host.innerHTML = h;
+}
+function itemCard(e, rec, now){
+  const it = e.item; const c = Math.min(countOf(e.key, rec), e.target); const done = c >= e.target;
+  const due = !done && isDue(e, now);
+  const w = Math.round(c / e.target * 100);
+  const when = e.time ? '<span class="when">' + icon('bell', 'ico ico-xs') + fmtTime(e.time) + '</span>' : '<span class="when free">أي وقت</span>';
+  const tag = done ? '<span class="tag tag-done">تم</span>' : (due ? '<span class="tag tag-due">حان وقته</span>' : '');
+  const count = done ? icon('check', 'ico ico-sm') + n(e.target) : '<b>' + n(c) + '</b> / ' + n(e.target);
+  return '<div class="item' + (done ? ' is-done' : '') + (due ? ' is-due' : '') + '">'
+    + '<button class="item-main" data-open="' + e.key + '"><span class="item-top">' + (it.tag ? '<span class="dtag">' + escapeHtml(it.tag) + '</span>' : '') + when + tag + '</span>'
+    + '<span class="item-text">' + escapeHtml(it.text) + '</span>'
+    + '<span class="item-row"><span class="bar"><i style="width:' + w + '%"></i></span><span class="item-count">' + count + '</span></span></button>'
+    + '<button class="item-edit" data-edit="' + it.id + '" aria-label="تعديل الذكر">' + icon('pencil') + '</button></div>';
+}
+function prayersPhrase(it){
+  const names = it.prayers.length === 5 ? '' : PRAYERS.filter(p => it.prayers.indexOf(p.id) >= 0).map(p => p.name).join(' و');
+  if(it.delay === 'prayer') return names ? 'بعد صلاة ' + names : 'بعد كل صلاة';
+  const base = names ? 'بعد أذان ' + names : 'بعد كل أذان';
+  return it.delay ? base + ' بـ' + n(it.delay) + ' د' : base;
+}
+/* one card per after-adhan dhikr, with a pill for each of its prayers */
+function prayerCard(it, es, rec, now){
+  const st = e => stateOf(e, rec, now);
+  const nowE = es.find(e => st(e) === 'now'); const missN = es.filter(e => st(e) === 'missed').length;
+  const open = nowE || es.find(e => st(e) === 'missed') || es.find(e => st(e) !== 'done') || es[es.length - 1];
+  const doneN = es.filter(e => st(e) === 'done').length;
+  const tag = doneN === es.length ? '<span class="tag tag-done">تم</span>' : (nowE ? '<span class="tag tag-due">حان وقته</span>' : (missN ? '<span class="tag tag-miss">فاتك ' + (missN === 1 ? 'مرة' : n(missN)) + '</span>' : ''));
+  const pills = es.map(e => {
+    const s = st(e); const c = Math.min(countOf(e.key, rec), e.target);
+    const sub = s === 'done' ? icon('check', 'ico ico-xs') : (s === 'up' ? fmtTime(e.time) : n(c) + '/' + n(e.target));
+    return '<button class="pill pill--' + s + '" data-open="' + e.key + '" aria-label="' + e.prayer.name + '"><b>' + e.prayer.name + '</b><span>' + sub + '</span></button>';
+  }).join('');
+  return '<div class="item pr-item' + (doneN === es.length ? ' is-done' : '') + (nowE ? ' is-due' : '') + '">'
+    + '<div class="pr-main"><button class="pr-open" data-open="' + open.key + '"><span class="item-top">' + (it.tag ? '<span class="dtag">' + escapeHtml(it.tag) + '</span>' : '') + '<span class="when">' + icon('mosque', 'ico ico-xs') + prayersPhrase(it) + '</span>' + tag + '</span>'
+    + '<span class="item-text">' + escapeHtml(it.text) + '</span>'
+    + '<span class="pr-sum">' + n(it.target) + ' في كل مرة، ' + n(it.target * es.length) + ' في اليوم</span></button>'
+    + '<div class="pills" style="grid-template-columns:repeat(' + es.length + ',minmax(0,1fr))">' + pills + '</div></div>'
+    + '<button class="item-edit" data-edit="' + it.id + '" aria-label="تعديل الذكر">' + icon('pencil') + '</button></div>';
+}
+
+/* ---------- achievements ---------- */
+function renderProgress(){
+  const st = streakInfo(); const dc = doneCount(); const maxDone = state.stats.maxDone || 0;
+  const cur = currentMat(); const nextM = MATERIALS.find(m => m.need > maxDone);
+  const prevNeed = MATERIALS.filter(m => m.need <= maxDone).pop().need;
+  const h = [];
+  h.push('<h2 class="view-h">إنجازاتي</h2>');
+  let sub;
+  if(st.todayDone) sub = 'أتممت ورد اليوم';
+  else if(state.items.length) sub = 'أتمم ورد اليوم ليصبح العدد ' + n(st.streak + 1);
+  else sub = 'أضف أذكارك لتبدأ';
+  h.push('<div class="card"><div class="ach-hero"><div class="big-num">' + n(st.streak) + '</div><div><div class="lbl">أيام المداومة المتتالية</div><div class="muted small">' + sub + '، وأطول سلسلة ' + n(bestStreak()) + '</div></div></div>'
+    + '<p class="hadith">«أحب الأعمال إلى الله أدومها وإن قل»<cite>متفق عليه</cite></p></div>');
+  h.push('<div class="sec"><div class="stats">'
+    + '<div class="stat"><b>' + n(state.stats.lifetime || 0) + '</b><span>مجموع التسبيحات</span></div>'
+    + '<div class="stat"><b>' + n(dc) + '</b><span>أيام أتممت فيها الورد</span></div>'
+    + '<div class="stat"><b>' + n(maxDayTotal()) + '</b><span>أعلى يوم</span></div></div></div>');
+  const nextLine = nextM ? 'باقي ' + daysPhrase(nextM.need - maxDone) + ' من إتمام الورد لفتح ' + nextM.full : 'فتحت كل المسابح، بارك الله فيك';
+  const barW = nextM ? Math.round((maxDone - prevNeed) / (nextM.need - prevNeed) * 100) : 100;
+  h.push('<div class="sec"><h3>مسبحتك</h3><div class="card level"><span class="swatch" style="' + matStyle(cur) + '"></span><div><b>' + cur.full + '</b><div class="muted small">' + nextLine + '</div><span class="bar"><i style="width:' + barW + '%"></i></span></div></div>'
+    + '<div class="mats">' + MATERIALS.map(m => {
+      const un = m.need <= maxDone; const sel = m.id === state.material;
+      const cond = un ? (sel ? 'مختارة' : 'اختر') : icon('lock', 'ico ico-xs') + 'بعد ' + daysPhrase(m.need);
+      return '<button class="mat' + (un ? '' : ' locked') + '" data-mat="' + m.id + '" aria-pressed="' + sel + '"><span class="swatch" style="' + matStyle(m) + '"></span><span class="nm">' + m.name + '</span><span class="cond">' + cond + '</span></button>';
+    }).join('') + '</div></div>');
+  const k0 = todayKey(); const start = addDays(k0, -keyToDate(k0).getDay() - 77); const cells = [];
+  for(let i = 0; i < 84; i++){
+    const k = addDays(start, i);
+    if(k > k0){ cells.push('<i class="future"></i>'); continue; }
+    cells.push('<i class="l' + heatLevel(state.days[k]) + (k === k0 ? ' today' : '') + '" title="' + k + '"></i>');
+  }
+  h.push('<div class="sec"><h3>آخر ' + n(12) + ' أسبوعًا</h3><div class="card"><div class="heat-wrap"><div class="heat">' + cells.join('') + '</div></div>'
+    + '<div class="legend"><span>لا شيء</span><i class="l0"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><span>أتممت الورد</span></div></div></div>');
+  h.push('<div class="sec"><h3>الأوسمة <span class="muted small">' + n(Object.keys(state.badges).length) + ' من ' + n(BADGES.length) + '</span></h3><div class="badges">'
+    + BADGES.map(b => { const got = !!state.badges[b.id];
+      return '<div class="badge' + (got ? '' : ' locked') + '"><span class="em">' + icon(got ? b.icon : 'lock') + '</span><div><b>' + b.name + '</b><span>' + b.desc() + '</span></div></div>';
+    }).join('') + '</div></div>');
+  $('#progressBody').innerHTML = h.join('');
+}
+
+/* ---------- settings ---------- */
+function setSeg(sel, v){ $$(sel + ' button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(v)))); }
+function renderSettings(){
+  const s = state.settings;
+  $('#setHaptics').checked = !!s.haptics;
+  $('#setSound').checked = !!s.sound;
+  $('#setWake').checked = !!s.wake;
+  setSeg('#setStrength', s.strength);
+  $('#setSoundStyle').innerHTML = SOUNDS.map(x => '<button type="button" role="radio" data-v="' + x.id + '" aria-checked="' + (x.id === s.soundStyle) + '">'
+    + '<span class="snd-ic">' + icon(x.id === s.soundStyle ? 'check' : 'vol', 'ico ico-sm') + '</span><span class="snd-t"><b>' + x.name + '</b><span>' + x.desc + '</span></span></button>').join('');
+  setSeg('#setDigits', s.digits);
+  $('#setDayStart').value = String(s.dayStart);
+  $('#hapticStatus').textContent = ('vibrate' in navigator) ? 'مدعوم على هذا الجهاز'
+    : (isIOS ? 'الآيفون يقيّد الاهتزاز في صفحات الويب، ونجرّب بديلًا خفيفًا قد لا يعمل في كل إصدار' : 'قد لا يدعم هذا الجهاز الاهتزاز');
+  const cs = $('#setCity');
+  if(!cs.options.length) cs.innerHTML = CITIES.map(c => '<option value="' + c.id + '">' + c.name + '</option>').join('');
+  cs.value = s.city;
+  renderPrayerTimes();
+  renderRemRows();
+  setSaveStatus(remote.status);
+}
+function renderPrayerTimes(){
+  const pt = prayerTimesFor(todayKey());
+  $('#ptimes').innerHTML = PRAYERS.map(p => '<div class="pt"><span>' + p.name + '</span><b>' + fmtTime(pt[p.id]) + '</b></div>').join('');
+}
+function renderRemRows(){
+  const host = $('#remRows');
+  const rows = state.items.filter(it => it.prayers.length).map(it => ({it, when:prayersPhrase(it), n:it.target, sort:-1}))
+    .concat(state.items.filter(it => !it.prayers.length && it.time).map(it => ({it, when:fmtTime(it.time), n:it.target, sort:normMin(toMin(it.time))})))
+    .sort((a, b) => a.sort - b.sort);
+  if(!rows.length){ host.innerHTML = '<div class="row muted small">لا توجد أذكار مرتبطة بوقت أو بالأذان. افتح أي ذكر واختر «وقت محدد» أو «بعد الأذان».</div>'; return; }
+  host.innerHTML = rows.map(r => '<button class="rem-row" data-edit="' + r.it.id + '"><span class="rem-time">' + r.when + '</span>'
+    + '<span class="rem-text">' + escapeHtml(dname(r.it)) + '</span><span class="rem-n">' + n(r.n) + '</span>' + icon('pencil', 'ico ico-sm') + '</button>').join('');
+}
+function reminderText(){
+  const parts = [];
+  for(const it of state.items.filter(x => !x.prayers.length && x.time).sort((a, b) => normMin(toMin(a.time)) - normMin(toMin(b.time))))
+    parts.push(dname(it) + ' (' + n(it.target) + ' مرة) الساعة ' + fmtTime(it.time));
+  for(const it of state.items.filter(x => x.prayers.length))
+    parts.push(dname(it) + ' (' + n(it.target) + ' مرة) ' + prayersPhrase(it) + ' حسب توقيت ' + currentCity().name);
+  if(!parts.length) return '';
+  return 'اضبط لي تذكيرات في تطبيق التذكيرات بجوالي لأذكاري: ' + parts.join('، ') + '.';
+}
+/* two-tap confirmation, since the viewer has no confirm dialogs */
+function armed(btn, label, fn){
+  if(btn.dataset.armed === '1'){ clearTimeout(btn._t); btn.dataset.armed = ''; btn.classList.remove('is-armed'); if(btn._orig != null) btn.innerHTML = btn._orig; fn(); return; }
+  btn.dataset.armed = '1'; btn._orig = btn.innerHTML; btn.innerHTML = label; btn.classList.add('is-armed');
+  btn._t = setTimeout(() => { btn.dataset.armed = ''; btn.classList.remove('is-armed'); btn.innerHTML = btn._orig; }, 3000);
+}
+
+/* ---------- editor ---------- */
+let edId = null, edWhen = 'none', edPrayers = PIDS.slice(), edDelay = 0, edTagAuto = true, edMeanAuto = true;
+function edSuggest(){
+  const k = knownFor($('#edText').value);
+  if(edTagAuto) $('#edTag').value = k.tag;
+  if(edMeanAuto) $('#edMeaning').value = k.meaning;
+}
+function nextHour(){ const d = new Date(); return String((d.getHours() + 1) % 24).padStart(2, '0') + ':00'; }
+function openEditor(id){
+  edId = id || null; const it = id ? itemById(id) : null;
+  $('#edTitle').textContent = it ? 'تعديل الذكر' : 'ذكر جديد';
+  $('#edText').value = it ? it.text : '';
+  $('#edCount').value = digits(it ? it.target : 100);
+  $('#edNote').value = it ? it.note : '';
+  $('#edTag').value = it ? it.tag : '';
+  $('#edMeaning').value = it ? it.meaning : '';
+  edTagAuto = !it || !it.tag; edMeanAuto = !it || !it.meaning;
+  edWhen = it ? (it.prayers.length ? 'prayer' : (it.time ? 'time' : 'none')) : 'none';
+  edPrayers = it && it.prayers.length ? it.prayers.slice() : PIDS.slice();
+  edDelay = it ? it.delay : 0;
+  $('#edTime').value = it && it.time ? it.time : nextHour();
+  $('#edDelete').hidden = !it;
+  $('#edErr').hidden = true;
+  renderEdChips(); renderEdWhen();
+  $('#editor').hidden = false; document.body.classList.add('locked');
+}
+function closeEditor(){ $('#editor').hidden = true; if(!C.open) document.body.classList.remove('locked'); }
+function edCountVal(){ return parseInt(digitsToLatin($('#edCount').value).replace(/[^0-9]/g, ''), 10); }
+function renderEdChips(){
+  const txt = $('#edText').value.trim(); const cnt = edCountVal();
+  $('#edQuick').innerHTML = QUICK_TEXTS.map(t => '<button type="button" data-qt="' + escapeHtml(t) + '" aria-pressed="' + (t === txt) + '">' + escapeHtml(t) + '</button>').join('');
+  $('#edCounts').innerHTML = QUICK_COUNTS.map(c => '<button type="button" data-qc="' + c + '" aria-pressed="' + (c === cnt) + '">' + n(c) + '</button>').join('');
+  renderEdTotal();
+}
+function renderEdTotal(){
+  const cnt = edCountVal(); const el = $('#edTotal');
+  if(edWhen === 'prayer' && Number.isFinite(cnt) && cnt > 0 && edPrayers.length){
+    el.hidden = false; el.textContent = 'في اليوم: ' + n(edPrayers.length) + ' × ' + n(cnt) + ' = ' + n(edPrayers.length * cnt);
+  } else el.hidden = true;
+}
+function renderEdWhen(){
+  setSeg('#edWhenSeg', edWhen);
+  $('#edWhenPick').hidden = edWhen !== 'time';
+  $('#edPrayerPick').hidden = edWhen !== 'prayer';
+  $('#edCountLabel').textContent = edWhen === 'prayer' ? 'العدد بعد كل صلاة' : 'العدد في اليوم';
+  $('#edPreset').hidden = !(edWhen === 'prayer' && !edId);
+  if(edWhen === 'prayer'){
+    const pt = prayerTimesFor(todayKey());
+    $('#edPrayers').innerHTML = PRAYERS.map(p => '<button type="button" data-pr="' + p.id + '" aria-pressed="' + (edPrayers.indexOf(p.id) >= 0) + '"><b>' + p.name + '</b><span>' + fmtTime(pt[p.id]) + '</span></button>').join('');
+    $('#edDelays').innerHTML = DELAYS.map(d => '<button type="button" data-v="' + d.v + '" aria-pressed="' + (String(d.v) === String(edDelay)) + '">' + digits(d.l) + '</button>').join('');
+  }
+  $('#edWhenHint').textContent = edWhen === 'time'
+    ? 'في هذا الوقت يتصدّر الذكر أعلى الشاشة ويظهر تنبيهه، والعدد يُحسب لليوم كله.'
+    : edWhen === 'prayer'
+      ? 'يتصدّر الشاشة عند كل صلاة اخترتها حسب توقيت ' + currentCity().name + '، بأوقات اليوم الظاهرة، و«بعد الصلاة» تقريبًا حسب أوقات الإقامة.'
+      : 'يظهر في قائمة «في أي وقت خلال اليوم»، وتكمل عدده متى شئت قبل نهاية اليوم.';
+  renderEdTotal();
+}
+function edError(msg){ const e = $('#edErr'); e.textContent = msg; e.hidden = false; }
+function saveEditor(){
+  const text = $('#edText').value.trim().replace(/\s+/g, ' ');
+  const target = edCountVal();
+  if(!text) return edError('اكتب نص الذكر أو اختر واحدًا من المقترحات.');
+  if(!Number.isFinite(target) || target < 1 || target > 100000) return edError('حدّد العدد: من ' + n(1) + ' إلى ' + n(100000) + '.');
+  let time = '', prayers = [], delay = 0;
+  if(edWhen === 'time'){ time = $('#edTime').value; if(!/^\d{2}:\d{2}$/.test(time)) return edError('اختر وقت التذكير، أو اختر «في أي وقت».'); }
+  if(edWhen === 'prayer'){ prayers = PIDS.filter(p => edPrayers.indexOf(p) >= 0); delay = edDelay; if(!prayers.length) return edError('اختر صلاة واحدة على الأقل.'); }
+  const note = $('#edNote').value.trim();
+  const tag = $('#edTag').value.trim().replace(/\s+/g, ' ').slice(0, 40);
+  const meaning = $('#edMeaning').value.trim().slice(0, 800);
+  const wasEdit = !!edId;
+  const fields = {text, target, time, prayers, delay, note, tag, meaning};
+  if(edId){ const it = itemById(edId); if(it) Object.assign(it, fields); }
+  else state.items.push(Object.assign({id:uid('i'), created:Date.now()}, fields));
+  state.sample = false;
+  afterItemsChanged();
+  closeEditor();
+  toast(wasEdit ? 'حُفظ التعديل' : (prayers.length ? 'أُضيف، وسيتصدّر الشاشة ' + (prayers.length === 5 ? 'بعد كل أذان' : 'بعد الصلوات التي اخترتها') : (time ? 'أُضيف، وسيتصدّر الشاشة الساعة ' + fmtTime(time) : 'أُضيف إلى وردك')));
+}
+function addAfterPrayerSet(){
+  const prayers = PIDS.filter(p => edPrayers.indexOf(p) >= 0);
+  if(!prayers.length) return edError('اختر صلاة واحدة على الأقل.');
+  afterPrayerSet(prayers, edDelay).forEach(x => state.items.push(Object.assign({id:uid('i'), created:Date.now()}, x)));
+  state.sample = false;
+  afterItemsChanged(); closeEditor();
+  toast('أُضيف تسبيح ما بعد الصلاة: ' + n(4) + ' أذكار');
+}
+function deleteItem(){
+  if(!edId) return;
+  state.items = state.items.filter(i => i.id !== edId);
+  state.sample = false;
+  afterItemsChanged(); closeEditor(); toast('حُذف الذكر من وردك');
+}
+function afterItemsChanged(){ refreshToday(); checkUnlocks(); markDirty(); renderAll(); }
+
+/* ---------- bead drawing ---------- */
+function themeColors(){
+  const cs = getComputedStyle(document.documentElement); const g = v => cs.getPropertyValue(v).trim();
+  return {thread:g('--thread'), accent:g('--accent'), done:g('--done'), rim:g('--rim') || 'rgba(0,0,0,.2)', ghost:parseFloat(g('--ghost')) || 0.2};
+}
+function hexA(hex, a){ const h = hex.replace('#', ''); const v = parseInt(h, 16); return 'rgba(' + (v >> 16 & 255) + ',' + (v >> 8 & 255) + ',' + (v & 255) + ',' + a + ')'; }
+function prepCanvas(cv){
+  const r = cv.getBoundingClientRect(); if(r.width < 2 || r.height < 2) return null;
+  const dpr = Math.min(3, window.devicePixelRatio || 1);
+  const W = Math.round(r.width * dpr), H = Math.round(r.height * dpr);
+  if(cv.width !== W || cv.height !== H){ cv.width = W; cv.height = H; }
+  const ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx._w = r.width; ctx._h = r.height; return ctx;
+}
+const sprites = new Map();
+function paintBead(c, x, y, r, mat, rim){
+  const g = c.createRadialGradient(x - r * .38, y - r * .42, r * .08, x, y, r);
+  g.addColorStop(0, mat.light); g.addColorStop(.52, mat.base); g.addColorStop(1, mat.dark);
+  c.fillStyle = g; c.beginPath(); c.arc(x, y, r, 0, Math.PI * 2); c.fill();
+  c.lineWidth = Math.max(.5, r * .07); c.strokeStyle = rim; c.stroke();
+  if(mat.id === 'amber' || mat.id === 'turq'){
+    const g2 = c.createRadialGradient(x + r * .28, y + r * .32, 0, x + r * .28, y + r * .32, r * .62);
+    g2.addColorStop(0, hexA(mat.light, .6)); g2.addColorStop(1, hexA(mat.light, 0));
+    c.fillStyle = g2; c.beginPath(); c.arc(x, y, r, 0, Math.PI * 2); c.fill();
+  }
+  if(mat.id === 'pearl'){
+    const g3 = c.createLinearGradient(x - r, y - r, x + r, y + r);
+    g3.addColorStop(0, 'rgba(255,190,220,.22)'); g3.addColorStop(.5, 'rgba(255,255,255,0)'); g3.addColorStop(1, 'rgba(170,200,255,.25)');
+    c.fillStyle = g3; c.beginPath(); c.arc(x, y, r, 0, Math.PI * 2); c.fill();
+  }
+  if(r > 2.4){ c.fillStyle = 'rgba(255,255,255,.55)'; c.beginPath(); c.ellipse(x - r * .33, y - r * .4, r * .24, r * .14, -.6, 0, Math.PI * 2); c.fill(); }
+}
+function beadSprite(mat, r, rim){
+  const dpr = Math.min(3, window.devicePixelRatio || 1);
+  const key = mat.id + '|' + r.toFixed(2) + '|' + rim + '|' + dpr;
+  let s = sprites.get(key); if(s) return s;
+  const pad = 2, half = r + pad, size = Math.ceil(half * 2 * dpr);
+  const cv = document.createElement('canvas'); cv.width = cv.height = size;
+  const c = cv.getContext('2d'); c.scale(dpr, dpr); paintBead(c, half, half, r, mat, rim);
+  s = {cv, half}; if(sprites.size > 80) sprites.clear(); sprites.set(key, s); return s;
+}
+function drawBead(ctx, x, y, r, mat, alpha, glow, rim, scale){
+  scale = scale || 1;
+  if(glow > 0){
+    const R = r * scale * 3.2; const g = ctx.createRadialGradient(x, y, 0, x, y, R);
+    g.addColorStop(0, hexA(mat.light, Math.min(.7, .5 * glow))); g.addColorStop(1, hexA(mat.light, 0));
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, R, 0, Math.PI * 2); ctx.fill();
+  }
+  const s = beadSprite(mat, r, rim);
+  ctx.globalAlpha = alpha; ctx.drawImage(s.cv, x - s.half * scale, y - s.half * scale, s.half * 2 * scale, s.half * 2 * scale); ctx.globalAlpha = 1;
+}
+function capsule(ctx, x, y, w, h, mat, rim){
+  const g = ctx.createLinearGradient(x - w / 2, y, x + w / 2, y);
+  g.addColorStop(0, mat.dark); g.addColorStop(.35, mat.light); g.addColorStop(.7, mat.base); g.addColorStop(1, mat.dark);
+  const r = w / 2; ctx.beginPath();
+  ctx.moveTo(x - w / 2, y - h / 2 + r); ctx.arc(x, y - h / 2 + r, r, Math.PI, 0); ctx.lineTo(x + w / 2, y + h / 2 - r); ctx.arc(x, y + h / 2 - r, r, 0, Math.PI); ctx.closePath();
+  ctx.fillStyle = g; ctx.fill(); ctx.lineWidth = Math.max(.6, w * .06); ctx.strokeStyle = rim; ctx.stroke();
+}
+/* a misbaha: beads on a thread, filling from the imam bead at the bottom, right side first */
+function drawRing(ctx, o){
+  const w = ctx._w, h = ctx._h, T = themeColors(), mat = o.mat;
+  ctx.clearRect(0, 0, w, h);
+  const size = Math.min(w, h), cx = w / 2, cy = h / 2;
+  const R = size / 2 * (o.tassel ? .76 : .84);
+  const cap = Math.max(1, o.cap);
+  const gap = o.tassel ? .5 : .38;
+  const step = cap > 1 ? (Math.PI * 2 - gap) / (cap - 1) : 0;
+  let r = cap > 1 ? Math.min(R * step * .42, R * .115) : R * .12; r = Math.max(r, 1.6);
+  const a0 = Math.PI / 2 - gap / 2;
+  ctx.lineCap = 'round';
+  ctx.lineWidth = Math.max(1, r * .22); ctx.strokeStyle = T.thread;
+  ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.stroke();
+  if(o.lit > 0 && cap > 1){
+    ctx.globalAlpha = .6; ctx.lineWidth = Math.max(1.4, r * .32); ctx.strokeStyle = o.complete ? T.done : T.accent;
+    ctx.beginPath(); ctx.arc(cx, cy, R, a0, a0 - (Math.min(o.lit, cap) - 1) * step, true); ctx.stroke(); ctx.globalAlpha = 1;
+  }
+  if(o.sep && cap > o.sep){
+    ctx.lineWidth = Math.max(1.5, r * .34);
+    for(let k = o.sep; k < cap; k += o.sep){
+      const a = a0 - (k - .5) * step, r1 = R + r * 1.6, r2 = r1 + Math.max(4, r * 1.1);
+      ctx.strokeStyle = o.lit >= k ? T.accent : T.thread;
+      ctx.beginPath(); ctx.moveTo(cx + r1 * Math.cos(a), cy + r1 * Math.sin(a)); ctx.lineTo(cx + r2 * Math.cos(a), cy + r2 * Math.sin(a)); ctx.stroke();
+    }
+  }
+  const iw = Math.max(r * 1.3, 4), ih = Math.max(r * 2.3, 7), iy = cy + R;
+  if(o.tassel){
+    const tl = Math.min(size * .1, h - (iy + ih / 2) - 4);
+    if(tl > 6){
+      ctx.strokeStyle = mat.dark; ctx.lineWidth = 1.2; ctx.globalAlpha = .85;
+      for(let s = -3; s <= 3; s++){
+        ctx.beginPath(); ctx.moveTo(cx + s * .7, iy + ih * .45);
+        ctx.quadraticCurveTo(cx + s * 1.5, iy + ih / 2 + tl * .5, cx + s * 2.6, iy + ih / 2 + tl); ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    }
+  }
+  capsule(ctx, cx, iy, iw, ih, mat, T.rim);
+  /* a travelling light (the "it's time" call): beads near it brighten as it passes */
+  let beamA = null;
+  if(o.beam != null){
+    beamA = a0 - o.beam * (Math.PI * 2 - gap);
+    const bx = cx + R * Math.cos(beamA), by = cy + R * Math.sin(beamA), br = Math.max(r * 4.5, 10);
+    const g = ctx.createRadialGradient(bx, by, 0, bx, by, br);
+    g.addColorStop(0, hexA(T.accent, .55)); g.addColorStop(1, hexA(T.accent, 0));
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(bx, by, br, 0, Math.PI * 2); ctx.fill();
+  }
+  for(let i = 0; i < cap; i++){
+    const a = a0 - i * step, x = cx + R * Math.cos(a), y = cy + R * Math.sin(a);
+    const lit = i < o.lit, hi = lit && i === o.highlight;
+    let alpha = lit ? 1 : T.ghost, scale = hi ? 1 + .45 * (o.pop || 0) : 1;
+    if(beamA != null){
+      let d = Math.abs(a - beamA) % (Math.PI * 2); if(d > Math.PI) d = Math.PI * 2 - d;
+      const near = Math.max(0, 1 - d / (step * 3.5));
+      alpha = Math.min(1, alpha + near * .8); scale += near * .35;
+    }
+    drawBead(ctx, x, y, r, mat, alpha, hi ? .5 + (o.pop || 0) : (o.complete ? .25 : 0), T.rim, scale);
+  }
+}
+function drawHeroRing(pr){
+  const ctx = prepCanvas($('#heroRing')); if(!ctx) return;
+  drawRing(ctx, {cap:33, lit: pr.done ? 33 : Math.floor(pr.ratio * 33), mat:currentMat(), tassel:false, highlight:-1, sep:11, complete:pr.done});
+}
+
+/* ---------- senses: vibration and sound ---------- */
+function vib(p){
+  /* browsers refuse vibration until the person has touched the page once */
+  try{ if(navigator.userActivation && !navigator.userActivation.hasBeenActive) return; if(navigator.vibrate) navigator.vibrate(p); }catch(e){}
+}
+function iosHaptic(){
+  /* iOS 18+ gives a light tap when a switch control toggles; Safari has no vibration API */
+  try{
+    const label = document.createElement('label'); label.setAttribute('aria-hidden', 'true'); label.style.display = 'none';
+    const input = document.createElement('input'); input.type = 'checkbox'; input.setAttribute('switch', '');
+    label.appendChild(input); document.head.appendChild(label); label.click(); document.head.removeChild(label);
+  }catch(e){}
+}
+/* iPhone pauses web audio after app switches, calls or the screen locking ("interrupted"),
+   and only lets it start again from a touch, so every touch nudges it back to running */
+let actx = null, noiseBuf = null, unlocked = false;
+function ensureAudio(){
+  try{
+    if(actx && actx.state === 'closed'){ actx = null; unlocked = false; }
+    if(!actx){
+      const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return null;
+      actx = new AC();
+      const len = Math.floor(actx.sampleRate * .06); noiseBuf = actx.createBuffer(1, len, actx.sampleRate);
+      const d = noiseBuf.getChannelData(0); for(let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
+    }
+    if(actx.state !== 'running') actx.resume().catch(() => {});
+    if(!unlocked){
+      const b = actx.createBuffer(1, 1, actx.sampleRate); const src = actx.createBufferSource();
+      src.buffer = b; src.connect(actx.destination); src.start(0); unlocked = true;
+    }
+  }catch(e){ actx = null; unlocked = false; }
+  return actx;
+}
+function env(t, peak, attack, decay){
+  const g = actx.createGain();
+  g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + attack); g.gain.exponentialRampToValueAtTime(.0001, t + decay);
+  g.connect(actx.destination); return g;
+}
+function noise(t, filterType, f, q, peak, decay){
+  const s = actx.createBufferSource(); s.buffer = noiseBuf;
+  const fl = actx.createBiquadFilter(); fl.type = filterType; fl.frequency.value = f; fl.Q.value = q;
+  s.connect(fl); fl.connect(env(t, peak, .002, decay)); s.start(t); s.stop(t + decay + .02);
+}
+function osc(t, type, f0, f1, glide, peak, attack, decay){
+  const o = actx.createOscillator(); o.type = type;
+  o.frequency.setValueAtTime(f0, t); if(f1 && f1 !== f0) o.frequency.exponentialRampToValueAtTime(f1, t + glide);
+  o.connect(env(t, peak, attack, decay)); o.start(t); o.stop(t + decay + .03);
+}
+/* the original bead clack: a burst of noise through a narrow band */
+function clack(t, f, gain){ noise(t, 'bandpass', f, 7, gain, .05); }
+function tone(t, f, gain, dur){ osc(t, 'sine', f, f, 0, gain, .008, dur); }
+
+/* tap sounds to choose from; each has a tap and a softer marker for every 11 or 33 */
+const SOUND_FX = {
+  beads: {
+    tick: (t, j) => { clack(t, 2900 + j(400), .5); clack(t + .014, 2300 + j(400), .25); },
+    sep:  (t, j) => { clack(t, 1700 + j(400), .6); clack(t + .016, 1300 + j(400), .35); tone(t, 523.25, .06, .2); }
+  },
+  drop: {   /* a clear water drop: a sine gliding quickly upwards */
+    tick: (t, j) => osc(t, 'sine', 640 + j(60), 1500, .05, .1, .004, .12),
+    sep:  (t, j) => { osc(t, 'sine', 520, 1250, .06, .1, .004, .14); osc(t + .11, 'sine', 700, 1650, .05, .075, .004, .12); }
+  },
+  wood: {   /* a warm knock on wood */
+    tick: (t, j) => { osc(t, 'sine', 820 + j(40), 760, .06, .13, .002, .09); noise(t, 'lowpass', 2200, .7, .055, .025); },
+    sep:  (t, j) => { osc(t, 'sine', 600, 560, .06, .14, .002, .1); noise(t, 'lowpass', 1600, .7, .06, .03); osc(t + .12, 'sine', 600, 560, .06, .095, .002, .1); }
+  },
+  soft: {   /* a small, smooth tick */
+    tick: (t, j) => { osc(t, 'sine', 1480 + j(30), 1480, 0, .09, .003, .08); osc(t, 'sine', 2960, 2960, 0, .022, .003, .05); },
+    sep:  (t, j) => { osc(t, 'sine', 1175, 1175, 0, .1, .003, .14); osc(t + .1, 'sine', 1480, 1480, 0, .08, .003, .14); }
+  },
+  breath: { /* a light breath of air */
+    tick: (t, j) => noise(t, 'bandpass', 1300 + j(150), .9, .42, .09),
+    sep:  (t, j) => { noise(t, 'bandpass', 900, .8, .44, .14); noise(t + .13, 'bandpass', 1300, .9, .34, .1); }
+  }
+};
+function sound(kind, styleOverride){
+  if(!actx || !noiseBuf) return;
+  if(actx.state !== 'running'){ actx.resume().catch(() => {}); return; }
+  const t = actx.currentTime + .005, j = r => (Math.random() - .5) * (r || 400);
+  const fx = SOUND_FX[styleOverride || state.settings.soundStyle] || SOUND_FX.beads;
+  if(kind === 'tick') fx.tick(t, j);
+  else if(kind === 'sep') fx.sep(t, j);
+  else if(kind === 'done'){ clack(t, 2600, .4); tone(t + .02, 880, .12, 1.3); tone(t + .02, 1320, .05, 1); tone(t + .02, 2640, .015, .6); }
+  else if(kind === 'day'){ [659.25, 880, 1318.5].forEach((f, i) => { tone(t + i * .14, f, .1, 1.4); tone(t + i * .14, f * 2, .02, .8); }); }
+  else if(kind === 'remind'){ tone(t, 784, .1, .9); tone(t + .22, 1046.5, .1, 1.1); }
+}
+/* a short sample of a sound, for choosing one in settings */
+function previewSound(style){
+  ensureAudio();
+  [0, 260, 520].forEach((ms, i) => setTimeout(() => sound(i === 2 ? 'sep' : 'tick', style), ms + 30));
+}
+function feedback(kind){
+  const s = state.settings;
+  if(s.haptics){
+    const k = ({light:.7, medium:1.2, strong:2})[s.strength] || 1.2;
+    const P = {tick:[Math.round(12 * k)], sep:[Math.round(22 * k), 60, Math.round(22 * k)], done:[Math.round(35 * k), 70, Math.round(35 * k), 70, Math.round(90 * k)], day:[80, 90, 80, 90, 220], remind:[200, 120, 200]};
+    vib(P[kind] || P.tick);
+  }
+  if(s.sound) sound(kind);
+}
+let wakeLock = null;
+async function keepAwake(on){
+  try{
+    if(on && state.settings.wake && 'wakeLock' in navigator && !wakeLock){
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener('release', () => { wakeLock = null; });
+    }else if(!on && wakeLock){ const w = wakeLock; wakeLock = null; await w.release(); }
+  }catch(e){ wakeLock = null; }
+}
+
+/* ---------- the counter ---------- */
+const C = {open:false, id:null, day:null, qada:false, meaningOpen:false, tapStart:null, free:false, lockUntil:0, lastTap:0, pop:0, popAt:0, raf:0, autoT:0, tapped:false, iosPending:false, ctx:null};
+function ringModel(){
+  const rec = state.days[C.day || todayKey()];
+  const count = C.free ? ((rec && rec.f) || 0) : countOf(C.id, rec);
+  if(C.free) return {count, target:Infinity, cap:33, lit: count ? ((count - 1) % 33) + 1 : 0, round:Math.max(1, Math.ceil(count / 33)), rounds:0};
+  const e = entryFor(C.id, C.day); const target = e ? e.target : 1;
+  if(target <= 100) return {count, target, cap:target, lit:Math.min(count, target), round:0, rounds:0};
+  const c = Math.min(count, target);
+  return {count, target, cap:100, lit: c ? ((c - 1) % 100) + 1 : 0, round:Math.max(1, Math.ceil(c / 100)), rounds:Math.ceil(target / 100)};
+}
+function sepEvery(cap){ if(C.free) return 11; if(cap >= 22 && cap <= 40) return 11; if(cap >= 66) return 33; return 0; }
+function drawCounterRing(){
+  if(!C.open) return;
+  if(!C.ctx || !C.ctx._w) C.ctx = prepCanvas($('#ring'));
+  if(!C.ctx) return;
+  const m = ringModel();
+  drawRing(C.ctx, {cap:m.cap, lit:m.lit, mat:currentMat(), tassel:true, highlight:m.lit - 1, pop:C.pop, sep:sepEvery(m.cap), complete: !C.free && m.count >= m.target});
+}
+function sizeRing(){ C.ctx = prepCanvas($('#ring')); drawCounterRing(); }
+function clearSelection(){
+  try{
+    const ae = document.activeElement;
+    if(ae && ae.matches && ae.matches('input, textarea')) return;
+    const sel = window.getSelection && window.getSelection();
+    if(sel && sel.rangeCount) sel.removeAllRanges();
+  }catch(e){}
+}
+function openCounter(id, free, day){
+  clearSelection();
+  day = free ? todayKey() : (day || todayKey());
+  if(!free && !entryFor(id, day)) return;
+  C.free = !!free; C.id = free ? null : id; C.day = day; C.qada = !free && isMissedEntry(id, day);
+  C.open = true; C.lockUntil = 0; C.pop = 0;
+  clearTimeout(C.autoT);
+  $('#counter').hidden = false; document.body.classList.add('locked');
+  renderCounter(); keepAwake(true);
+  requestAnimationFrame(sizeRing);
+  try{ $('#tapzone').focus({preventScroll:true}); }catch(e){}
+}
+function closeCounter(){
+  if(!C.open) return;
+  C.open = false; clearTimeout(C.autoT);
+  $('#counter').hidden = true;
+  if($('#editor').hidden) document.body.classList.remove('locked');
+  keepAwake(false); flushAll(); renderTab();
+}
+function renderCounter(){
+  if(!C.open) return;
+  const e = C.free ? null : entryFor(C.id, C.day);
+  if(!C.free && !e){ closeCounter(); return; }
+  const m = ringModel(); const text = C.free ? 'سبّح بما شئت' : e.item.text;
+  if(C.free){ $('#cTitle').textContent = 'مسبحة حرة'; $('#cFadl').textContent = 'تُضاف إلى مجموع تسبيحاتك'; }
+  else {
+    if(C.qada){
+      const open = missedList().filter(x => !x.done).length;
+      $('#cTitle').textContent = 'قضاء: ' + missLabel(e) + (C.day !== todayKey() ? '، أمس' : '') + (open > 1 ? ' (باقي ' + n(open) + ')' : '');
+    } else {
+      const sibs = sameGroup(e).map(x => x.key); const pos = sibs.indexOf(e.key);
+      const head = e.prayer ? (e.item.delay === 'prayer' ? 'بعد صلاة ' : 'بعد أذان ') + e.prayer.name : (e.time ? 'ورد الساعة ' + fmtTime(e.time) : 'في أي وقت خلال اليوم');
+      $('#cTitle').textContent = head + (sibs.length > 1 ? ' (' + n(pos + 1) + ' من ' + n(sibs.length) + ')' : '');
+    }
+    $('#cFadl').textContent = e.item.note || '';
+  }
+  const te = $('#cText'); te.textContent = text; te.classList.toggle('long', text.length > 42);
+  const tagEl = $('#cTag'); const tag = e ? e.item.tag : '';
+  tagEl.hidden = !tag; tagEl.textContent = tag || '';
+  renderMeaning(e);
+  const done = !C.free && m.count >= m.target;
+  $('#cCount').textContent = n(m.count);
+  $('#cOf').textContent = C.free ? 'الدورة ' + n(m.round) : (done ? 'تقبّل الله' : 'من ' + n(m.target));
+  $('#cRound').textContent = (!C.free && m.rounds > 1) ? 'الدورة ' + n(m.round) + ' من ' + n(m.rounds) : '';
+  $('#counter').classList.toggle('is-complete', done);
+  $('#counter').classList.toggle('is-qada', C.qada);
+  $('#cNext').hidden = C.free;
+  const sb = $('#cSound'); sb.innerHTML = icon(state.settings.sound ? 'vol' : 'volx'); sb.setAttribute('aria-pressed', String(!!state.settings.sound));
+  $('#cHaptic').setAttribute('aria-pressed', String(!!state.settings.haptics));
+  $('#cHint').style.opacity = C.tapped ? '0' : '1';
+  drawCounterRing();
+}
+/* the meaning card floats over the beads; taps on it still count */
+function renderMeaning(e){
+  const meaning = e ? e.item.meaning : '';
+  $('#cMeanBtn').hidden = !meaning;
+  const box = $('#cMeaning');
+  const counter = $('#counter');
+  if(!meaning || !C.meaningOpen){ box.hidden = true; counter.classList.remove('mn-open'); return; }
+  $('#mnTitle').textContent = e.item.tag || 'معنى الذكر';
+  $('#mnText').textContent = meaning;
+  box.hidden = false;
+  /* lift the beads above the card so the count stays in view */
+  requestAnimationFrame(() => { counter.style.setProperty('--mnh', box.offsetHeight + 'px'); counter.classList.add('mn-open'); });
+}
+function toggleMeaning(force){
+  C.meaningOpen = force == null ? !C.meaningOpen : !!force;
+  const e = C.free ? null : entryFor(C.id, C.day);
+  renderMeaning(e);
+  $('#cMeanBtn').setAttribute('aria-pressed', String(C.meaningOpen));
+}
+function easeOut(k){ return 1 - Math.pow(1 - k, 3); }
+function animate(){
+  if(C.raf) return;
+  const step = () => {
+    const k = Math.min(1, (performance.now() - C.popAt) / 260);
+    C.pop = 1 - easeOut(k); drawCounterRing();
+    const alive = stepParticles();
+    C.raf = (k < 1 || alive) ? requestAnimationFrame(step) : 0;
+  };
+  C.raf = requestAnimationFrame(step);
+}
+function ripple(pt){
+  if(reduceMotion) return;
+  const z = $('#tapzone'); const r = z.getBoundingClientRect();
+  const el = document.createElement('span'); el.className = 'ripple';
+  el.style.left = (pt ? pt.x - r.left : r.width / 2) + 'px'; el.style.top = (pt ? pt.y - r.top : r.height / 2) + 'px';
+  z.appendChild(el); setTimeout(() => el.remove(), 700);
+}
+function bump(){ const el = $('#cCount'); el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); clearTimeout(bump.t); bump.t = setTimeout(() => el.classList.remove('bump'), 120); }
+function flashZone(){ const z = $('#tapzone'); z.classList.remove('flash'); void z.offsetWidth; z.classList.add('flash'); }
+
+function doCount(pt){
+  const now = performance.now();
+  if(!C.open || now - C.lastTap < 40 || now < C.lockUntil) return;
+  C.lastTap = now; clearSelection();
+  const m0 = ringModel();
+  if(!C.free && m0.count >= m0.target){ goNext(); return; }
+  const res = addCount(C.free ? null : C.id, 1, C.day); if(!res) return;
+  C.tapped = true; C.iosPending = true;
+  const m = ringModel(); const doneNow = !C.free && m.count >= m.target;
+  if(doneNow && C.qada) state.stats.qada = (state.stats.qada || 0) + 1;
+  let kind = 'tick';
+  if(doneNow) kind = 'done';
+  else { const se = sepEvery(m.cap); if((se && m.count % se === 0) || (m.cap === 100 && m.count % 100 === 0)) kind = 'sep'; }
+  feedback(kind); ripple(pt); bump();
+  if(kind === 'sep') flashZone();
+  C.pop = 1; C.popAt = now; animate();
+  renderCounter();
+  const unl = checkUnlocks();
+  if(doneNow) onItemDone(res, unl);
+  else unl.badges.forEach(b => toast('وسام جديد: ' + b.name));
+}
+function onItemDone(res, unl){
+  C.lockUntil = performance.now() + 900; burst();
+  if(res.dayJustDone && res.day !== todayKey()) toast('اكتمل ورد أمس بالقضاء، ومداومتك محفوظة', 3600);
+  else if(res.dayJustDone){
+    setTimeout(() => feedback('day'), 350);
+    C.autoT = setTimeout(() => { closeCounter(); showDayDone(unl); }, 1400);
+    return;
+  }
+  unl.badges.forEach(b => toast('وسام جديد: ' + b.name));
+  const cur = entryFor(C.id, C.day);
+  const nx = C.qada ? nextMissedAfter(C.id, C.day) : (cur ? queueAfter(cur) : null);
+  C.autoT = setTimeout(() => {
+    if(!C.open) return;
+    if(nx) switchTo(nx);
+    else { closeCounter(); toast(C.qada ? 'قضيت كل ما فاتك، تقبّل الله' : 'تقبّل الله، أتممت هذا الورد'); }
+  }, 1500);
+}
+function goNext(){
+  clearTimeout(C.autoT);
+  const cur = entryFor(C.id, C.day); const f = featured();
+  const nx = C.qada ? nextMissedAfter(C.id, C.day)
+    : ((cur && queueAfter(cur)) || (f.entry && !(f.entry.key === C.id && (f.entry.day || todayKey()) === C.day) ? f.entry : null));
+  if(nx) switchTo(nx);
+  else { closeCounter(); toast(f.kind === 'done' ? 'أتممت ورد اليوم، تقبّل الله' : 'لا يوجد ذكر آخر الآن'); }
+}
+function switchTo(it){
+  const t = $('#cText'), f = $('#cFadl');
+  t.classList.add('swap'); f.classList.add('swap');
+  C.lockUntil = performance.now() + 260;
+  setTimeout(() => {
+    C.id = it.key; C.day = it.day || todayKey(); C.qada = isMissedEntry(C.id, C.day); C.pop = 0;
+    renderCounter(); t.classList.remove('swap'); f.classList.remove('swap');
+  }, 220);
+}
+function undo(){
+  if(!C.open) return;
+  const r = addCount(C.free ? null : C.id, -1, C.day); if(!r) return;
+  clearTimeout(C.autoT); C.lockUntil = 0;
+  feedback('tick'); renderCounter();
+}
+function resetCount(){
+  const m = ringModel(); if(!m.count) return;
+  addCount(C.free ? null : C.id, -m.count, C.day); clearTimeout(C.autoT); C.lockUntil = 0; renderCounter(); toast('صُفّر العداد');
+}
+
+/* ---------- particles ---------- */
+const P = []; let fxCtx = null;
+function burst(){
+  if(reduceMotion) return;
+  const fx = $('#fx'); fx.hidden = false; fxCtx = prepCanvas(fx); if(!fxCtx) return;
+  const z = $('#tapzone').getBoundingClientRect(); const cx = z.left + z.width / 2, cy = z.top + z.height / 2; const mat = currentMat();
+  for(let i = 0; i < 34; i++){
+    const a = Math.random() * Math.PI * 2, sp = 2.5 + Math.random() * 5.5;
+    P.push({x:cx, y:cy, vx:Math.cos(a) * sp, vy:Math.sin(a) * sp - 2, r:2.5 + Math.round(Math.random() * 8) / 2, life:0, max:50 + Math.random() * 40, mat});
+  }
+  animate();
+}
+function stepParticles(){
+  if(!P.length || !fxCtx) return false;
+  fxCtx.clearRect(0, 0, fxCtx._w, fxCtx._h); const rim = themeColors().rim;
+  for(let i = P.length - 1; i >= 0; i--){
+    const p = P[i]; p.life++; p.vy += .16; p.vx *= .985; p.x += p.vx; p.y += p.vy;
+    const a = 1 - p.life / p.max; if(a <= 0){ P.splice(i, 1); continue; }
+    drawBead(fxCtx, p.x, p.y, p.r, p.mat, a, 0, rim, 1);
+  }
+  if(!P.length){ fxCtx.clearRect(0, 0, fxCtx._w, fxCtx._h); $('#fx').hidden = true; }
+  return P.length > 0;
+}
+
+/* ---------- day complete, reminders, toasts ---------- */
+function showDayDone(unl){
+  const st = streakInfo(); const list = [];
+  list.push('<div class="unlock">' + icon('chain') + '<span>المداومة: ' + daysPhrase(Math.max(1, st.streak)) + '</span></div>');
+  if(unl && unl.material) list.push('<div class="unlock"><span class="swatch sm" style="' + matStyle(unl.material) + '"></span><span>فُتحت لك ' + unl.material.full + '، وصارت مسبحتك الآن</span></div>');
+  ((unl && unl.badges) || []).forEach(b => list.push('<div class="unlock">' + icon(b.icon) + '<span>وسام جديد: ' + b.name + '</span></div>'));
+  $('#ddList').innerHTML = list.join('');
+  $('#dayDone').hidden = false;
+  const ctx = prepCanvas($('#ddRing'));
+  if(ctx) drawRing(ctx, {cap:33, lit:33, mat:currentMat(), tassel:true, highlight:-1, sep:11, complete:true});
+  try{ $('#ddOk').focus({preventScroll:true}); }catch(e){}
+}
+function toast(msg, ms){
+  const host = $('#toasts'); const el = document.createElement('div'); el.className = 'toast'; el.textContent = msg;
+  host.appendChild(el); while(host.children.length > 3) host.firstChild.remove();
+  setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.remove(), 320); }, ms || 2600);
+}
+let fired = {};
+try{ fired = JSON.parse(localStorage.getItem(FIRED_KEY) || '{}') || {}; }catch(e){ fired = {}; }
+let lastKey = todayKey(), remindId = null, remindT = 0;
+/* runs every 20 s: day rollover, and the moment a dhikr's time arrives */
+function reminderTick(){
+  const k = todayKey();
+  if(k !== lastKey){ lastKey = k; prune(); renderAll(); }
+  const now = nowMin(); const rec = state.days[k]; const arrived = [];
+  for(const e of entries()){
+    if(!e.time) continue;
+    const diff = now - toMin(e.time); if(diff < 0 || diff > 30) continue;
+    const fk = k + '|' + e.key; if(fired[fk]) continue;
+    fired[fk] = 1;
+    if(countOf(e.key, rec) < e.target) arrived.push(e);
+  }
+  if(Object.keys(fired).some(key => key.indexOf(k) !== 0)) for(const key of Object.keys(fired)) if(key.indexOf(k) !== 0) delete fired[key];
+  try{ localStorage.setItem(FIRED_KEY, JSON.stringify(fired)); }catch(e){}
+  flagMissed(); renderBadge();
+  if(tab === 'today' && !C.open){
+    if(todaySig() !== lastSig) renderToday();
+    else { const f = featured(); const w = $('#featWhen'); if(w && f.kind === 'upcoming') w.textContent = whenLabel(f.entry) + '، ' + fmtIn(minsUntil(f.entry.time)); }
+  }
+  if(arrived.length) onArrive(arrived);
+}
+function onArrive(list){
+  feedback('remind');
+  if(tab === 'today' && !C.open && $('#editor').hidden){
+    const card = $('#feat'); card.classList.remove('arrive'); void card.offsetWidth; card.classList.add('arrive');
+    setTimeout(() => card.classList.remove('arrive'), 1200);
+    toast((list[0].prayer ? whenLabel(list[0]).split('،')[0] + ': ' : 'حان وقت: ') + list[0].item.text);
+  } else showReminder(list[0]);
+}
+function showReminder(e){
+  remindId = e.key;
+  const left = e.target - Math.min(countOf(e.key), e.target);
+  $('#rmTitle').textContent = 'حان وقت: ' + e.item.text;
+  $('#rmSub').textContent = (e.prayer ? whenLabel(e).split('،')[0] + '، ' : '') + 'العدد ' + n(e.target) + '، باقي ' + n(left);
+  $('#remind').hidden = false;
+  clearTimeout(remindT); remindT = setTimeout(() => { $('#remind').hidden = true; }, 90000);
+}
+
+/* ---------- wiring ---------- */
+function wire(){
+  document.addEventListener('click', e => {
+    const t = e.target.closest('[data-open],[data-edit],[data-act],[data-mat],[data-tab],[data-qt],[data-qc]');
+    if(!t) return;
+    const d = t.dataset;
+    if(d.open){ ensureAudio(); openCounter(d.open, false, d.day); }
+    else if(d.edit){ openEditor(d.edit); }
+    else if(d.tab){ setTab(d.tab); }
+    else if(d.mat){
+      const m = MATERIALS.find(x => x.id === d.mat); if(!m) return;
+      if(m.need <= (state.stats.maxDone || 0)){ state.material = m.id; markDirty(); renderProgress(); toast('مسبحتك الآن: ' + m.full); }
+      else toast('تُفتح بعد إتمام الورد ' + daysPhrase(m.need));
+    }
+    else if(d.qt !== undefined){ $('#edText').value = d.qt; edSuggest(); renderEdChips(); }
+    else if(d.qc !== undefined){ $('#edCount').value = digits(d.qc); renderEdChips(); }
+    else if(d.act === 'add') openEditor(null);
+    else if(d.act === 'free'){ ensureAudio(); openCounter(null, true); }
+    else if(d.act === 'to-missed') setTab('missed');
+    else if(d.act === 'qada-all'){ const first = missedList().find(x => !x.done); if(first){ ensureAudio(); openCounter(first.key, false, first.day); } }
+    else if(d.act === 'to-list'){ const s = $('#timedSec'); if(s) s.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block:'start'}); }
+    else if(d.act === 'dismiss-sample'){ state.sample = false; markDirty(); renderToday(); }
+    else if(d.act === 'dismiss-install'){ try{ localStorage.setItem('subha.installHint', '1'); }catch(err){} $('#installHint').hidden = true; }
+    else if(d.act === 'import'){ setTab('settings'); openImport(); setTimeout(() => { const r = $('#backupRow'); if(r) r.scrollIntoView({block:'center'}); }, 60); }
+  });
+
+  /* counter: the whole sheet counts, except its buttons */
+  const counter = $('#counter');
+  counter.addEventListener('pointerdown', e => {
+    if(e.target.closest('button, .c-head, .c-foot')) return;
+    /* on the meaning card a tap counts when the finger lifts, so the card can still scroll */
+    if(e.target.closest('.meaning')){ C.tapStart = {x:e.clientX, y:e.clientY, t:performance.now()}; return; }
+    if(e.pointerType === 'mouse' && e.button !== 0) return;
+    e.preventDefault(); if(e.pointerType === 'mouse') ensureAudio();
+    doCount({x:e.clientX, y:e.clientY});
+  });
+  counter.addEventListener('pointerup', e => {
+    if(e.target.closest('button, .c-head, .c-foot')) return;
+    ensureAudio();
+    if(C.tapStart){
+      const st = C.tapStart; C.tapStart = null;
+      if(Math.hypot(e.clientX - st.x, e.clientY - st.y) < 10 && performance.now() - st.t < 700) doCount({x:e.clientX, y:e.clientY});
+    }
+    if(e.pointerType !== 'touch' && C.iosPending){ C.iosPending = false; if(isIOS && state.settings.haptics) iosHaptic(); }
+  });
+  /* iPhone: stop double-tap selection, the Copy/Look Up menu and zoom on the counting area,
+     and do the sound unlock and haptic tap on touchend, which iOS treats as the person's gesture */
+  counter.addEventListener('touchstart', e => {
+    if(e.target.closest('button, .c-head, .c-foot, .meaning')) return;
+    if(e.cancelable) e.preventDefault();
+  }, {passive:false});
+  counter.addEventListener('touchend', e => {
+    if(e.target.closest('button, .c-head, .c-foot')) return;
+    ensureAudio();
+    if(C.iosPending){ C.iosPending = false; if(isIOS && state.settings.haptics) iosHaptic(); }
+  }, {passive:true});
+  counter.addEventListener('pointercancel', () => { C.tapStart = null; });
+  counter.addEventListener('contextmenu', e => e.preventDefault());
+  $('#cMeanBtn').addEventListener('click', () => toggleMeaning());
+  $('#mnClose').addEventListener('click', () => toggleMeaning(false));
+  $('#cClose').addEventListener('click', closeCounter);
+  $('#cUndo').addEventListener('click', undo);
+  $('#cNext').addEventListener('click', goNext);
+  $('#cReset').addEventListener('click', e => armed(e.currentTarget, icon('reset') + 'تأكيد', resetCount));
+  $('#cSound').addEventListener('click', () => { state.settings.sound = !state.settings.sound; if(state.settings.sound){ ensureAudio(); } markDirty(); renderCounter(); });
+  $('#cHaptic').addEventListener('click', () => { state.settings.haptics = !state.settings.haptics; markDirty(); renderCounter(); if(state.settings.haptics){ feedback('tick'); if(isIOS) iosHaptic(); } });
+  document.addEventListener('selectstart', e => {
+    const el = e.target && e.target.nodeType === 3 ? e.target.parentElement : e.target;
+    if(!el || !el.closest || !el.closest('input, textarea, select')) e.preventDefault();
+  });
+  document.addEventListener('touchend', () => ensureAudioSoft(), {passive:true});
+  document.addEventListener('keydown', e => {
+    if(!C.open || e.target.closest('input, textarea, select')) return;
+    const onButton = !!e.target.closest('button');
+    if((e.key === ' ' || e.key === 'Enter') && onButton) return;
+    if(e.key === ' ' || e.key === 'Enter' || e.key === 'ArrowUp' || e.key === '+'){ e.preventDefault(); if(!e.repeat){ ensureAudio(); doCount(null); } }
+    else if(e.key === 'Backspace' || e.key === 'ArrowDown' || e.key === '-'){ e.preventDefault(); undo(); }
+    else if(e.key === 'Escape') closeCounter();
+  });
+
+  /* editor */
+  $('#editor').addEventListener('click', e => { if(e.target.id === 'editor') closeEditor(); });
+  $('#edText').addEventListener('input', () => { edSuggest(); renderEdChips(); });
+  $('#edTag').addEventListener('input', () => { edTagAuto = !$('#edTag').value.trim(); });
+  $('#edMeaning').addEventListener('input', () => { edMeanAuto = !$('#edMeaning').value.trim(); });
+  $('#edCount').addEventListener('input', renderEdChips);
+  $('#edPlus').addEventListener('click', () => { const v = edCountVal() || 0; $('#edCount').value = digits(Math.min(100000, v + 1)); renderEdChips(); });
+  $('#edMinus').addEventListener('click', () => { const v = edCountVal() || 2; $('#edCount').value = digits(Math.max(1, v - 1)); renderEdChips(); });
+  $('#edSave').addEventListener('click', saveEditor);
+  $('#edCancel').addEventListener('click', closeEditor);
+  $('#edDelete').addEventListener('click', e => armed(e.currentTarget, 'تأكيد الحذف', deleteItem));
+  $('#edWhenSeg').addEventListener('click', e => {
+    const b = e.target.closest('button'); if(!b) return;
+    edWhen = b.dataset.v;
+    if(edWhen === 'time' && !/^\d{2}:\d{2}$/.test($('#edTime').value)) $('#edTime').value = nextHour();
+    if(edWhen === 'prayer' && !edId && edCountVal() === 100){ $('#edCount').value = digits(33); renderEdChips(); }
+    renderEdWhen();
+  });
+  $('#edPrayers').addEventListener('click', e => {
+    const b = e.target.closest('button[data-pr]'); if(!b) return;
+    const p = b.dataset.pr; const i = edPrayers.indexOf(p);
+    if(i >= 0) edPrayers.splice(i, 1); else edPrayers.push(p);
+    renderEdWhen();
+  });
+  $('#edDelays').addEventListener('click', e => {
+    const b = e.target.closest('button'); if(!b) return;
+    edDelay = b.dataset.v === 'prayer' ? 'prayer' : clampInt(b.dataset.v, 0, 120, 0);
+    renderEdWhen();
+  });
+  $('#edPreset').addEventListener('click', addAfterPrayerSet);
+
+  /* settings */
+  $('#setHaptics').addEventListener('change', e => { state.settings.haptics = e.target.checked; markDirty(); if(e.target.checked){ feedback('tick'); if(isIOS) iosHaptic(); } });
+  $('#setSound').addEventListener('change', e => { state.settings.sound = e.target.checked; markDirty(); if(e.target.checked){ ensureAudio(); setTimeout(() => sound('tick'), 30); } });
+  $('#setSoundStyle').addEventListener('click', e => {
+    const b = e.target.closest('button[data-v]'); if(!b) return;
+    state.settings.soundStyle = b.dataset.v;
+    if(!state.settings.sound){ state.settings.sound = true; $('#setSound').checked = true; }
+    markDirty(); renderSettings(); previewSound(b.dataset.v);
+  });
+  $('#setWake').addEventListener('change', e => { state.settings.wake = e.target.checked; markDirty(); });
+  $('#setStrength').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.settings.strength = b.dataset.v; markDirty(); setSeg('#setStrength', b.dataset.v); feedback('sep'); if(isIOS) iosHaptic(); });
+  $('#setDigits').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.settings.digits = b.dataset.v; markDirty(); renderSettings(); });
+  $('#setCity').addEventListener('change', e => {
+    if(!CITIES.some(c => c.id === e.target.value)) return;
+    state.settings.city = e.target.value; markDirty(); renderPrayerTimes(); renderRemRows();
+    toast('صارت مواقيت الصلاة حسب توقيت ' + currentCity().name);
+  });
+  $('#setDayStart').addEventListener('change', e => { state.settings.dayStart = clampInt(e.target.value, 0, 6, 3); lastKey = todayKey(); markDirty(); toast('سيبدأ يومك الجديد في الوقت الذي اخترته'); });
+  $('#testFx').addEventListener('click', () => {
+    ensureAudio(); if(isIOS) iosHaptic();
+    const s = state.settings; const prevH = s.haptics, prevS = s.sound; s.haptics = true; s.sound = true;
+    setTimeout(() => { feedback('done'); s.haptics = prevH; s.sound = prevS; }, 40);
+    toast(('vibrate' in navigator) ? 'إن لم تشعر بالاهتزاز فتأكد من إعدادات الاهتزاز في جوالك' : 'إن لم تشعر باهتزاز فجهازك لا يسمح به هنا، وستبقى المؤثرات الصوتية والمرئية');
+  });
+  $('#copyTimes').addEventListener('click', () => {
+    const txt = reminderText(); const box = $('#copyBox');
+    if(!txt){ toast('حدّد وقتًا لذكر واحد على الأقل'); return; }
+    const fallback = () => { box.hidden = false; box.value = txt; box.focus(); box.select(); toast('حدّد النص وانسخه'); };
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(() => { box.hidden = true; toast('نُسخت الأوقات، الصقها في محادثتك مع Claude'); }, fallback);
+      else fallback();
+    }catch(err){ fallback(); }
+  });
+  /* moving data between copies: a JSON backup copied and pasted */
+  $('#exportData').addEventListener('click', () => {
+    const txt = JSON.stringify({app:'subha', v:3, at:new Date().toISOString(), state});
+    const box = $('#backupBox');
+    const fallback = () => { box.hidden = false; box.readOnly = true; box.value = txt; box.focus(); box.select(); toast('حدّد النص كله وانسخه'); };
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(() => toast('نُسخت بياناتك، الصقها في «استيراد بيانات» في سُبحة الأخرى', 3600), fallback);
+      else fallback();
+    }catch(err){ fallback(); }
+  });
+  $('#importOpen').addEventListener('click', openImport);
+  $('#importCancel').addEventListener('click', closeImport);
+  $('#importDo').addEventListener('click', e => {
+    const err = $('#importErr'); err.hidden = true;
+    let parsed = null;
+    try{ parsed = JSON.parse($('#backupBox').value.trim()); }catch(x){}
+    const incoming = parsed && (parsed.state || parsed);
+    if(!incoming || !Array.isArray(incoming.items)){ err.textContent = 'هذا النص ليس نسخة من بيانات سُبحة. انسخه من «نسخ بياناتي» كاملًا ثم الصقه هنا.'; err.hidden = false; return; }
+    armed(e.currentTarget, 'تأكيد الاستبدال', () => {
+      state = normalize(incoming); state.updatedAt = Date.now();
+      markDirty(); saveLocal(); closeImport(); renderAll();
+      toast('استُوردت بياناتك: ' + n(state.items.length) + ' ' + (state.items.length === 1 ? 'ذكر' : 'أذكار'));
+    });
+  });
+  $('#resetAll').addEventListener('click', e => armed(e.currentTarget, 'تأكيد المسح', () => {
+    const keep = state.settings; state = sampleState(); state.settings = keep;
+    fired = {}; try{ localStorage.removeItem(FIRED_KEY); }catch(err){}
+    markDirty(); renderAll(); toast('بدأت من جديد بالورد المقترح');
+  }));
+
+  /* overlays */
+  $('#ddOk').addEventListener('click', () => { $('#dayDone').hidden = true; renderTab(); });
+  $('#rmGo').addEventListener('click', () => {
+    $('#remind').hidden = true; ensureAudio();
+    const e = entryByKey(remindId); if(!e) return;
+    if(C.open && C.id !== e.key) switchTo(e);
+    else if(!C.open){ if(tab !== 'today') setTab('today'); openCounter(e.key); }
+  });
+  $('#rmLater').addEventListener('click', () => { $('#remind').hidden = true; });
+
+  /* lifecycle */
+  document.addEventListener('visibilitychange', () => {
+    if(document.hidden) flushAll();
+    else {
+      reminderTick();
+      if(C.open) keepAwake(true);
+      else if(tab === 'today' && featured().kind === 'due') startFeatAnim();
+    }
+  });
+  window.addEventListener('pagehide', flushAll);
+  let rt = 0;
+  const onResize = () => { clearTimeout(rt); rt = setTimeout(() => {
+    if(tab === 'today'){ drawHeroRing(progressOf(state.items, state.days[todayKey()])); FA.ctx = null; drawFeatRing(null); }
+    if(C.open) sizeRing();
+  }, 100); };
+  window.addEventListener('resize', onResize);
+  if('ResizeObserver' in window) new ResizeObserver(() => { if(C.open) sizeRing(); }).observe($('#tapzone'));
+  const reTheme = () => { sprites.clear(); renderAll(); };
+  try{ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', reTheme); }catch(e){}
+  try{ new MutationObserver(reTheme).observe(document.documentElement, {attributes:true, attributeFilter:['data-theme']}); }catch(e){}
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(() => renderTab());
+}
+
+function openImport(){
+  const box = $('#backupBox'); box.hidden = false; box.readOnly = false; box.value = '';
+  $('#importActions').hidden = false; $('#importErr').hidden = true;
+  try{ box.focus(); }catch(e){}
+}
+function closeImport(){ $('#backupBox').hidden = true; $('#importActions').hidden = true; $('#importErr').hidden = true; }
+/* after the first touch anywhere, keep audio ready (only once something has asked for it) */
+function ensureAudioSoft(){ if(actx && actx.state !== 'running') ensureAudio(); }
+function init(){
+  hydrateIcons(document);
+  prune();
+  wire();
+  const h = (location.hash || '').replace('#', '');
+  setTab(['today', 'missed', 'progress', 'settings'].indexOf(h) >= 0 ? h : 'today');
+  setSaveStatus('local');
+  connectRemote();
+  setTimeout(reminderTick, 1200);
+  setInterval(reminderTick, 20000);
+}
+init();
+})();
+</script>
+<script>
+/* web-app extras: offline support, keeping data, and the install hint on iPhone */
+(function(){
+  'use strict';
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', function(){ navigator.serviceWorker.register('./sw.js').catch(function(){}); });
+  }
+  /* ask the browser to keep this app's data even when storage runs low */
+  try{ if(navigator.storage && navigator.storage.persist) navigator.storage.persist(); }catch(e){}
+
+  var standalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+  document.documentElement.classList.toggle('is-standalone', standalone);
+  var dismissed = false;
+  try{ dismissed = localStorage.getItem('subha.installHint') === '1'; }catch(e){}
+  var hint = document.getElementById('installHint');
+  if(hint && !standalone && !dismissed) hint.hidden = false;
+
+  /* on this device the data lives here, so the save line says so */
+  var status = document.getElementById('saveStatus');
+  if(status){
+    var note = 'محفوظ على هذا الجهاز. انسخ بياناتك احتياطيًا من حين لآخر';
+    new MutationObserver(function(){ if(status.textContent !== note) status.textContent = note; }).observe(status, {childList:true, characterData:true, subtree:true});
+    status.textContent = note;
+  }
+})();
+</script>
+</body>
+</html>
