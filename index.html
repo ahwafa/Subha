@@ -2261,13 +2261,14 @@ function reminderTick(){
   }
   if(arrived.length) onArrive(arrived);
 }
+/* a dhikr's time came while the app is open: a clear window (a passing toast was too easy to miss), plus the card's pulse */
 function onArrive(list){
   feedback('remind');
   if(tab === 'today' && !C.open && $('#editor').hidden){
     const card = $('#feat'); card.classList.remove('arrive'); void card.offsetWidth; card.classList.add('arrive');
     setTimeout(() => card.classList.remove('arrive'), 1200);
-    toast((list[0].prayer ? whenLabel(list[0]).split('،')[0] + ': ' : 'حان وقت: ') + list[0].item.text);
-  } else showReminder(list[0]);
+  }
+  showReminder(list[0]);
 }
 function showReminder(e){
   remindId = e.key;
@@ -2302,8 +2303,9 @@ function bytesFromB64u(s){
   s = String(s).replace(/-/g, '+').replace(/_/g, '/'); while(s.length % 4) s += '=';
   const b = atob(s); const out = new Uint8Array(b.length); for(let i = 0; i < b.length; i++) out[i] = b.charCodeAt(i); return out;
 }
-function pushApi(path, body){
-  return fetch(pushCfg.server + path, body ? {method:'POST', headers:{'content-type':'application/json'}, body:JSON.stringify(body)} : {})
+function pushApi(path, body, keepalive){
+  /* keepalive lets the request finish even when the app is being closed */
+  return fetch(pushCfg.server + path, body ? {method:'POST', headers:{'content-type':'application/json'}, body:JSON.stringify(body), keepalive:!!keepalive} : {})
     .then(r => r.json().catch(() => ({})).then(data => ({status:r.status, ok:r.ok, data})));
 }
 
@@ -2323,7 +2325,7 @@ function pushSchedule(){
     const k = addDays(k0, i);
     for(const e of entriesOnDay(k)){
       const at = atOf(k, e.time);
-      if(at <= now + 30000 || (i === 0 && countOf(e.key, rec0) >= e.target)) continue;   /* past, or already done today */
+      if(at <= now + 5000 || (i === 0 && countOf(e.key, rec0) >= e.target)) continue;   /* past, or already done today */
       if(!groups.has(at)) groups.set(at, []);
       groups.get(at).push(e);
     }
@@ -2358,13 +2360,20 @@ function pushSig(list){
   return list.length + ':' + h;
 }
 function schedulePushSync(){
-  try{ if(!pushCfg.on) return; clearTimeout(pushSyncT); pushSyncT = setTimeout(() => pushSync(false), 4000); }catch(e){}
+  try{ if(!pushCfg.on) return; clearTimeout(pushSyncT); pushSyncT = setTimeout(() => { pushSyncT = 0; pushSync(false); }, 1500); }catch(e){}
 }
-function pushSync(force){
+/* the app is going to the background: send a waiting change now, since timers stop once it is hidden */
+function flushPushSync(){
+  try{ if(!pushSyncT) return; clearTimeout(pushSyncT); pushSyncT = 0; pushSync(false, true); }catch(e){}
+}
+/* a test notification still waiting stays on the list when the list is resent */
+let pushTestItem = null;
+function withTest(list){ return pushTestItem && pushTestItem.at > Date.now() + 2000 ? [pushTestItem].concat(list) : list; }
+function pushSync(force, keepalive){
   if(!pushCfg.on || !pushCfg.id || !pushCfg.server || navigator.onLine === false) return Promise.resolve();
   const schedule = pushSchedule(), sig = pushSig(schedule);
   if(!force && sig === pushCfg.sig && Date.now() - (pushCfg.at || 0) < PUSH_REFRESH) return Promise.resolve();
-  return pushApi('/api/schedule', {id:pushCfg.id, token:pushCfg.token, schedule}).then(r => {
+  return pushApi('/api/schedule', {id:pushCfg.id, token:pushCfg.token, schedule:withTest(schedule)}, keepalive).then(r => {
     if(r.ok){ pushCfg.sig = sig; pushCfg.at = Date.now(); savePushCfg(); }
     else if(r.status === 404) return pushRejoin();
   }).catch(() => {}).then(() => { if(tab === 'settings') renderPush(); });
@@ -2432,13 +2441,17 @@ function pushEnable(){
       : 'تعذّر التفعيل: ' + m);
   }).then(() => { pushBusy = false; renderPush(); });
 }
+/* the test goes through the same path as a real reminder: put on the server's list for 15 seconds from now */
+const TEST_DELAY = 15000;
 function pushTest(){
   if(pushBusy) return;
   $('#pushErr').hidden = true; pushBusy = true; renderPush();
-  pushApi('/api/test', {id:pushCfg.id, token:pushCfg.token}).then(r => {
-    if(r.ok && r.data.ok) toast('أرسلت لك إشعار تجربة، بيوصلك خلال ثواني', 3600);
+  const at = Date.now() + TEST_DELAY;
+  pushTestItem = {at, title:'سُبحة', body:'وصل إشعار التجربة ✓ وبنفس الطريقة تجيك تذكيراتك في وقتها', tag:'subha-test-' + at, url:'./'};
+  pushApi('/api/schedule', {id:pushCfg.id, token:pushCfg.token, schedule:withTest(pushSchedule())}).then(r => {
+    if(r.ok) toast('بيوصلك إشعار تجربة بعد ' + n(TEST_DELAY / 1000) + ' ثانية. اطلع من التطبيق أو اقفل الجوال وانتظره', 6000);
     else if(r.status === 404){ pushCfg.on = false; pushCfg.lost = true; savePushCfg(); pushFail('انقطع الاشتراك. اضغط «تفعيل الإشعارات» مرة ثانية'); }
-    else pushFail('ما قدر الخادم يوصل التجربة (' + digits(String(r.data.status || r.status)) + ')');
+    else pushFail('ما قدر الخادم يستقبل التجربة (' + digits(String(r.status)) + ')');
   }).catch(() => pushFail('تعذّر الوصول للخادم. تأكد من الإنترنت'))
     .then(() => { pushBusy = false; renderPush(); });
 }
@@ -2680,7 +2693,7 @@ function wire(){
 
   /* lifecycle */
   document.addEventListener('visibilitychange', () => {
-    if(document.hidden) flushAll();
+    if(document.hidden){ flushAll(); flushPushSync(); }
     else {
       reminderTick();
       if(C.open) keepAwake(true);
@@ -2689,7 +2702,7 @@ function wire(){
       if(tab === 'settings') renderPush();     /* permission may have changed in the phone's settings */
     }
   });
-  window.addEventListener('pagehide', flushAll);
+  window.addEventListener('pagehide', () => { flushAll(); flushPushSync(); });
   let rt = 0;
   const onResize = () => { clearTimeout(rt); rt = setTimeout(() => {
     if(tab === 'today'){ drawHeroRing(progressOf(state.items, state.days[todayKey()])); FA.ctx = null; drawFeatRing(null); }
