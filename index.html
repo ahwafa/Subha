@@ -308,6 +308,18 @@ select.field{width:auto;padding-inline:10px}
 .icon-btn.is-armed{background:var(--danger);color:var(--surface)}
 .info{display:grid;gap:12px;margin-top:10px;font-size:14px}
 .info p{margin:0}
+.push{margin:0 0 10px}
+.push .err{margin:0}
+.push-top{display:flex;align-items:center;gap:12px}
+.push-ic{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);flex:none}
+.push.on .push-ic{background:var(--done-soft);color:var(--done)}
+#pushStatus .ok{color:var(--done);font-weight:600}
+.push-server{display:grid;gap:6px}
+.push .field{box-sizing:border-box;font-size:16px}
+#pushServerHint.ok{color:var(--done)}
+#pushServerHint.bad{color:var(--danger)}
+.push-actions{margin-top:0;flex-wrap:wrap}
+.push-actions .btn:disabled{opacity:.45}
 .copybox{font:inherit;font-size:13px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px;width:100%;min-height:72px;resize:none}
 .row-actions{display:flex;gap:8px;margin-top:10px}
 .rem-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;align-items:center;gap:12px;width:100%;padding:13px 16px;border-top:1px solid var(--line);text-align:start;min-height:54px}
@@ -558,8 +570,25 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
 
       <div class="sec">
         <h3>التذكيرات</h3>
+        <div class="card info push" id="pushCard" hidden>
+          <div class="push-top">
+            <span class="push-ic"><i data-ico="bell"></i></span>
+            <div><b>إشعارات على الجوال</b><div class="muted small" id="pushStatus"></div></div>
+          </div>
+          <div class="push-server" id="pushServerRow" hidden>
+            <label class="small-label" for="pushServer">رابط خادم التذكير</label>
+            <input class="field" id="pushServer" type="url" dir="ltr" inputmode="url" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="https://subha-push.….workers.dev">
+            <div class="small muted" id="pushServerHint"></div>
+          </div>
+          <p class="err" id="pushErr" hidden></p>
+          <div class="row-actions push-actions">
+            <button class="btn btn-primary btn-sm" id="pushOn" hidden><i data-ico="bell"></i>تفعيل الإشعارات</button>
+            <button class="btn btn-soft btn-sm" id="pushTest" hidden>إرسال تجربة</button>
+            <button class="btn btn-line btn-sm" id="pushOff" hidden>إيقاف</button>
+          </div>
+        </div>
         <div class="rows" id="remRows"></div>
-        <div class="card info">
+        <div class="card info" id="copyCard">
           <p>حين يحين وقت ذكر يتصدّر أعلى الشاشة ويظهر تنبيهه، ما دام التطبيق مفتوحًا. ولتصلك التذكيرات والجوال مقفل، انسخ الأوقات وأرسلها في محادثتك مع Claude ليضبطها في تطبيق التذكيرات بجوالك.</p>
           <div><button class="btn btn-soft btn-sm" id="copyTimes"><i data-ico="copy"></i>نسخ الأوقات</button></div>
           <textarea class="copybox" id="copyBox" readonly hidden aria-label="نص الأوقات"></textarea>
@@ -1270,6 +1299,7 @@ function markDirty(){
   state.updatedAt = Date.now();
   if(!localTimer) localTimer = setTimeout(saveLocal, 400);
   scheduleRemote();
+  schedulePushSync();
 }
 function scheduleRemote(){
   if(!remote.ref) return;
@@ -1620,6 +1650,7 @@ function renderSettings(){
   cs.value = s.city;
   renderPrayerTimes();
   renderRemRows();
+  renderPush();
   setSaveStatus(remote.status);
 }
 function renderPrayerTimes(){
@@ -2247,6 +2278,217 @@ function showReminder(e){
   clearTimeout(remindT); remindT = setTimeout(() => { $('#remind').hidden = true; }, 90000);
 }
 
+/* ---------- notifications on the phone: reminders arrive even when the app is closed ----------
+   The phone works out the reminders for the next two weeks (set times and adhan times) and sends them to
+   the person's own small server on Cloudflare, which pushes each one at its minute. */
+const PUSH_KEY = 'subha.push.v1';
+const PUSH_DAYS = 14;
+const PUSH_REFRESH = 6 * 3600e3;     /* resend at least this often so the two weeks keep rolling forward */
+let pushCfg = {};
+try{ pushCfg = JSON.parse(localStorage.getItem(PUSH_KEY) || '{}') || {}; }catch(e){ pushCfg = {}; }
+const inFrame = (() => { try{ return window.top !== window; }catch(e){ return true; } })();
+let swReg = null, pushBusy = false, pushCheck = '', pushKeyT = 0, pushSyncT = 0;
+if(!inFrame && 'serviceWorker' in navigator) navigator.serviceWorker.ready.then(r => { swReg = r; }).catch(() => {});
+
+function savePushCfg(){ try{ localStorage.setItem(PUSH_KEY, JSON.stringify(pushCfg)); }catch(e){} }
+function pushSupported(){ return !inFrame && 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window; }
+function isStandalone(){ return window.navigator.standalone === true || !!(window.matchMedia && window.matchMedia('(display-mode: standalone)').matches); }
+function serverOrigin(v){
+  v = String(v || '').trim(); if(!v) return '';
+  if(!/^https?:\/\//i.test(v)) v = 'https://' + v;
+  try{ const u = new URL(v); return (u.protocol === 'https:' || /^(127\.0\.0\.1|localhost)$/.test(u.hostname)) ? u.origin : ''; }catch(e){ return ''; }
+}
+function bytesFromB64u(s){
+  s = String(s).replace(/-/g, '+').replace(/_/g, '/'); while(s.length % 4) s += '=';
+  const b = atob(s); const out = new Uint8Array(b.length); for(let i = 0; i < b.length; i++) out[i] = b.charCodeAt(i); return out;
+}
+function pushApi(path, body){
+  return fetch(pushCfg.server + path, body ? {method:'POST', headers:{'content-type':'application/json'}, body:JSON.stringify(body)} : {})
+    .then(r => r.json().catch(() => ({})).then(data => ({status:r.status, ok:r.ok, data})));
+}
+
+/* the coming reminders; adhkar that fall in the same minute share one notification */
+function entriesOnDay(k){
+  const pt = prayerTimesFor(k); const out = [];
+  for(const it of state.items){
+    if(it.prayers.length){ for(const p of PRAYERS) if(it.prayers.indexOf(p.id) >= 0) out.push({key:it.id + '#' + p.id, item:it, target:it.target, time:addMin(pt[p.id], delayOf(it, p.id)), prayer:p}); }
+    else if(it.time) out.push({key:it.id, item:it, target:it.target, time:it.time, prayer:null});
+  }
+  return out;
+}
+function atOf(k, t){ const d = keyToDate(k); d.setHours(0, 0, 0, 0); return d.getTime() + normMin(toMin(t)) * 60000; }
+function pushSchedule(){
+  const now = Date.now(), k0 = todayKey(), rec0 = state.days[k0], groups = new Map();
+  for(let i = 0; i < PUSH_DAYS; i++){
+    const k = addDays(k0, i);
+    for(const e of entriesOnDay(k)){
+      const at = atOf(k, e.time);
+      if(at <= now + 30000 || (i === 0 && countOf(e.key, rec0) >= e.target)) continue;   /* past, or already done today */
+      if(!groups.has(at)) groups.set(at, []);
+      groups.get(at).push(e);
+    }
+  }
+  return Array.from(groups.keys()).sort((a, b) => a - b).map(at => Object.assign({at, tag:'subha-' + at, url:'./'}, pushText(groups.get(at))));
+}
+const timesTxt = k => k === 1 ? 'مرة واحدة' : (k === 2 ? 'مرتين' : timesPhrase(k));
+const clip = (s, max) => s.length > max ? s.slice(0, max - 1) + '…' : s;
+function pushText(list){
+  const line = list.map(e => dname(e.item) + ' (' + n(e.target) + ')').join('، ');
+  const p = list[0].prayer;
+  if(p && list.every(e => e.prayer && e.prayer.id === p.id))
+    return {title:(list[0].item.delay === 'prayer' ? 'أذكار بعد صلاة ' : 'أذكار بعد أذان ') + p.name, body:clip(line, 240)};
+  if(list.length === 1){
+    const it = list[0].item;
+    return {title:clip('حان وقت ' + dname(it), 80), body:(it.tag ? clip(it.text, 160) + '، ' : '') + timesTxt(it.target)};
+  }
+  return {title:'حان وقت أذكارك', body:clip(line, 240)};
+}
+function fmtAt(at){
+  const d = new Date(at); const t = fmtTime(String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'));
+  const day = ymd(d);
+  if(day === ymd(new Date())) return 'الساعة ' + t;
+  if(day === ymd(new Date(Date.now() + 86400e3))) return 'غدًا الساعة ' + t;
+  return t;
+}
+
+/* keep the server's copy in step: after any change (debounced), when the app comes back, and every few hours */
+function pushSig(list){
+  let h = 0; const s = JSON.stringify(list.map(x => [x.at, x.title, x.body]));
+  for(let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return list.length + ':' + h;
+}
+function schedulePushSync(){
+  try{ if(!pushCfg.on) return; clearTimeout(pushSyncT); pushSyncT = setTimeout(() => pushSync(false), 4000); }catch(e){}
+}
+function pushSync(force){
+  if(!pushCfg.on || !pushCfg.id || !pushCfg.server || navigator.onLine === false) return Promise.resolve();
+  const schedule = pushSchedule(), sig = pushSig(schedule);
+  if(!force && sig === pushCfg.sig && Date.now() - (pushCfg.at || 0) < PUSH_REFRESH) return Promise.resolve();
+  return pushApi('/api/schedule', {id:pushCfg.id, token:pushCfg.token, schedule}).then(r => {
+    if(r.ok){ pushCfg.sig = sig; pushCfg.at = Date.now(); savePushCfg(); }
+    else if(r.status === 404) return pushRejoin();
+  }).catch(() => {}).then(() => { if(tab === 'settings') renderPush(); });
+}
+/* the server no longer knows this phone (its subscription expired): sign up again quietly while permission holds */
+function pushRejoin(){
+  const lost = () => { pushCfg.on = false; pushCfg.lost = true; savePushCfg(); };
+  if(!swReg || Notification.permission !== 'granted' || !pushCfg.key) { lost(); return Promise.resolve(); }
+  return swReg.pushManager.getSubscription()
+    .then(s => s || swReg.pushManager.subscribe({userVisibleOnly:true, applicationServerKey:bytesFromB64u(pushCfg.key)}))
+    .then(sub => { const schedule = pushSchedule(); return pushApi('/api/subscribe', {subscription:sub.toJSON(), schedule}).then(r => {
+      if(!r.ok) throw new Error('server');
+      Object.assign(pushCfg, {id:r.data.id, token:r.data.token, on:true, lost:false, subKey:pushCfg.key, sig:pushSig(schedule), at:Date.now()}); savePushCfg();
+    }); })
+    .catch(lost);
+}
+
+/* the server link: checked as it is pasted, so the permission prompt can follow the tap straight away */
+function pushCheckServer(v){
+  const origin = serverOrigin(v);
+  clearTimeout(pushKeyT);
+  if(!origin){ pushCheck = v.trim() ? 'bad' : ''; renderPush(); return; }
+  pushKeyT = setTimeout(() => {
+    pushCheck = 'checking'; renderPush();
+    fetch(origin + '/api/key').then(r => r.ok ? r.json() : Promise.reject(new Error('status'))).then(j => {
+      if(!j || typeof j.key !== 'string' || bytesFromB64u(j.key).length !== 65) throw new Error('key');
+      if(pushCfg.server !== origin){ pushCfg.id = ''; pushCfg.token = ''; }
+      pushCfg.server = origin; pushCfg.key = j.key; savePushCfg();
+      pushCheck = 'ok'; renderPush();
+    }).catch(() => { pushCheck = 'bad'; renderPush(); });
+  }, 450);
+}
+function askPermission(){
+  if(Notification.permission === 'granted') return Promise.resolve('granted');
+  return new Promise(res => { const p = Notification.requestPermission(res); if(p && p.then) p.then(res); });
+}
+function pushEnable(){
+  if(pushBusy) return;
+  $('#pushErr').hidden = true;
+  if(!pushCfg.server || !pushCfg.key){ pushFail('الصق رابط الخادم أولًا'); return; }
+  const ask = askPermission();                   /* first thing on the tap: the iPhone only asks from a tap */
+  pushBusy = true; renderPush();
+  ask.then(p => {
+    if(p !== 'granted') throw new Error(p === 'denied' ? 'denied' : 'dismissed');
+    return swReg || navigator.serviceWorker.ready;
+  }).then(reg => reg.pushManager.getSubscription().then(old => {
+    if(old && pushCfg.subKey === pushCfg.key) return old;
+    return (old ? old.unsubscribe().catch(() => {}) : Promise.resolve())
+      .then(() => reg.pushManager.subscribe({userVisibleOnly:true, applicationServerKey:bytesFromB64u(pushCfg.key)}));
+  })).then(sub => {
+    pushCfg.subKey = pushCfg.key; savePushCfg();
+    const schedule = pushSchedule();
+    return pushApi('/api/subscribe', {subscription:sub.toJSON(), schedule, id:pushCfg.id || null, token:pushCfg.token || null}).then(r => {
+      if(!r.ok) throw new Error(r.status === 429 ? 'full' : 'server');
+      Object.assign(pushCfg, {id:r.data.id, token:r.data.token, on:true, lost:false, sig:pushSig(schedule), at:Date.now()});
+      savePushCfg();
+      toast('تفعّلت الإشعارات ✓ بتجيك في أوقات أذكارك', 3600);
+    });
+  }).catch(e => {
+    const m = String((e && e.message) || e);
+    pushFail(m === 'denied' ? 'ما سمحت بالإشعارات. فعّلها من إعدادات الجوال ← الإشعارات ← سُبحة، ثم ارجع هنا'
+      : m === 'dismissed' ? 'ما وصل الإذن. اضغط «تفعيل الإشعارات» مرة ثانية واختر «سماح»'
+      : m === 'full' ? 'الخادم وصل حده من الأجهزة المسجلة'
+      : m === 'server' ? 'الخادم ما رد كما ينبغي. تأكد من الرابط وجرّب مرة ثانية'
+      : 'تعذّر التفعيل: ' + m);
+  }).then(() => { pushBusy = false; renderPush(); });
+}
+function pushTest(){
+  if(pushBusy) return;
+  $('#pushErr').hidden = true; pushBusy = true; renderPush();
+  pushApi('/api/test', {id:pushCfg.id, token:pushCfg.token}).then(r => {
+    if(r.ok && r.data.ok) toast('أرسلت لك إشعار تجربة، بيوصلك خلال ثواني', 3600);
+    else if(r.status === 404){ pushCfg.on = false; pushCfg.lost = true; savePushCfg(); pushFail('انقطع الاشتراك. اضغط «تفعيل الإشعارات» مرة ثانية'); }
+    else pushFail('ما قدر الخادم يوصل التجربة (' + digits(String(r.data.status || r.status)) + ')');
+  }).catch(() => pushFail('تعذّر الوصول للخادم. تأكد من الإنترنت'))
+    .then(() => { pushBusy = false; renderPush(); });
+}
+function pushDisable(){
+  if(pushBusy) return;
+  pushBusy = true; renderPush();
+  pushApi('/api/unsubscribe', {id:pushCfg.id, token:pushCfg.token}).catch(() => {})
+    .then(() => swReg && swReg.pushManager.getSubscription()).then(s => s && s.unsubscribe()).catch(() => {})
+    .then(() => {
+      Object.assign(pushCfg, {on:false, id:'', token:'', sig:'', subKey:'', lost:false}); savePushCfg();
+      pushBusy = false; renderPush(); toast('أوقفت الإشعارات');
+    });
+}
+function pushFail(msg){ const el = $('#pushErr'); if(el){ el.textContent = msg; el.hidden = false; } }
+
+function renderPush(){
+  const card = $('#pushCard'), copy = $('#copyCard'); if(!card) return;
+  card.hidden = inFrame; if(copy) copy.hidden = !inFrame;
+  if(inFrame) return;
+  const inp = $('#pushServer');
+  let status, ok = false, server = false, on = false, live = false, html = '';
+  if(!pushSupported()) status = isIOS && !isStandalone() ? 'ثبّت سُبحة على الشاشة الرئيسية وافتحها من الأيقونة، وبعدها تقدر تفعّل الإشعارات هنا' : 'هذا المتصفح لا يدعم الإشعارات';
+  else if(Notification.permission === 'denied') status = 'الإشعارات مقفلة لسُبحة. افتح إعدادات الجوال ← الإشعارات ← سُبحة وفعّل «السماح بالإشعارات»';
+  else if(pushCfg.on){
+    ok = live = true;
+    const next = pushSchedule()[0];
+    status = next ? 'التنبيه الجاي: ' + next.title + '، ' + fmtAt(next.at) : 'ما عندك أذكار مرتبطة بوقت أو بالأذان';
+    html = '<span class="ok">مفعّلة ✓</span><br>' + escapeHtml(status);
+  } else {
+    server = on = true;
+    status = pushCfg.lost ? 'توقفت الإشعارات. اضغط «تفعيل الإشعارات» لتشغيلها من جديد' : 'تجيك تنبيهات في أوقات أذكارك وبعد كل أذان، حتى والتطبيق مقفل';
+  }
+  if(html) $('#pushStatus').innerHTML = html; else $('#pushStatus').textContent = status;
+  card.classList.toggle('on', ok);
+  $('#pushServerRow').hidden = !server;
+  let ready = false;
+  if(server){
+    if(document.activeElement !== inp && !inp.value && pushCfg.server) inp.value = pushCfg.server;
+    ready = !!pushCfg.key && serverOrigin(inp.value) === pushCfg.server;
+    if(!pushCheck && ready) pushCheck = 'ok';
+    if(!pushCheck && pushCfg.server && !pushCfg.key && serverOrigin(inp.value) === pushCfg.server) pushCheckServer(inp.value);
+    const hint = $('#pushServerHint');
+    hint.textContent = pushCheck === 'checking' ? 'جارٍ التأكد من الخادم…' : pushCheck === 'bad' ? 'ما قدرت أوصل لهذا الرابط. تأكد إنه رابط الخادم كامل' : (ready ? 'الخادم شغال ✓' : 'تلقاه في صفحة الخادم بعد ما تنشره على Cloudflare');
+    hint.classList.toggle('ok', ready && pushCheck !== 'checking'); hint.classList.toggle('bad', pushCheck === 'bad');
+  }
+  $('#pushOn').hidden = !on; $('#pushOn').disabled = pushBusy || !ready;
+  $('#pushTest').hidden = !live; $('#pushOff').hidden = !live;
+  $('#pushTest').disabled = $('#pushOff').disabled = pushBusy;
+}
+
 /* ---------- wiring ---------- */
 function wire(){
   document.addEventListener('click', e => {
@@ -2391,6 +2633,11 @@ function wire(){
       else fallback();
     }catch(err){ fallback(); }
   });
+  /* notifications on the phone */
+  $('#pushServer').addEventListener('input', e => { $('#pushErr').hidden = true; pushCheck = ''; pushCheckServer(e.target.value); });
+  $('#pushOn').addEventListener('click', pushEnable);
+  $('#pushTest').addEventListener('click', pushTest);
+  $('#pushOff').addEventListener('click', e => armed(e.currentTarget, 'تأكيد الإيقاف', pushDisable));
   /* moving data between copies: a JSON backup copied and pasted */
   $('#exportData').addEventListener('click', () => {
     const txt = JSON.stringify({app:'subha', v:3, at:new Date().toISOString(), state});
@@ -2438,6 +2685,8 @@ function wire(){
       reminderTick();
       if(C.open) keepAwake(true);
       else if(tab === 'today' && featured().kind === 'due') startFeatAnim();
+      pushSync(false);
+      if(tab === 'settings') renderPush();     /* permission may have changed in the phone's settings */
     }
   });
   window.addEventListener('pagehide', flushAll);
@@ -2472,6 +2721,8 @@ function init(){
   connectRemote();
   setTimeout(reminderTick, 1200);
   setInterval(reminderTick, 20000);
+  setTimeout(() => pushSync(false), 3000);
+  setInterval(() => pushSync(false), 3600e3);
 }
 init();
 })();
