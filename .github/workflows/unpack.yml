@@ -1,0 +1,10 @@
+name: Unpack uploads
+on: [push, workflow_dispatch]
+permissions: {contents: write, pages: write}
+jobs:
+ unpack:
+  runs-on: ubuntu-latest
+  steps:
+  - uses: actions/checkout@v5
+  - env: {GH_TOKEN: "${{ github.token }}"}
+    run: for z in *.zip; do unzip -qo "$z" && git rm -q "$z"; done; touch .nojekyll; git add -A; git -c user.name=github-actions -c user.email=github-actions@users.noreply.github.com commit -qm "Unpack upload" || exit 0; git push -q origin HEAD:main; gh api -X POST "repos/$GITHUB_REPOSITORY/pages/builds" > /dev/null 2>&1 || true
