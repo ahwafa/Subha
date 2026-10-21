@@ -1,5 +1,5 @@
 /* سُبحة: works offline, updates itself when online, and shows reminders pushed to it. */
-const VERSION = 'subha-v3';
+const VERSION = 'subha-v4';
 const FONTS = 'subha-fonts';
 const SHELL = [
   './',
@@ -27,8 +27,9 @@ self.addEventListener('fetch', event => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
 
-  /* Google Fonts: keep a copy so the Arabic faces still load offline */
-  if (url.origin === 'https://fonts.googleapis.com' || url.origin === 'https://fonts.gstatic.com') {
+  /* Google Fonts, and the King Fahd Complex mushaf fonts for the al-Baqarah pages: keep a copy so they load offline */
+  if (url.origin === 'https://fonts.googleapis.com' || url.origin === 'https://fonts.gstatic.com' ||
+      (url.origin === 'https://cdn.jsdelivr.net' && url.pathname.indexOf('/npm/quran-qcf4@') === 0)) {
     event.respondWith(caches.open(FONTS).then(async cache => {
       const hit = await cache.match(req);
       if (hit) return hit;
