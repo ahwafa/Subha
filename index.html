@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>سُبحة</title>
+<meta name="subha-version" content="20261021151122">
 <meta name="description" content="ورد يومي للتسبيح بأعداد وأوقات ومواقيت الأذان">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#0C1618">
@@ -639,6 +640,16 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
               <option value="3">٣ فجرًا</option>
               <option value="4">٤ فجرًا</option>
             </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h3>المشاركة</h3>
+        <div class="rows">
+          <div class="row">
+            <div><b>شارك سُبحة</b><div class="muted small">كل من يثبّتها تبقى أذكاره وإعداداته على جواله هو، وتوصله التحديثات تلقائيًا</div></div>
+            <button class="btn btn-soft btn-sm" id="shareApp">مشاركة</button>
           </div>
         </div>
       </div>
@@ -2285,10 +2296,12 @@ function showReminder(e){
 const PUSH_KEY = 'subha.push.v1';
 const PUSH_DAYS = 14;
 const PUSH_REFRESH = 6 * 3600e3;     /* resend at least this often so the two weeks keep rolling forward */
+const PUSH_DEFAULT = 'https://subha-push.ahmedh-wafa.workers.dev';   /* the reminder server everyone uses unless they set another */
 let pushCfg = {};
 try{ pushCfg = JSON.parse(localStorage.getItem(PUSH_KEY) || '{}') || {}; }catch(e){ pushCfg = {}; }
+if(!pushCfg.server) pushCfg.server = PUSH_DEFAULT;
 const inFrame = (() => { try{ return window.top !== window; }catch(e){ return true; } })();
-let swReg = null, pushBusy = false, pushCheck = '', pushKeyT = 0, pushSyncT = 0;
+let swReg = null, pushBusy = false, pushCheck = '', pushKeyT = 0, pushSyncT = 0, pushCustom = false;
 if(!inFrame && 'serviceWorker' in navigator) navigator.serviceWorker.ready.then(r => { swReg = r; }).catch(() => {});
 
 function savePushCfg(){ try{ localStorage.setItem(PUSH_KEY, JSON.stringify(pushCfg)); }catch(e){} }
@@ -2391,7 +2404,18 @@ function pushRejoin(){
     .catch(lost);
 }
 
-/* the server link: checked as it is pasted, so the permission prompt can follow the tap straight away */
+/* the server's key is fetched ahead, so the permission prompt can follow the tap straight away */
+function pushPrefetch(){
+  if(pushCfg.key || pushCheck === 'checking' || pushCheck === 'bad') return;
+  const origin = serverOrigin(pushCfg.server || PUSH_DEFAULT);
+  pushCheck = 'checking';
+  fetch(origin + '/api/key').then(r => r.ok ? r.json() : Promise.reject(new Error('status'))).then(j => {
+    if(!j || typeof j.key !== 'string' || bytesFromB64u(j.key).length !== 65) throw new Error('key');
+    pushCfg.server = origin; pushCfg.key = j.key; savePushCfg();
+    pushCheck = 'ok'; renderPush();
+  }).catch(() => { pushCheck = 'bad'; renderPush(); });
+}
+/* another server link, typed or pasted: only offered when the built-in one can't be reached */
 function pushCheckServer(v){
   const origin = serverOrigin(v);
   clearTimeout(pushKeyT);
@@ -2481,20 +2505,22 @@ function renderPush(){
     status = next ? 'التنبيه الجاي: ' + next.title + '، ' + fmtAt(next.at) : 'ما عندك أذكار مرتبطة بوقت أو بالأذان';
     html = '<span class="ok">مفعّلة ✓</span><br>' + escapeHtml(status);
   } else {
-    server = on = true;
-    status = pushCfg.lost ? 'توقفت الإشعارات. اضغط «تفعيل الإشعارات» لتشغيلها من جديد' : 'تجيك تنبيهات في أوقات أذكارك وبعد كل أذان، حتى والتطبيق مقفل';
+    on = true;
+    pushPrefetch();
+    server = pushCheck === 'bad' || pushCustom;   /* the link field only shows when the built-in server can't be reached */
+    status = pushCfg.lost ? 'توقفت الإشعارات. اضغط «تفعيل الإشعارات» لتشغيلها من جديد'
+      : pushCheck === 'checking' ? 'لحظة، أجهّز الإشعارات…'
+      : 'تجيك تنبيهات في أوقات أذكارك وبعد كل أذان، حتى والتطبيق مقفل';
   }
   if(html) $('#pushStatus').innerHTML = html; else $('#pushStatus').textContent = status;
   card.classList.toggle('on', ok);
   $('#pushServerRow').hidden = !server;
-  let ready = false;
+  let ready = !!pushCfg.key;
   if(server){
     if(document.activeElement !== inp && !inp.value && pushCfg.server) inp.value = pushCfg.server;
     ready = !!pushCfg.key && serverOrigin(inp.value) === pushCfg.server;
-    if(!pushCheck && ready) pushCheck = 'ok';
-    if(!pushCheck && pushCfg.server && !pushCfg.key && serverOrigin(inp.value) === pushCfg.server) pushCheckServer(inp.value);
     const hint = $('#pushServerHint');
-    hint.textContent = pushCheck === 'checking' ? 'جارٍ التأكد من الخادم…' : pushCheck === 'bad' ? 'ما قدرت أوصل لهذا الرابط. تأكد إنه رابط الخادم كامل' : (ready ? 'الخادم شغال ✓' : 'تلقاه في صفحة الخادم بعد ما تنشره على Cloudflare');
+    hint.textContent = pushCheck === 'checking' ? 'جارٍ التأكد من الخادم…' : pushCheck === 'bad' ? 'ما قدرت أوصل لخادم التذكير. تأكد من الإنترنت، أو الصق رابط خادم ثاني' : (ready ? 'الخادم شغال ✓' : '');
     hint.classList.toggle('ok', ready && pushCheck !== 'checking'); hint.classList.toggle('bad', pushCheck === 'bad');
   }
   $('#pushOn').hidden = !on; $('#pushOn').disabled = pushBusy || !ready;
@@ -2646,8 +2672,16 @@ function wire(){
       else fallback();
     }catch(err){ fallback(); }
   });
+  /* sharing the app: everyone who installs it keeps their own adhkar on their own phone */
+  $('#shareApp').addEventListener('click', () => {
+    const url = inFrame ? 'https://ahwafa.github.io/Subha/' : location.href.split(/[?#]/)[0].replace(/index\.html$/, '');
+    const text = 'سُبحة: ورد يومي للتسبيح بالأعداد والأوقات ومواقيت الأذان، مع تذكير على الجوال. افتح الرابط في Safari، ثم زر المشاركة ← «إضافة إلى الشاشة الرئيسية».';
+    if(navigator.share) navigator.share({title:'سُبحة', text, url}).catch(() => {});
+    else if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text + '\n' + url).then(() => toast('نُسخ الرابط، أرسله لمن تحب'), () => toast(url, 6000));
+    else toast(url, 6000);
+  });
   /* notifications on the phone */
-  $('#pushServer').addEventListener('input', e => { $('#pushErr').hidden = true; pushCheck = ''; pushCheckServer(e.target.value); });
+  $('#pushServer').addEventListener('input', e => { $('#pushErr').hidden = true; pushCustom = true; pushCheck = ''; pushCheckServer(e.target.value); });
   $('#pushOn').addEventListener('click', pushEnable);
   $('#pushTest').addEventListener('click', pushTest);
   $('#pushOff').addEventListener('click', e => armed(e.currentTarget, 'تأكيد الإيقاف', pushDisable));
@@ -2699,6 +2733,7 @@ function wire(){
       if(C.open) keepAwake(true);
       else if(tab === 'today' && featured().kind === 'due') startFeatAnim();
       pushSync(false);
+      if(pushCheck === 'bad') pushCheck = '';   /* try the server again after coming back */
       if(tab === 'settings') renderPush();     /* permission may have changed in the phone's settings */
     }
   });
@@ -2741,7 +2776,7 @@ init();
 })();
 </script>
 <script>
-/* web-app extras: offline support, keeping data, and the install hint on iPhone */
+/* web-app extras: offline support, keeping data, the install hint on iPhone, and updating itself */
 (function(){
   'use strict';
   if('serviceWorker' in navigator){
@@ -2764,6 +2799,54 @@ init();
     new MutationObserver(function(){ if(status.textContent !== note) status.textContent = note; }).observe(status, {childList:true, characterData:true, subtree:true});
     status.textContent = note;
   }
+
+  /* updates: when a newer version is published, the app reloads itself at a quiet moment.
+     Everything the person saved stays, because it lives on this phone, not in the page. */
+  var meta = document.querySelector('meta[name="subha-version"]');
+  var CURRENT = meta ? meta.content : '';
+  function say(msg){
+    var host = document.getElementById('toasts'); if(!host) return;
+    var el = document.createElement('div'); el.className = 'toast'; el.textContent = msg; host.appendChild(el);
+    setTimeout(function(){ el.style.opacity = '0'; setTimeout(function(){ el.remove(); }, 320); }, 3200);
+  }
+  try{
+    if(CURRENT && localStorage.getItem('subha.updated') === CURRENT){
+      localStorage.removeItem('subha.updated');
+      setTimeout(function(){ say('تحدّثت سُبحة لآخر إصدار ✓'); }, 900);
+    }
+  }catch(e){}
+  /* not while counting, editing, typing, or with a reminder on screen */
+  function quiet(){
+    if(document.hidden) return false;
+    var ids = ['counter', 'editor', 'remind', 'dayDone'];
+    for(var i = 0; i < ids.length; i++){ var el = document.getElementById(ids[i]); if(el && !el.hidden) return false; }
+    var a = document.activeElement;
+    return !(a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName));
+  }
+  var pending = '', busy = false;
+  function apply(){
+    if(!pending) return;
+    if(!quiet()){ setTimeout(apply, 4000); return; }
+    try{ sessionStorage.setItem('subha.upd', pending); localStorage.setItem('subha.updated', pending); }catch(e){}
+    location.reload();
+  }
+  function check(){
+    if(!CURRENT || busy || pending || navigator.onLine === false) return;
+    busy = true;
+    fetch('version.json?t=' + Date.now(), {cache: 'no-store'})
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){
+        busy = false;
+        if(!j || !j.v || j.v === CURRENT) return;
+        var tried = null; try{ tried = sessionStorage.getItem('subha.upd'); }catch(e){}
+        if(tried === j.v) return;        /* reloaded once already for this version; the next launch picks it up */
+        pending = j.v; apply();
+      })
+      .catch(function(){ busy = false; });
+  }
+  setTimeout(check, 4000);
+  document.addEventListener('visibilitychange', function(){ if(!document.hidden) check(); });
+  setInterval(check, 30 * 60 * 1000);
 })();
 </script>
 </body>

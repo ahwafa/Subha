@@ -1,5 +1,5 @@
 /* سُبحة: works offline, updates itself when online, and shows reminders pushed to it. */
-const VERSION = 'subha-v2';
+const VERSION = 'subha-v3';
 const FONTS = 'subha-fonts';
 const SHELL = [
   './',
@@ -39,6 +39,8 @@ self.addEventListener('fetch', event => {
     return;
   }
   if (url.origin !== self.location.origin) return;
+  /* the version check always asks the site, never a saved copy */
+  if (url.pathname.endsWith('/version.json')) return;
 
   /* the page itself: fresh when online (asking the server, so an update shows on the next open), the saved copy when offline */
   if (req.mode === 'navigate') {
@@ -57,7 +59,7 @@ self.addEventListener('fetch', event => {
   );
 });
 
-/* reminders sent from the reminder server (next step) */
+/* reminders sent from the reminder server */
 self.addEventListener('push', event => {
   let data = {};
   try { data = event.data ? event.data.json() : {}; } catch (e) { data = { body: event.data ? event.data.text() : '' }; }
