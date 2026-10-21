@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>سُبحة</title>
-<meta name="subha-version" content="20261021151122">
+<meta name="subha-version" content="20261021161309">
 <meta name="description" content="ورد يومي للتسبيح بأعداد وأوقات ومواقيت الأذان">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#0C1618">
@@ -18,7 +18,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Amiri+Quran&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Reem+Kufi:wght@500;600;700&display=swap">
 <style>
 /* Layout: phone-first app shell. Tab content scrolls above a fixed bottom tab bar;
    the counter is a full-screen sheet built around a bead ring that fills from the imam bead. */
@@ -490,6 +490,156 @@ textarea.field.plain{font-family:var(--font-ui);font-size:15px;min-height:64px}
   .stats{grid-template-columns:1fr 1fr}
   .badges{grid-template-columns:1fr}
 }
+
+/* ---------- أسماء الله الحسنى ----------
+   The names page in the app's colours: gold-leaf rules and the eight-pointed khatam star from the original page,
+   a dark cartouche for the name, and each name opening as a full-height leaf. */
+.az{--az-line:#C6A55A;--az-paper:#FBF7EC;--az-star:#F4EBD3;--az-band:#15242A;--az-band-ink:#F3DFA4;
+  --az-quran:"Amiri Quran","Amiri","Noto Naskh Arabic",serif;display:flex;flex-direction:column;gap:24px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .az{--az-line:#8F7536;--az-paper:#15282B;--az-star:#1D3034;--az-band:#1F3539;--az-band-ink:#EACB7F}}
+:root[data-theme="dark"] .az{--az-line:#8F7536;--az-paper:#15282B;--az-star:#1D3034;--az-band:#1F3539;--az-band-ink:#EACB7F}
+.az[hidden]{display:none!important}
+.az .br{color:var(--accent);font-family:var(--az-quran)}
+.az svg{flex:none}
+
+.az-mast{display:flex;flex-direction:column;gap:6px}
+.az-mast .view-h{margin-bottom:0}
+.az-lead{margin:0;font-family:var(--az-quran);font-size:22px;line-height:2.1}
+.az-lead cite{font-family:var(--font-display);font-style:normal;font-size:13px;color:var(--ink-2);white-space:nowrap;margin-inline-start:6px}
+.az-progress{display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;margin-top:2px}
+.az-progress-txt{font-family:var(--font-display);font-size:15px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.az-progress-txt b{color:var(--ink);font-weight:600}
+.az-meter{flex:1 1 110px;min-width:90px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.az-meter i{display:block;height:100%;width:0;background:var(--az-line);transition:width .4s ease}
+
+/* name of the day: a framed leaf with a faint khatam lattice */
+.az-today{position:relative;isolation:isolate;background:var(--az-paper);border:1px solid var(--az-line);border-radius:8px;box-shadow:inset 0 0 0 5px var(--az-paper),inset 0 0 0 6px var(--az-line),0 10px 28px var(--shade);padding:22px 18px 24px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;overflow:hidden}
+.az-today::before{content:"";position:absolute;inset:7px;z-index:-1;background:var(--az-line);opacity:.16;-webkit-mask:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271%27%3E%3Cpath%20d%3D%27M32.00%2010.00%20L38.44%2016.44%20L47.56%2016.44%20L47.56%2025.56%20L54.00%2032.00%20L47.56%2038.44%20L47.56%2047.56%20L38.44%2047.56%20L32.00%2054.00%20L25.56%2047.56%20L16.44%2047.56%20L16.44%2038.44%20L10.00%2032.00%20L16.44%2025.56%20L16.44%2016.44%20L25.56%2016.44%20Z%27%2F%3E%3Cpath%20d%3D%27M0.00%20-22.00%20L6.44%20-15.56%20L15.56%20-15.56%20L15.56%20-6.44%20L22.00%200.00%20L15.56%206.44%20L15.56%2015.56%20L6.44%2015.56%20L0.00%2022.00%20L-6.44%2015.56%20L-15.56%2015.56%20L-15.56%206.44%20L-22.00%200.00%20L-15.56%20-6.44%20L-15.56%20-15.56%20L-6.44%20-15.56%20Z%27%2F%3E%3Cpath%20d%3D%27M64.00%20-22.00%20L70.44%20-15.56%20L79.56%20-15.56%20L79.56%20-6.44%20L86.00%200.00%20L79.56%206.44%20L79.56%2015.56%20L70.44%2015.56%20L64.00%2022.00%20L57.56%2015.56%20L48.44%2015.56%20L48.44%206.44%20L42.00%200.00%20L48.44%20-6.44%20L48.44%20-15.56%20L57.56%20-15.56%20Z%27%2F%3E%3Cpath%20d%3D%27M0.00%2042.00%20L6.44%2048.44%20L15.56%2048.44%20L15.56%2057.56%20L22.00%2064.00%20L15.56%2070.44%20L15.56%2079.56%20L6.44%2079.56%20L0.00%2086.00%20L-6.44%2079.56%20L-15.56%2079.56%20L-15.56%2070.44%20L-22.00%2064.00%20L-15.56%2057.56%20L-15.56%2048.44%20L-6.44%2048.44%20Z%27%2F%3E%3Cpath%20d%3D%27M64.00%2042.00%20L70.44%2048.44%20L79.56%2048.44%20L79.56%2057.56%20L86.00%2064.00%20L79.56%2070.44%20L79.56%2079.56%20L70.44%2079.56%20L64.00%2086.00%20L57.56%2079.56%20L48.44%2079.56%20L48.44%2070.44%20L42.00%2064.00%20L48.44%2057.56%20L48.44%2048.44%20L57.56%2048.44%20Z%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") center/64px 64px repeat;mask:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2064%2064%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27black%27%20stroke-width%3D%271%27%3E%3Cpath%20d%3D%27M32.00%2010.00%20L38.44%2016.44%20L47.56%2016.44%20L47.56%2025.56%20L54.00%2032.00%20L47.56%2038.44%20L47.56%2047.56%20L38.44%2047.56%20L32.00%2054.00%20L25.56%2047.56%20L16.44%2047.56%20L16.44%2038.44%20L10.00%2032.00%20L16.44%2025.56%20L16.44%2016.44%20L25.56%2016.44%20Z%27%2F%3E%3Cpath%20d%3D%27M0.00%20-22.00%20L6.44%20-15.56%20L15.56%20-15.56%20L15.56%20-6.44%20L22.00%200.00%20L15.56%206.44%20L15.56%2015.56%20L6.44%2015.56%20L0.00%2022.00%20L-6.44%2015.56%20L-15.56%2015.56%20L-15.56%206.44%20L-22.00%200.00%20L-15.56%20-6.44%20L-15.56%20-15.56%20L-6.44%20-15.56%20Z%27%2F%3E%3Cpath%20d%3D%27M64.00%20-22.00%20L70.44%20-15.56%20L79.56%20-15.56%20L79.56%20-6.44%20L86.00%200.00%20L79.56%206.44%20L79.56%2015.56%20L70.44%2015.56%20L64.00%2022.00%20L57.56%2015.56%20L48.44%2015.56%20L48.44%206.44%20L42.00%200.00%20L48.44%20-6.44%20L48.44%20-15.56%20L57.56%20-15.56%20Z%27%2F%3E%3Cpath%20d%3D%27M0.00%2042.00%20L6.44%2048.44%20L15.56%2048.44%20L15.56%2057.56%20L22.00%2064.00%20L15.56%2070.44%20L15.56%2079.56%20L6.44%2079.56%20L0.00%2086.00%20L-6.44%2079.56%20L-15.56%2079.56%20L-15.56%2070.44%20L-22.00%2064.00%20L-15.56%2057.56%20L-15.56%2048.44%20L-6.44%2048.44%20Z%27%2F%3E%3Cpath%20d%3D%27M64.00%2042.00%20L70.44%2048.44%20L79.56%2048.44%20L79.56%2057.56%20L86.00%2064.00%20L79.56%2070.44%20L79.56%2079.56%20L70.44%2079.56%20L64.00%2086.00%20L57.56%2079.56%20L48.44%2079.56%20L48.44%2070.44%20L42.00%2064.00%20L48.44%2057.56%20L48.44%2048.44%20L57.56%2048.44%20Z%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") center/64px 64px repeat;pointer-events:none}
+.az-today-head{display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:4px 12px}
+.az-eyebrow{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--accent)}
+.az-hijri{font-family:var(--font-display);font-size:13.5px;color:var(--ink-2)}
+.az-cart{--cut:22px;background:var(--az-line);padding:2px;clip-path:polygon(var(--cut) 0,calc(100% - var(--cut)) 0,100% 50%,calc(100% - var(--cut)) 100%,var(--cut) 100%,0 50%);max-width:100%}
+.az-cart-in{display:flex;align-items:center;justify-content:center;gap:12px;background:var(--az-band);clip-path:polygon(calc(var(--cut) - 1px) 0,calc(100% - var(--cut) + 1px) 0,100% 50%,calc(100% - var(--cut) + 1px) 100%,calc(var(--cut) - 1px) 100%,0 50%);padding:6px calc(var(--cut) + 18px) 10px;min-width:min(74vw,300px)}
+.az-cart-name{font-family:var(--font-dhikr);font-weight:700;color:var(--az-band-ink);font-size:clamp(38px,12.5vw,52px);line-height:1.55;margin:0;text-wrap:balance}
+.az-cart-name.az-long{font-size:clamp(26px,8.5vw,34px);line-height:1.75}
+.az-today-s{margin:0;font-size:19px;font-weight:600;text-wrap:balance}
+.az-today-m{margin:0;color:var(--ink-2);font-size:16px;line-height:1.85;max-width:52ch}
+
+.az-intro{display:flex;flex-direction:column;gap:6px}
+.az-intro p{margin:0;color:var(--ink-2);font-size:16px;line-height:1.85}
+.az-intro .az-hadith{color:var(--ink);font-size:17px}
+.az-src{font-family:var(--font-display);font-size:12.5px;color:var(--accent);white-space:nowrap}
+
+.az-h{margin:0 0 10px;font-family:var(--font-display);font-size:19px;font-weight:600}
+.az-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding-inline:16px;padding-block:2px 6px}
+.az-chips::-webkit-scrollbar{display:none}
+.az-chip{flex:none;font-family:var(--font-display);font-size:15px;line-height:1.4;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.az-chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.az-chip small{font-size:12px;opacity:.75;font-variant-numeric:tabular-nums}
+.az-mood-line{margin:6px 0 0;font-size:16px;color:var(--accent)}
+
+.az-browse{display:flex;flex-direction:column;gap:12px}
+.az-browse .az-h{margin:0}
+.az-search{position:relative;display:flex;align-items:center}
+.az-search svg{position:absolute;inset-inline-start:14px;width:18px;height:18px;color:var(--ink-2);pointer-events:none}
+.az-search input{width:100%;box-sizing:border-box;font:inherit;font-size:17px;line-height:1.5;padding:11px 14px;padding-inline-start:44px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);outline:none;-webkit-appearance:none;appearance:none}
+.az-search input:focus{border-color:var(--az-line);box-shadow:0 0 0 3px var(--accent-soft)}
+.az-grid-head{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:28px}
+.az-count{font-family:var(--font-display);font-size:14px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.az-link{font-family:var(--font-display);font-size:14px;color:var(--accent);padding:4px 0;border-bottom:1px solid var(--az-line)}
+.az-note{margin:0;background:var(--az-paper);border:1px solid var(--az-line);border-radius:12px;padding:10px 14px;font-size:16px;line-height:1.8}
+.az-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.az-tile{display:flex;flex-direction:column;gap:4px;min-width:0;text-align:start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px 14px;transition:border-color .15s ease,transform .15s ease}
+.az-tile:active{transform:scale(.98);border-color:var(--az-line)}
+.az-tile-top{display:flex;justify-content:space-between;align-items:center}
+.az-star{position:relative;width:36px;height:36px;display:grid;place-items:center;flex:none}
+.az-star svg{position:absolute;inset:0;width:100%;height:100%;fill:var(--az-star);stroke:var(--az-line);stroke-width:1.3}
+.az-star b{position:relative;font-family:var(--font-display);font-size:12.5px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.az-tick{width:20px;height:20px;color:var(--accent);visibility:hidden}
+.az-tile.az-done .az-tick{visibility:visible}
+.az-tile.az-done .az-star svg{fill:var(--az-line)}
+.az-tile-name{font-family:var(--font-dhikr);font-weight:700;font-size:27px;line-height:1.55;overflow-wrap:anywhere}
+.az-tile-name.az-long{font-size:20px;line-height:1.7}
+.az-tile-s{font-size:14px;line-height:1.65;color:var(--ink-2)}
+.az-empty{margin:0;padding:18px;text-align:center;color:var(--ink-2);border:1px dashed var(--line);border-radius:14px}
+
+.az-sitecard{display:grid;gap:8px}
+.az-sitecard p{margin:0;line-height:1.75}
+.az-sitecard .row-actions{margin-top:2px}
+.az-sitecard-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.az-site-state{font-size:13px;font-weight:600;color:var(--done)}
+.az-file{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.az-foot{border-top:1px solid var(--line);padding-top:16px;display:flex;flex-direction:column;gap:8px}
+.az-foot p{margin:0;font-size:15px;line-height:1.85;color:var(--ink-2)}
+.az-foot a{color:var(--accent)}
+
+/* the leaf */
+.az-sheet{position:fixed;inset:0;z-index:55;background:var(--bg);display:flex;flex-direction:column}
+.az-sheet-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:calc(env(safe-area-inset-top,0px) + 8px) max(12px,env(safe-area-inset-right,0px)) 8px max(12px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--line)}
+.az-pos{font-family:var(--font-display);font-size:14px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.az-ibtn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:grid;place-items:center;flex:none}
+.az-ibtn svg{width:20px;height:20px}
+.az-sheet-scroll{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.az-leaf{max-width:660px;margin:0 auto;padding:22px 16px 30px;display:flex;flex-direction:column;gap:20px}
+.az-leaf-head{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.az-leaf-head .az-star{width:44px;height:44px}
+.az-leaf-head .az-star b{font-size:14px}
+.az-leaf-s{margin:0;font-size:20px;font-weight:600;text-wrap:balance}
+.az-cat{font-family:var(--font-display);font-size:13px;color:var(--accent);background:var(--accent-soft);padding:3px 12px;border-radius:999px}
+.az-sec{display:flex;flex-direction:column;gap:6px}
+.az-sec h3{margin:0;font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:10px}
+.az-sec h3::after{content:"";flex:1;height:1px;background:var(--line)}
+.az-sec p{margin:0;font-size:18px;line-height:1.95}
+.az-aya-box{background:var(--az-paper);border:1px solid var(--az-line);border-radius:6px;box-shadow:inset 0 0 0 4px var(--az-paper),inset 0 0 0 5px var(--az-line);padding:18px 16px 14px;display:flex;flex-direction:column;gap:6px}
+.az-aya{margin:0;font-family:var(--az-quran);font-size:24px;line-height:2.3;text-align:center}
+.az-aya mark{background:none;color:var(--accent)}
+.az-aya .an{display:inline-grid;place-items:center;min-width:1.5em;height:1.5em;padding-inline:2px;border:1px solid var(--az-line);border-radius:50%;font-family:var(--font-display);font-size:.5em;line-height:1;color:var(--accent);vertical-align:.35em;margin-inline:3px}
+.az-aya-ref{font-family:var(--font-display);font-style:normal;font-size:13.5px;color:var(--ink-2);text-align:center}
+.az-site{gap:14px;background:var(--surface);border:1px solid var(--az-line);border-radius:14px;padding:14px 16px}
+.az-site-part{display:flex;flex-direction:column;gap:6px}
+.az-site-part h4{margin:0;font-family:var(--font-display);font-size:16px;font-weight:600}
+.az-site-part p{margin:0}
+.az-site-part .az-sub{margin:4px 0 0;font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--accent)}
+.az-site-part ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.az-site-part li{position:relative;padding-inline-start:20px;font-size:18px;line-height:1.95}
+.az-site-part li::before{content:"";position:absolute;inset-inline-start:3px;top:.85em;width:7px;height:7px;border-radius:50%;background:var(--az-line)}
+.az-site-part li.az-num::before{content:none}
+.az-site-part li .az-k{position:absolute;inset-inline-start:0;font-family:var(--font-display);font-size:14px;color:var(--accent)}
+.az-site-part li b{font-weight:700}
+.az .az-qt{font-family:var(--font-dhikr);color:var(--accent)}
+.az-site-src{margin:0;font-family:var(--font-display);font-size:13.5px;color:var(--ink-2)}
+.az-site-src a{color:var(--accent)}
+.az-sharh{gap:14px}
+.az-part{display:flex;flex-direction:column;gap:4px}
+.az-part h4{margin:0;font-family:var(--font-display);font-size:14.5px;font-weight:600}
+.az-dots{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.az-dots li{position:relative;padding-inline-start:20px;font-size:18px;line-height:1.95}
+.az-dots li::before{content:"";position:absolute;inset-inline-start:3px;top:.85em;width:7px;height:7px;background:var(--az-line);transform:rotate(45deg)}
+.az-nb{background:var(--az-paper);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.az .az-q{font-family:var(--font-dhikr);font-size:1.06em}
+.az-feel{background:var(--accent-soft);border-radius:14px;padding:14px 16px}
+.az-sec .az-dua{font-family:var(--font-dhikr);font-size:21px;line-height:2}
+.az-dua-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.az-dua-label{font-family:var(--font-display);font-size:13px;color:var(--accent)}
+.az-more{align-self:flex-start;font-family:var(--font-display);font-size:15px;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--az-line);padding-bottom:2px;display:inline-flex;align-items:center;gap:6px}
+.az-more svg{width:15px;height:15px}
+.az-sheet-foot{display:flex;align-items:center;gap:8px;padding:10px max(12px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 10px) max(12px,env(safe-area-inset-left,0px));border-top:1px solid var(--line);background:var(--bg)}
+.az-sheet-foot .az-grow{flex:1}
+.az-sheet-foot .btn svg{width:18px;height:18px}
+.az-sheet-foot .btn:disabled{opacity:.45}
+#az-sh-done[aria-pressed="true"]{background:var(--done-soft);color:var(--done)}
+.az-leaf.az-enter{animation:azrise .24s ease-out}
+@keyframes azrise{from{transform:translateY(10px);opacity:.4}to{transform:none;opacity:1}}
+#app .az-text,.az-text{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+@media (min-width:720px){.az-today{padding:30px 28px}.az-cart-name{font-size:64px}.az-cart-name.az-long{font-size:42px}}
+@media (prefers-reduced-motion: reduce){.az *{transition:none!important;animation:none!important}}
+
+/* the centre tab */
+.tabbar-in{grid-template-columns:repeat(5,1fr)}
+.tab-center{align-content:end}
+.tab-orb{width:50px;height:50px;margin-top:-24px;margin-bottom:1px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--on-accent);box-shadow:0 0 0 5px var(--surface),0 8px 20px var(--glow);transition:transform .18s ease}
+.tab-orb .ico{width:28px;height:28px;color:var(--on-accent);stroke:currentColor;stroke-width:1.5}
+.tab-center[aria-current="page"] .tab-orb{transform:translateY(-2px);box-shadow:0 0 0 5px var(--surface),0 0 0 7px var(--accent),0 10px 24px var(--glow)}
 </style>
 <style>
 /* standalone web app: clear the status bar and home indicator, keep the status bar legible in both themes */
@@ -672,12 +822,124 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
         </div>
       </div>
     </section>
+    <section class="view az" data-view="names" hidden>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="khatam" viewBox="0 0 40 40"><path d="M20.00 1.00 L25.56 6.56 L33.44 6.56 L33.44 14.44 L39.00 20.00 L33.44 25.56 L33.44 33.44 L25.56 33.44 L20.00 39.00 L14.44 33.44 L6.56 33.44 L6.56 25.56 L1.00 20.00 L6.56 14.44 L6.56 6.56 L14.44 6.56 Z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5l5 5 10-11" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></g></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></g></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-out" viewBox="0 0 24 24"><path d="M14 5h5v5M19 5l-8 8M10 5H6a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+  <header class="az-mast">
+    <h2 class="view-h">أسماء الله الحسنى</h2>
+    <p class="az-lead"><span class="br">﴿</span>وَلِلَّهِ ٱلۡأَسۡمَآءُ ٱلۡحُسۡنَىٰ فَٱدۡعُوهُ بِهَا<span class="br">﴾</span> <cite>الأعراف · ١٨٠</cite></p>
+    <div class="az-progress">
+      <span class="az-progress-txt" id="az-progress-txt">تأمّلت <b>٠</b> من ٩٩</span>
+      <div class="az-meter" aria-hidden="true"><i id="az-meter"></i></div>
+      <button class="btn btn-soft btn-sm" id="az-resume" type="button">تابِع التأمّل</button>
+    </div>
+  </header>
+
+  <section class="az-today" aria-labelledby="az-today-label">
+    <div class="az-today-head"><span class="az-eyebrow" id="az-today-label">اسم اليوم</span><span class="az-hijri" id="az-hijri"></span></div>
+    <div class="az-cart"><div class="az-cart-in"><p class="az-cart-name" id="az-today-name">العَفُوّ</p></div></div>
+    <p class="az-today-s" id="az-today-s"></p>
+    <p class="az-today-m" id="az-today-m"></p>
+    <button class="btn btn-primary" id="az-today-open" type="button">تأمّل هذا الاسم</button>
+  </section>
+
+  <section class="az-intro" aria-label="عن الأسماء الحسنى">
+    <p class="az-hadith">قال رسول الله ﷺ: «إن لله تسعةً وتسعين اسمًا، مائةً إلا واحدًا، من أحصاها دخل الجنة» <span class="az-src">متفق عليه</span></p>
+    <p>وإحصاؤها: حفظ ألفاظها، وفهم معانيها، ودعاء الله بها، والعمل بما تقتضيه. خذ كل يوم اسمًا: اقرأ معناه، وتأمّل آيته، واستشعره في يومك، وادعُ به.</p>
+  </section>
+
+  <section class="az-moods" aria-labelledby="az-moods-h">
+    <h2 class="az-h" id="az-moods-h">بماذا يشعر قلبك الآن؟</h2>
+    <div class="az-chips" id="az-moods" role="group" aria-label="حال القلب"></div>
+    <p class="az-mood-line" id="az-mood-line" hidden></p>
+  </section>
+
+  <section class="az-browse" aria-labelledby="az-browse-h">
+    <h2 class="az-h" id="az-browse-h">الأسماء التسعة والتسعون</h2>
+    <label class="az-search" for="az-q">
+      <svg aria-hidden="true"><use href="#i-search"/></svg>
+      <input id="az-q" type="search" placeholder="ابحث باسم أو معنى أو رقم" autocomplete="off" enterkeyhint="search" aria-label="ابحث في الأسماء">
+    </label>
+    <div class="az-chips" id="az-cats" role="group" aria-label="التصنيفات"></div>
+    <div class="az-grid-head"><span class="az-count" id="az-count"></span><button class="az-link" id="az-reset" type="button" hidden>عرض الأسماء كلها</button></div>
+    <p class="az-note" id="az-search-note" role="status" hidden></p>
+    <div class="az-grid" id="az-grid"></div>
+    <p class="az-empty" id="az-empty" hidden>لا يوجد اسم يطابق بحثك. جرّب كلمة أخرى، أو اكتب رقم الاسم، أو صِف حالك بكلمة مثل: حزن، رزق، مرض.</p>
+  </section>
+
+
+  <section class="card az-sitecard" id="az-sitecard" aria-labelledby="az-sitecard-h">
+    <div class="az-sitecard-top"><b id="az-sitecard-h">شروح موقع سورة قرآن</b><span class="az-site-state" id="az-site-state" hidden></span></div>
+    <p class="small muted" id="az-site-help">إذا عندك نسختك من صفحة الأسماء «asma-husna-new.html»، اخترها هنا وتظهر شروح الموقع داخل كل اسم. تبقى على هذا الجوال فقط، ولا تُنشر مع التطبيق.</p>
+    <div class="row-actions">
+      <label class="btn btn-soft btn-sm" for="az-site-file" id="az-site-pick">اختر الملف</label>
+      <input class="az-file" type="file" id="az-site-file" accept=".html,.htm,.json,text/html,application/json">
+      <button class="btn btn-line btn-sm" id="az-site-remove" type="button" hidden>حذف الشروح</button>
+    </div>
+  </section>
+
+  <footer class="az-foot">
+    <p>الآيات منقولة بنصّها من المصحف برواية حفص عن عاصم، وكل آية مذكورة داخل الشروح مطابَقة مع نص المصحف. الشروح مكتوبة بأسلوب مبسّط، وترتيب الأسماء وفق قائمة <a href="https://surahquran.com/99-Names-of-Allah-with-Meaning.html" target="_blank" rel="noopener">موقع سورة قرآن</a>، ومع كل اسم رابط لصفحته هناك.</p>
+    <p>وأسماء الله لا تنحصر في هذا العدد؛ فمنها ما استأثر الله به في علم الغيب عنده.</p>
+  </footer>
+<div class="az-sheet" id="az-sheet" role="dialog" aria-modal="true" aria-labelledby="az-sh-name" hidden>
+  <div class="az-sheet-bar">
+    <button class="az-ibtn" id="az-sh-close" type="button" aria-label="إغلاق"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
+    <span class="az-pos" id="az-sh-pos"></span>
+    <button class="az-ibtn" id="az-sh-copy" type="button" aria-label="نسخ الاسم وشرحه"><svg aria-hidden="true"><use href="#i-copy"/></svg></button>
+  </div>
+  <div class="az-sheet-scroll" id="az-sh-scroll">
+    <article class="az-leaf az-text" id="az-leaf">
+      <div class="az-leaf-head">
+        <span class="az-star"><svg aria-hidden="true"><use href="#khatam"/></svg><b id="az-sh-num"></b></span>
+        <div class="az-cart"><div class="az-cart-in"><h2 class="az-cart-name" id="az-sh-name"></h2></div></div>
+        <p class="az-leaf-s" id="az-sh-s"></p>
+        <span class="az-cat" id="az-sh-cat"></span>
+      </div>
+      <section class="az-sec"><h3>المعنى</h3><p id="az-sh-m"></p></section>
+      <section class="az-sec"><h3>من القرآن</h3>
+        <figure class="az-aya-box" style="margin:0"><p class="az-aya" id="az-sh-aya"></p><figcaption class="az-aya-ref" id="az-sh-ref"></figcaption></figure>
+      </section>
+      <section class="az-sec az-site" id="az-sh-site" hidden><h3>من موقع سورة قرآن</h3>
+        <div class="az-site-part"><h4>المعنى المختصر</h4><p id="az-sh-site-short"></p></div>
+        <div id="az-sh-site-body"></div>
+        <p class="az-site-src">منقول كما هو من <a id="az-sh-site-link" href="https://surahquran.com/99-Names-of-Allah-with-Meaning.html" target="_blank" rel="noopener">موقع سورة قرآن</a></p>
+      </section>
+      <section class="az-sec az-sharh"><h3>شرح الاسم</h3>
+        <div class="az-part"><h4>أصل الكلمة</h4><p id="az-sh-lg"></p></div>
+        <div class="az-part"><h4>معناه في حق الله</h4><ul class="az-dots" id="az-sh-x"></ul></div>
+        <div class="az-part"><h4>من آثاره</h4><ul class="az-dots" id="az-sh-a"></ul></div>
+        <div class="az-part az-nb"><h4>فائدة</h4><p id="az-sh-nb"></p></div>
+      </section>
+      <section class="az-sec az-feel"><h3>استشعِره في قلبك</h3><p id="az-sh-f"></p></section>
+      <section class="az-sec"><h3>ادعُ به</h3><p class="az-dua" id="az-sh-d"></p>
+        <div class="az-dua-row"><span class="az-dua-label" id="az-sh-dl"></span></div>
+      </section>
+      <a class="az-more" id="az-sh-more" href="https://surahquran.com/99-Names-of-Allah-with-Meaning.html" target="_blank" rel="noopener">الشرح المفصّل في موقع سورة قرآن <svg aria-hidden="true"><use href="#i-out"/></svg></a>
+    </article>
+  </div>
+  <div class="az-sheet-foot">
+    <button class="btn btn-soft" id="az-sh-prev" type="button" aria-label="الاسم السابق"><svg aria-hidden="true"><use href="#i-prev"/></svg>السابق</button>
+    <button class="btn btn-primary az-grow" id="az-sh-done" type="button" aria-pressed="false"><svg aria-hidden="true"><use href="#i-check"/></svg><span id="az-sh-done-t">تأمّلته</span></button>
+    <button class="btn btn-soft" id="az-sh-next" type="button" aria-label="الاسم التالي">التالي<svg aria-hidden="true"><use href="#i-next"/></svg></button>
+  </div>
+</div>
+    </section>
   </main>
 
   <nav class="tabbar" aria-label="الأقسام">
     <div class="tabbar-in">
       <button class="tab" data-tab="today"><i data-ico="beads"></i>اليوم</button>
       <button class="tab" data-tab="missed"><span class="tab-ico"><i data-ico="clock"></i><span class="tab-badge" id="missBadge" hidden></span></span>الفائتة</button>
+      <button class="tab tab-center" data-tab="names"><span class="tab-orb"><i data-ico="khatam"></i></span>الأسماء</button>
       <button class="tab" data-tab="progress"><i data-ico="medal"></i>إنجازاتي</button>
       <button class="tab" data-tab="settings"><i data-ico="sliders"></i>الإعدادات</button>
     </div>
@@ -801,6 +1063,7 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
 
   <div class="toasts" id="toasts" aria-live="polite"></div>
 </div>
+<script type="application/json" id="az-data">{"names":[{"id":1,"n":"الله","v":"الله","c":"tawheed","s":"الاسم الجامع لكل صفات الكمال","m":"أعظم أسماء الله وأجمعها، وهو علَمٌ على ذاته سبحانه، ومعناه: المألوه المعبود بحق، الذي تتعلق به القلوب محبةً وتعظيمًا ورجاءً وخوفًا. وإليه تُنسب الأسماء الحسنى كلها.","f":"حين تقول «الله» فأنت تنادي من له الكمال كله؛ فلا يملأ قلبَك حبًّا وتعظيمًا وخوفًا ورجاءً أحدٌ سواه. وكلما قلت «لا إله إلا الله» فأنت تجدد العهد: لا معبود بحق إلا هو.","d":"لا إله إلا الله وحده لا شريك له، له الملك وله الحمد، وهو على كل شيء قدير","dl":"ذكر نبوي","sh":{"lg":"أصله «الإله» على أرجح الأقوال، من أَلِهَ يأْلَه إذا عبد؛ فالإله هو المعبود، ثم حُذفت الهمزة وأُدغمت اللام في اللام فصار «الله».","x":["علمٌ على الرب سبحانه، لا يُسمّى به أحد غيره، ولم يجترئ أحد من الخلق على التسمّي به.","يدل على ألوهيته: استحقاقه وحده للعبادة لكمال صفاته؛ فهو المألوه الذي تألهه القلوب حبًّا وخضوعًا وتعظيمًا."],"a":["تُفتتح به العبادات وتُختم: «الله أكبر» في الصلاة، و«بسم الله» في كل عمل، و«لا إله إلا الله» مفتاح الإسلام.","وهو أكثر الأسماء ورودًا في القرآن، وتُضاف إليه سائر الأسماء الحسنى."],"nb":"الأسماء كلها تابعة لهذا الاسم؛ فيقال: الرحمن والعزيز والحكيم من أسماء الله، ولا يقال: الله من أسماء الرحمن؛ ولذلك وُصف بأنه الاسم الجامع لمعاني الأسماء الحسنى."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%84%D9%87.html","verse":{"html":"<mark>ٱللَّهُ</mark> لَآ إِلَٰهَ إِلَّا هُوَۖ لَهُ ٱلۡأَسۡمَآءُ ٱلۡحُسۡنَىٰ","text":"ٱللَّهُ لَآ إِلَٰهَ إِلَّا هُوَۖ لَهُ ٱلۡأَسۡمَآءُ ٱلۡحُسۡنَىٰ","ref":"سورة طه · الآية ٨"}},{"id":2,"n":"الرحمن","v":"الرَّحْمٰن","c":"rahma","s":"رحمته وسعت كل شيء","m":"ذو الرحمة الواسعة التي شملت الخلق كلهم في هذه الدنيا، مؤمنهم وكافرهم. وهو اسم مختص بالله لا يُسمّى به غيره، ومن رحمته أن علّم الإنسان القرآن والبيان، وسخّر له ما في الكون.","f":"كل نَفَس تتنفسه، وكل لقمة تأكلها، وكل ستر يغطيك؛ أثرٌ من رحمة الرحمن. فإذا ضاقت بك الدنيا فتذكّر أن رحمته سبقت غضبه، وارحم من حولك تستجلب رحمته؛ فالراحمون يرحمهم الرحمن.","d":"يا رحمن، ارحمني برحمتك التي وسعت كل شيء","dl":"","sh":{"lg":"من الرحمة، على وزن «فَعْلان» الدال على السعة والامتلاء، كغضبان وشبعان؛ فهو الممتلئ رحمةً، الواسعة رحمته.","x":["ذو الرحمة الواسعة التي وسعت جميع الخلق، وهي صفة قائمة به سبحانه.","اسم مختص بالله لا يجوز أن يُسمّى به غيره، وكثيرًا ما يأتي في القرآن في سياق ذكر العرش والخلق والإنعام."],"a":["جعل الله الرحمة مئة جزء، فأمسك عنده تسعة وتسعين، وأنزل في الأرض جزءًا واحدًا، فبه يتراحم الخلق، حتى ترفع الدابة حافرها عن ولدها خشية أن تصيبه.","ومن آثار رحمته إنزال القرآن وتعليمه، وخلق الإنسان وتعليمه البيان."],"nb":"افتُتحت به كل سورة في البسملة إلا سورة التوبة، وسُمّيت به سورة كاملة تكرر فيها قوله: ﴿فبأي آلاء ربكما تكذبان﴾."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B1%D8%AD%D9%85%D9%86.html","verse":{"html":"<mark>ٱلرَّحۡمَٰنُ</mark> <span class=\"an\">١</span> عَلَّمَ ٱلۡقُرۡءَانَ <span class=\"an\">٢</span> خَلَقَ ٱلۡإِنسَٰنَ <span class=\"an\">٣</span> عَلَّمَهُ ٱلۡبَيَانَ <span class=\"an\">٤</span>","text":"ٱلرَّحۡمَٰنُ (١) عَلَّمَ ٱلۡقُرۡءَانَ (٢) خَلَقَ ٱلۡإِنسَٰنَ (٣) عَلَّمَهُ ٱلۡبَيَانَ (٤)","ref":"سورة الرحمن · الآيات ١–٤"}},{"id":3,"n":"الرحيم","v":"الرَّحِيم","c":"rahma","s":"رحمته الخاصة بعباده المؤمنين","m":"الذي يرحم عباده رحمةً تصل إليهم فعلًا، وخصّ المؤمنين منهم برحمة خاصة: يهديهم ويوفقهم ويغفر زلاتهم ويُدخلهم جنته. وإذا اجتمع «الرحمن الرحيم» دلّ الأول على سعة الرحمة، والثاني على إيصالها إلى عباده.","f":"إذا وُفّقت لصلاة أو توبة أو كلمة طيبة فاعلم أنها لمسة من رحمة الرحيم بك خاصة. فاطلب رحمته بطاعته، ولا تيأس مهما أثقلتك ذنوبك؛ فهو أرحم بك من أمك بك.","d":"يا رحيم، أدخلني برحمتك في عبادك الصالحين","dl":"","sh":{"lg":"من الرحمة، على وزن «فعيل»، ويدل على دوام الرحمة ووصولها إلى المرحوم.","x":["«الرحمن» يدل على الصفة القائمة به، و«الرحيم» يدل على تعلّقها بالمرحوم؛ فالأول للوصف، والثاني للفعل.","خصّ عباده المؤمنين برحمته التامة في الدنيا والآخرة: يهديهم ويوفقهم ويغفر لهم ويضاعف حسناتهم."],"a":["من رحمته أن شرع التوبة، وأبقى بابها مفتوحًا حتى تطلع الشمس من مغربها.","ومن رحمته أنه لم يكلّف النفوس إلا وسعها، ووضع عن هذه الأمة الخطأ والنسيان وما استُكرهوا عليه."],"nb":"يقترن «الرحيم» في القرآن كثيرًا بـ«الغفور» و«التواب» و«الرؤوف»؛ لأن المغفرة والتوبة والرأفة من أعظم آثار الرحمة."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B1%D8%AD%D9%8A%D9%85.html","verse":{"html":"نَبِّئۡ عِبَادِيٓ أَنِّيٓ أَنَا ٱلۡغَفُورُ <mark>ٱلرَّحِيمُ</mark>","text":"نَبِّئۡ عِبَادِيٓ أَنِّيٓ أَنَا ٱلۡغَفُورُ ٱلرَّحِيمُ","ref":"سورة الحجر · الآية ٤٩"}},{"id":4,"n":"الملك","v":"المَلِك","c":"azama","s":"له الأمر كله والسلطان","m":"صاحب الملك التام، الذي يأمر وينهى ويتصرف في خلقه كيف يشاء، لا رادّ لأمره ولا معقّب لحكمه. وكل ملك سواه زائل، وملكه سبحانه دائم لا يزول.","f":"حين تقف أمام صاحب منصب أو سلطة فتذكّر أن قلبه بيد الملك الحق. فلا تُذلّ نفسك لمخلوق في أمر لا يملكه، واطلب حاجتك ممن بيده خزائن السماوات والأرض.","d":"اللهم أنت الملك لا إله إلا أنت، أنت ربي وأنا عبدك، ظلمت نفسي واعترفت بذنبي، فاغفر لي ذنوبي جميعًا","dl":"دعاء نبوي","sh":{"lg":"من المُلك، وهو القدرة على التصرف بالأمر والنهي؛ والمَلِك صاحب الأمر والسلطان.","x":["المتصرف في خلقه بالأمر والنهي، والإعطاء والمنع، والخفض والرفع، بلا منازع ولا معارض.","ملكه كامل دائم لا يزول ولا يحول، وكل ملك سواه عاريةٌ مستردّة."],"a":["قال ﷺ: «يقبض الله الأرض، ويطوي السماوات بيمينه، ثم يقول: أنا الملك، أين ملوك الأرض؟».","وأمرنا أن نستعيذ به في سورة الناس: ﴿ملك الناس﴾؛ فهو وحده الحاكم فيهم والمتصرف في أمورهم."],"nb":"المالك من يملك الشيء ولو لم يكن له أمر ونهي، والملك صاحب الأمر والسلطان؛ والله جمع الأمرين، ولذلك قُرئ في الفاتحة: «مالك يوم الدين» و«ملك يوم الدين»."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D9%84%D9%83.html","verse":{"html":"فَتَعَٰلَى ٱللَّهُ <mark>ٱلۡمَلِكُ</mark> ٱلۡحَقُّ","text":"فَتَعَٰلَى ٱللَّهُ ٱلۡمَلِكُ ٱلۡحَقُّ","ref":"سورة طه · من الآية ١١٤"}},{"id":5,"n":"القدوس","v":"القُدُّوس","c":"azama","s":"المنزّه عن كل نقص وعيب","m":"الطاهر المنزّه عن كل عيب ونقص، وعن كل ما لا يليق بجلاله، المتصف بالكمال المطلق. تقدّسه الملائكة، ويسبّح له ما في السماوات وما في الأرض.","f":"إذا خطر ببالك وسواس أو سمعت ما لا يليق بالله فقل: «سبحان الملك القدوس». واستشعر أنه طيب لا يقبل إلا طيبًا، فطهّر قلبك ولسانك ومالك لتكون أهلًا لقربه.","d":"سُبّوحٌ قُدّوسٌ، ربُّ الملائكة والروح","dl":"ذكر نبوي","sh":{"lg":"من القُدس، وهو الطهارة، ومنه «الأرض المقدسة» أي المطهّرة، و«روح القدس»؛ وصيغة «فُعُّول» تدل على المبالغة.","x":["المنزّه عن كل عيب ونقص، وعن مماثلة المخلوقين، وعن كل ما لا يليق بجلاله.","الموصوف بكل كمال؛ فالتقديس تنزيه مع إثبات الكمال، لا مجرد نفي."],"a":["تقدّسه الملائكة وتسبّح بحمده، كما قالت: ﴿ونحن نسبح بحمدك ونقدس لك﴾.","وكان النبي ﷺ يقول بعد الوتر: «سبحان الملك القدوس» ثلاث مرات."],"nb":"لم يرد «القدوس» في القرآن إلا مرتين، وفي كلتيهما جاء بعد «الملك»؛ ليجتمع كمال السلطان مع كمال التنزّه عن الظلم والنقص."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%82%D8%AF%D9%88%D8%B3.html","verse":{"html":"يُسَبِّحُ لِلَّهِ مَا فِي ٱلسَّمَٰوَٰتِ وَمَا فِي ٱلۡأَرۡضِ ٱلۡمَلِكِ <mark>ٱلۡقُدُّوسِ</mark> ٱلۡعَزِيزِ ٱلۡحَكِيمِ","text":"يُسَبِّحُ لِلَّهِ مَا فِي ٱلسَّمَٰوَٰتِ وَمَا فِي ٱلۡأَرۡضِ ٱلۡمَلِكِ ٱلۡقُدُّوسِ ٱلۡعَزِيزِ ٱلۡحَكِيمِ","ref":"سورة الجمعة · الآية ١"}},{"id":6,"n":"السلام","v":"السَّلَام","c":"azama","s":"السالم من كل نقص، ومنه كل أمان","m":"السالم من كل عيب وآفة ونقص في ذاته وأسمائه وصفاته وأفعاله، ومنه يصدر السلام والأمان لعباده. وجنته «دار السلام»، وتحية أهلها فيها سلام.","f":"إذا اضطرب قلبك فاطلب السكينة من السلام، فلا سلامة إلا من عنده. وانشر السلام بين الناس، وكن سببًا في سلامتهم من لسانك ويدك.","d":"اللهم أنت السلام ومنك السلام، تباركت يا ذا الجلال والإكرام","dl":"ذكر نبوي","sh":{"lg":"من السلامة، وهي البراءة من العيوب والآفات؛ يقال: سلم من كذا إذا خلص منه.","x":["السالم في ذاته من كل نقص، وفي صفاته من كل عيب، وفي أفعاله من كل ظلم.","الذي يُسلّم عباده من المهالك، ويُلقي السلام على أنبيائه وأوليائه."],"a":["جعل تحية المسلمين «السلام عليكم»؛ فكلما سلّمت على أخيك ذكرت اسمًا من أسماء ربك.","وسلّم على أنبيائه في كتابه: ﴿سلام على نوح في العالمين﴾، ﴿سلام على إبراهيم﴾."],"nb":"كان الصحابة يقولون في التشهد: السلام على الله، فقال لهم النبي ﷺ: «لا تقولوا: السلام على الله، فإن الله هو السلام»، وعلّمهم التحيات."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85.html","verse":{"html":"هُوَ ٱللَّهُ ٱلَّذِي لَآ إِلَٰهَ إِلَّا هُوَ ٱلۡمَلِكُ ٱلۡقُدُّوسُ <mark>ٱلسَّلَٰمُ</mark> ٱلۡمُؤۡمِنُ ٱلۡمُهَيۡمِنُ ٱلۡعَزِيزُ ٱلۡجَبَّارُ ٱلۡمُتَكَبِّرُۚ سُبۡحَٰنَ ٱللَّهِ عَمَّا يُشۡرِكُونَ","text":"هُوَ ٱللَّهُ ٱلَّذِي لَآ إِلَٰهَ إِلَّا هُوَ ٱلۡمَلِكُ ٱلۡقُدُّوسُ ٱلسَّلَٰمُ ٱلۡمُؤۡمِنُ ٱلۡمُهَيۡمِنُ ٱلۡعَزِيزُ ٱلۡجَبَّارُ ٱلۡمُتَكَبِّرُۚ سُبۡحَٰنَ ٱللَّهِ عَمَّا يُشۡرِكُونَ","ref":"سورة الحشر · الآية ٢٣"}},{"id":7,"n":"المؤمن","v":"المُؤْمِن","c":"kifaya","s":"واهب الأمن، والمصدّق لرسله","m":"له معنيان: الذي صدّق رسله وأنبياءه بالآيات والبراهين، والذي يهب الأمن لعباده؛ فلا يظلم أحدًا، ويؤمّن أولياءه من الخوف والعذاب. وكل طمأنينة في القلوب فهي من عطائه.","f":"حين يشتد خوفك من الغد أو من الناس، فالجأ إلى من بيده الأمن كله. وكلما صفا إيمانك وابتعدت عن الظلم زاد نصيبك من الأمان والطمأنينة، فالأمن ثمرة الإيمان.","d":"اللهم استر عوراتي، وآمِن روعاتي","dl":"دعاء نبوي","sh":{"lg":"من الأمن ضد الخوف، ومن الإيمان بمعنى التصديق؛ يقال: آمنه إذا أعطاه الأمان، وآمن به إذا صدّقه.","x":["المصدّق لرسله وأنبيائه بما أقام لهم من الآيات والمعجزات، والمصدّق لعباده المؤمنين في إيمانهم.","الذي يؤمّن خلقه من أن يظلمهم، ويؤمّن أولياءه من عذابه ومن فزع يوم القيامة."],"a":["أمّن قريشًا في حرمه، وذكّرهم بنعمته: ﴿الذي أطعمهم من جوع وآمنهم من خوف﴾.","ويُنزل السكينة في قلوب المؤمنين وقت الشدائد، كما أنزلها على نبيه ﷺ وأصحابه."],"nb":"اجتمع في هذا الاسم معنيان متلازمان: التصديق والأمان؛ فمن صدّق الله في وعده أمِن، ومن آمن به حقًّا أمّنه الله."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D8%A4%D9%85%D9%86.html","verse":{"html":"هُوَ ٱللَّهُ ٱلَّذِي لَآ إِلَٰهَ إِلَّا هُوَ ٱلۡمَلِكُ ٱلۡقُدُّوسُ ٱلسَّلَٰمُ <mark>ٱلۡمُؤۡمِنُ</mark> ٱلۡمُهَيۡمِنُ ٱلۡعَزِيزُ ٱلۡجَبَّارُ ٱلۡمُتَكَبِّرُۚ سُبۡحَٰنَ ٱللَّهِ عَمَّا يُشۡرِكُونَ","text":"هُوَ ٱللَّهُ ٱلَّذِي لَآ إِلَٰهَ إِلَّا هُوَ ٱلۡمَلِكُ ٱلۡقُدُّوسُ ٱلسَّلَٰمُ ٱلۡمُؤۡمِنُ ٱلۡمُهَيۡمِنُ ٱلۡعَزِيزُ ٱلۡجَبَّارُ ٱلۡمُتَكَبِّرُۚ سُبۡحَٰنَ ٱللَّهِ عَمَّا يُشۡرِكُونَ","ref":"سورة الحشر · الآية ٢٣"}},{"id":8,"n":"المهيمن","v":"المُهَيْمِن","c":"ilm","s":"الرقيب القائم على خلقه","m":"الرقيب الحافظ لكل شيء، المطّلع على خفايا الأمور، القائم على خلقه بأعمالهم وأرزاقهم وآجالهم، الشاهد على كل نفس بما كسبت؛ فلا يخرج شيء عن علمه وسلطانه.","f":"استشعر أنك تحت رعايته وشهادته في كل لحظة؛ فإن خلوت فهو يراك، وإن ظُلمت فهو شاهد. هذا يورثك حياءً منه عند المعصية، وطمأنينةً إليه عند الشدة.","d":"يا مهيمن، اجعلني ممن يراقبك في السر والعلن","dl":"","sh":{"lg":"من الهيمنة، وهي القيام على الشيء وحفظه ومراقبته والاطلاع على أحواله.","x":["الرقيب على خلقه، المطّلع على أعمالهم، الحافظ لها، الشاهد عليها.","القائم على كل شيء بالتدبير، فلا يجري في ملكه شيء إلا بعلمه وإذنه."],"a":["جعل القرآن مهيمنًا على الكتب قبله، فقال: ﴿ومهيمنا عليه﴾؛ أي شاهدًا عليها، مصدّقًا لما فيها من الحق.","ويحفظ على العباد أعمالهم، فيجدونها يوم القيامة في كتاب ﴿لا يغادر صغيرة ولا كبيرة إلا أحصاها﴾."],"nb":"لم يرد «المهيمن» اسمًا لله في القرآن إلا مرة واحدة، في آية الحشر التي تتابعت فيها الأسماء الحسنى."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D9%87%D9%8A%D9%85%D9%86.html","verse":{"html":"هُوَ ٱللَّهُ ٱلَّذِي لَآ إِلَٰهَ إِلَّا هُوَ ٱلۡمَلِكُ ٱلۡقُدُّوسُ ٱلسَّلَٰمُ ٱلۡمُؤۡمِنُ <mark>ٱلۡمُهَيۡمِنُ</mark> ٱلۡعَزِيزُ ٱلۡجَبَّارُ ٱلۡمُتَكَبِّرُۚ سُبۡحَٰنَ ٱللَّهِ عَمَّا يُشۡرِكُونَ","text":"هُوَ ٱللَّهُ ٱلَّذِي لَآ إِلَٰهَ إِلَّا هُوَ ٱلۡمَلِكُ ٱلۡقُدُّوسُ ٱلسَّلَٰمُ ٱلۡمُؤۡمِنُ ٱلۡمُهَيۡمِنُ ٱلۡعَزِيزُ ٱلۡجَبَّارُ ٱلۡمُتَكَبِّرُۚ سُبۡحَٰنَ ٱللَّهِ عَمَّا يُشۡرِكُونَ","ref":"سورة الحشر · الآية ٢٣"}},{"id":9,"n":"العزيز","v":"العَزِيز","c":"qudra","s":"الغالب الذي لا يُغلَب","m":"صاحب العزة الكاملة: عزة القوة فلا يُغلب، وعزة الامتناع فلا يناله سوء، وعزة القهر فكل شيء خاضع له. والعزة كلها له، يعطيها من يشاء من عباده الطائعين.","f":"إن أردت العزة فاطلبها من العزيز بطاعته، لا بمعصيته ولا بالتذلل للخلق. وتوكّل عليه في أمورك كلها، فمن اعتز بالله لم يُذلّه أحد.","d":"يا عزيز، أعزّني بطاعتك، ولا تُذلّني بمعصيتك","dl":"","sh":{"lg":"من العِزّة، وتأتي في اللغة على ثلاثة معانٍ: عزّ يعَزّ إذا قوي واشتد، وعزّ يعِزّ إذا امتنع فلا يُنال، وعزّ يعُزّ إذا غلب وقهر.","x":["له عزة القوة فلا يلحقه ضعف، وعزة الامتناع فلا يناله أحد بسوء، وعزة الغلبة فلا يغلبه شيء.","والعزة كلها له؛ فمن طلبها من غيره ذلّ، ومن اعتز به عزّ."],"a":["يُعزّ أولياءه بطاعته ويُذلّ أعداءه بمعصيتهم، وقال: ﴿ولله العزة ولرسوله وللمؤمنين﴾.","وتكرّر في سورة الشعراء بعد قصص الأنبياء: ﴿وإن ربك لهو العزيز الرحيم﴾."],"nb":"عزة المخلوق قد تقوده إلى الظلم والكبر، أما عزة الله فمقرونة في القرآن بالحكمة والرحمة: «العزيز الحكيم» و«العزيز الرحيم»."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B9%D8%B2%D9%8A%D8%B2.html","verse":{"html":"وَتَوَكَّلۡ عَلَى <mark>ٱلۡعَزِيزِ</mark> ٱلرَّحِيمِ","text":"وَتَوَكَّلۡ عَلَى ٱلۡعَزِيزِ ٱلرَّحِيمِ","ref":"سورة الشعراء · الآية ٢١٧"}},{"id":10,"n":"الجبار","v":"الجَبَّار","c":"qudra","s":"يجبر الكسير ويقهر الجبابرة","m":"يجمع ثلاثة معانٍ: جبرَ الضعيف والمنكسر، فيجبر القلوب المكسورة ويغني الفقير ويشفي المريض؛ وجبرَ القهر، فكل شيء خاضع لأمره؛ وجبرَ العلو، فهو العالي فوق خلقه.","f":"كل كسر في قلبك له جبرٌ عند الجبار؛ فإذا انكسرت فانكسر بين يديه، فالقلوب المنكسرة أقرب القلوب إليه. وكن سببًا في جبر خواطر الناس، فالجزاء من جنس العمل.","d":"يا جبّار، اجبر كسر قلبي، واجبر خواطر من أحب","dl":"","sh":{"lg":"من الجَبْر، وأصله إصلاح الشيء بنوع من القوة؛ ومنه جَبْر العظم الكسير، والجبيرة التي تُشدّ عليه.","x":["يجبر الضعيف والمسكين والمنكسر قلبه، فيغني الفقير، ويشفي المريض، ويسلّي المحزون.","وهو القاهر الذي خضع له كل شيء، والعالي على خلقه الذي لا تناله الأيدي."],"a":["كان النبي ﷺ يقول بين السجدتين: «اللهم اغفر لي، وارحمني، واجبرني...»؛ يسأل ربه أن يجبر نقصه.","ويقصم الجبابرة المتكبرين؛ فما من جبار عنيد إلا وله نهاية بين يدي الجبار."],"nb":"إذا وُصف المخلوق بالجبار فهو ذم، يعني المتسلط الظالم؛ وإذا وُصف الله به فهو كمال: جبرٌ للضعيف، وقهرٌ للمتكبر، وعلوٌّ على الخلق."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%AC%D8%A8%D8%A7%D8%B1.html","verse":{"html":"هُوَ ٱللَّهُ ٱلَّذِي لَآ إِلَٰهَ إِلَّا هُوَ ٱلۡمَلِكُ ٱلۡقُدُّوسُ ٱلسَّلَٰمُ ٱلۡمُؤۡمِنُ ٱلۡمُهَيۡمِنُ ٱلۡعَزِيزُ <mark>ٱلۡجَبَّارُ</mark> ٱلۡمُتَكَبِّرُۚ سُبۡحَٰنَ ٱللَّهِ عَمَّا يُشۡرِكُونَ","text":"هُوَ ٱللَّهُ ٱلَّذِي لَآ إِلَٰهَ إِلَّا هُوَ ٱلۡمَلِكُ ٱلۡقُدُّوسُ ٱلسَّلَٰمُ ٱلۡمُؤۡمِنُ ٱلۡمُهَيۡمِنُ ٱلۡعَزِيزُ ٱلۡجَبَّارُ ٱلۡمُتَكَبِّرُۚ سُبۡحَٰنَ ٱللَّهِ عَمَّا يُشۡرِكُونَ","ref":"سورة الحشر · الآية ٢٣"}},{"id":11,"n":"المتكبر","v":"المُتَكَبِّر","c":"azama","s":"له الكبرياء والعظمة وحده","m":"المتعالي عن صفات الخلق، المتفرد بالكبرياء والعظمة، الذي تكبّر عن كل نقص وسوء. والكبرياء صفة كمال في حقه سبحانه، وصفة ذم في حق العبد الضعيف.","f":"كلما وجدت في نفسك شيئًا من الكِبر على الناس فتذكّر أن الكبرياء لله وحده، ومن نازعه فيها أذلّه. فتواضع للخلق تجد الرفعة، فما تواضع أحد لله إلا رفعه.","d":"اللهم طهّر قلبي من الكِبر، وارزقني التواضع لك ولعبادك","dl":"","sh":{"lg":"من الكِبر والكبرياء، وهي العظمة والجلال؛ وصيغة «التفعّل» هنا تدل على التفرد بالكبرياء، لا على التكلّف كما في حق المخلوق.","x":["المتعالي عن صفات المخلوقين، المتكبر عن كل سوء ونقص وظلم.","الذي له الكبرياء في السماوات والأرض، فلا تليق بأحد سواه."],"a":["قال تعالى في الحديث القدسي: «الكبرياء ردائي، والعظمة إزاري، فمن نازعني واحدًا منهما قذفته في النار».","ولهذا كان الكِبر من أعظم الذنوب؛ قال ﷺ: «لا يدخل الجنة من كان في قلبه مثقال ذرة من كبر»."],"nb":"الكبرياء كمال في حق الله لأنه الكبير حقًّا، ونقص في حق العبد لأنه يدّعي ما ليس له؛ وقد فسّر النبي ﷺ الكِبر بأنه: «بطر الحق وغمط الناس»."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D8%AA%D9%83%D8%A8%D8%B1.html","verse":{"html":"هُوَ ٱللَّهُ ٱلَّذِي لَآ إِلَٰهَ إِلَّا هُوَ ٱلۡمَلِكُ ٱلۡقُدُّوسُ ٱلسَّلَٰمُ ٱلۡمُؤۡمِنُ ٱلۡمُهَيۡمِنُ ٱلۡعَزِيزُ ٱلۡجَبَّارُ <mark>ٱلۡمُتَكَبِّرُۚ</mark> سُبۡحَٰنَ ٱللَّهِ عَمَّا يُشۡرِكُونَ","text":"هُوَ ٱللَّهُ ٱلَّذِي لَآ إِلَٰهَ إِلَّا هُوَ ٱلۡمَلِكُ ٱلۡقُدُّوسُ ٱلسَّلَٰمُ ٱلۡمُؤۡمِنُ ٱلۡمُهَيۡمِنُ ٱلۡعَزِيزُ ٱلۡجَبَّارُ ٱلۡمُتَكَبِّرُۚ سُبۡحَٰنَ ٱللَّهِ عَمَّا يُشۡرِكُونَ","ref":"سورة الحشر · الآية ٢٣"}},{"id":12,"n":"الخالق","v":"الخَالِق","c":"khalq","s":"أوجد كل شيء من العدم","m":"الذي أوجد المخلوقات كلها من العدم، وقدّر أمورها قبل وجودها، فلا خالق غيره ولا مدبّر سواه. وكل ما تراه من إتقان وجمال في الكون شاهدٌ على خلقه وحكمته.","f":"تأمّل خلقك وخلق ما حولك، من نبضة القلب إلى دوران الأفلاك، وقل: «هذا خلق الله». ومن أيقن أن الله خالقه علم أنه أعلم بما يصلحه، فسلّم لأمره وشرعه بطمأنينة.","d":"يا خالق كل شيء، أعنّي على ما خلقتني له، واجعلني من عبادك الصالحين","dl":"","sh":{"lg":"من الخلق، وأصله في اللغة التقدير المستقيم، ثم استُعمل في إيجاد الشيء على تقدير سابق.","x":["المقدّر للأشياء قبل وجودها، الموجد لها من العدم على وفق ما قدّر.","لا خالق غيره؛ وكل ما سواه مخلوق له: ذواتهم وصفاتهم وأفعالهم."],"a":["خلق السماوات والأرض في ستة أيام، وخلق الإنسان من طين، ثم جعله نطفة في قرار مكين.","وتحدّى الخلق أن يخلقوا ذبابًا ولو اجتمعوا له، ليعلموا أن الخلق صفة لا يشاركه فيها أحد."],"nb":"يُنسب الخلق إلى الإنسان بمعنى التقدير والصنعة، كقوله: ﴿فتبارك الله أحسن الخالقين﴾؛ أما الإيجاد من العدم فلا يكون إلا لله."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%AE%D8%A7%D9%84%D9%82.html","verse":{"html":"ٱللَّهُ <mark>خَٰلِقُ</mark> كُلِّ شَيۡءࣲۖ وَهُوَ عَلَىٰ كُلِّ شَيۡءࣲ وَكِيلࣱ","text":"ٱللَّهُ خَٰلِقُ كُلِّ شَيۡءࣲۖ وَهُوَ عَلَىٰ كُلِّ شَيۡءࣲ وَكِيلࣱ","ref":"سورة الزمر · الآية ٦٢"}},{"id":13,"n":"البارئ","v":"البَارِئ","c":"khalq","s":"أبرز الخلق متمايزًا سويًّا","m":"الذي أبرز ما قدّره من الخلق إلى الوجود، وميّز بعضه عن بعض، وأخرجه سليمًا من التفاوت والخلل. فالخلق تقدير، والبرء إيجاد وتمييز، والتصوير إعطاء الصورة.","f":"حين ترى اختلاف الوجوه والألسنة والطباع فتذكّر البارئ الذي فرّق بين خلقه بلا خلل. واشكره على أن أخرجك سويًّا معافى، فهذه نعمة ينساها كثيرون.","d":"اللهم كما حسّنت خَلقي فحسّن خُلقي","dl":"","sh":{"lg":"من البَرْء، وهو الإيجاد والإبراز، ويأتي بمعنى الفصل والتمييز؛ ومنه «البريّة» أي الخلق.","x":["الذي أبرز المخلوقات إلى الوجود بعد تقديرها، وفصل بعضها عن بعض.","خلقها بريئة من التفاوت والخلل، متناسبة الأجزاء، متقنة الصنع."],"a":["ميّز كل نفس عن غيرها، فلا تختلط الخلائق ولا تتطابق.","وجاء في خطاب موسى لقومه: ﴿فتوبوا إلى بارئكم﴾؛ أي إلى الذي أوجدكم، فهو أحق أن تُرجعوا إليه."],"nb":"جاءت الأسماء الثلاثة متتابعة: الخالق البارئ المصور؛ فالخلق تقدير، والبرء إيجاد وإبراز، والتصوير إعطاء الهيئة؛ ثلاث مراتب في صنعة الله."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%A8%D8%A7%D8%B1%D8%A6.html","verse":{"html":"هُوَ ٱللَّهُ ٱلۡخَٰلِقُ <mark>ٱلۡبَارِئُ</mark> ٱلۡمُصَوِّرُۖ لَهُ ٱلۡأَسۡمَآءُ ٱلۡحُسۡنَىٰۚ يُسَبِّحُ لَهُۥ مَا فِي ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضِۖ وَهُوَ ٱلۡعَزِيزُ ٱلۡحَكِيمُ","text":"هُوَ ٱللَّهُ ٱلۡخَٰلِقُ ٱلۡبَارِئُ ٱلۡمُصَوِّرُۖ لَهُ ٱلۡأَسۡمَآءُ ٱلۡحُسۡنَىٰۚ يُسَبِّحُ لَهُۥ مَا فِي ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضِۖ وَهُوَ ٱلۡعَزِيزُ ٱلۡحَكِيمُ","ref":"سورة الحشر · الآية ٢٤"}},{"id":14,"n":"المصور","v":"المُصَوِّر","c":"khalq","s":"يصوّر خلقه كيف يشاء","m":"الذي أعطى كل مخلوق صورته وهيئته الخاصة، فصوّر الأجنة في الأرحام كيف شاء، وجعل لكل شيء شكلًا يميّزه؛ فلا تتطابق بصمتان، ولا يتطابق وجهان.","f":"انظر في المرآة بعين الشكر لا بعين التذمّر؛ فالذي صوّرك أحسن صورتك وجعلها مناسبة لك. ولا تسخر من خِلقة أحد، فإنما تعيب صنعة المصوّر سبحانه.","d":"سجد وجهي للذي خلقه وصوّره، وشقّ سمعه وبصره، تبارك الله أحسن الخالقين","dl":"ذكر نبوي","sh":{"lg":"من التصوير، وهو إعطاء الشيء صورته وهيئته الخاصة التي يتميز بها.","x":["الذي صوّر جميع الموجودات، وأعطى كل مخلوق الشكل اللائق به.","يصوّر الأجنة في الأرحام كيف يشاء: ذكرًا أو أنثى، وعلى هيئة لا يشبهها غيرها."],"a":["قال: ﴿وصوركم فأحسن صوركم﴾؛ فالإنسان في أحسن تقويم.","ومن آثار تصويره هذا التنوع الهائل في الكائنات: في الألوان والأشكال والأصوات."],"nb":"نهى النبي ﷺ عن ضرب الوجه؛ تكريمًا لهذه الصورة التي أحسنها المصوّر سبحانه."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D8%B5%D9%88%D8%B1.html","verse":{"html":"هُوَ ٱلَّذِي <mark>يُصَوِّرُكُمۡ</mark> فِي ٱلۡأَرۡحَامِ كَيۡفَ يَشَآءُۚ لَآ إِلَٰهَ إِلَّا هُوَ ٱلۡعَزِيزُ ٱلۡحَكِيمُ","text":"هُوَ ٱلَّذِي يُصَوِّرُكُمۡ فِي ٱلۡأَرۡحَامِ كَيۡفَ يَشَآءُۚ لَآ إِلَٰهَ إِلَّا هُوَ ٱلۡعَزِيزُ ٱلۡحَكِيمُ","ref":"سورة آل عمران · الآية ٦"}},{"id":15,"n":"الأول","v":"الأَوَّل","c":"azama","s":"ليس قبله شيء","m":"الذي ليس قبله شيء، فهو موجود قبل كل موجود، ولا بداية لوجوده سبحانه. هكذا فسّره النبي ﷺ بقوله: «أنت الأول فليس قبلك شيء».","f":"إذا عرفت أنه الأول علمت أن كل نعمة وصلتك فهو الذي ابتدأك بها قبل أن تسأله. فاجعله الأول في قلبك وفي يومك وفي قراراتك، وابدأ كل أمر بذكره.","d":"اللهم أنت الأول فليس قبلك شيء، وأنت الآخر فليس بعدك شيء، وأنت الظاهر فليس فوقك شيء، وأنت الباطن فليس دونك شيء، اقضِ عنا الدَّين، وأغننا من الفقر","dl":"دعاء نبوي","sh":{"lg":"يدل على السبق والتقدم؛ فالأول هو المتقدّم على غيره.","x":["الذي ليس قبله شيء؛ فوجوده لا بداية له، وكل ما سواه حادث بعد أن لم يكن.","وفسّره النبي ﷺ بقوله: «أنت الأول فليس قبلك شيء»، وهو أبلغ تفسير وأوضحه."],"a":["كل نعمة تصل إليك فهو المبتدئ بها، أحسن إليك قبل أن تعرفه وقبل أن تسأله.","ومن حقه أن يكون أول من يُتوجه إليه في كل أمر، فلا يُقدَّم عليه أحد في محبة ولا خوف ولا رجاء."],"nb":"جاءت الأسماء الأربعة في آية واحدة متقابلة: الأول والآخر إحاطة بالزمان، والظاهر والباطن إحاطة بالمكان؛ فلا يخرج شيء عن إحاطته."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%A3%D9%88%D9%84.html","verse":{"html":"هُوَ <mark>ٱلۡأَوَّلُ</mark> وَٱلۡأٓخِرُ وَٱلظَّـٰهِرُ وَٱلۡبَاطِنُۖ وَهُوَ بِكُلِّ شَيۡءٍ عَلِيمٌ","text":"هُوَ ٱلۡأَوَّلُ وَٱلۡأٓخِرُ وَٱلظَّـٰهِرُ وَٱلۡبَاطِنُۖ وَهُوَ بِكُلِّ شَيۡءٍ عَلِيمٌ","ref":"سورة الحديد · الآية ٣"}},{"id":16,"n":"الآخر","v":"الآخِر","c":"azama","s":"ليس بعده شيء","m":"الباقي بعد فناء خلقه، الذي ليس بعده شيء، فكل شيء هالك إلا وجهه. وهو الغاية التي إليها المرجع والمنتهى، كما في الحديث: «وأنت الآخر فليس بعدك شيء».","f":"كل ما تتعلق به اليوم سيفنى، ويبقى الآخر سبحانه؛ فلا تجعل قلبك معلّقًا بزائل. واجعله غايتك ونهاية قصدك، فكل طريق لا ينتهي إليه سراب.","d":"اللهم اجعل خير أعمالي خواتيمها، وخير أيامي يوم ألقاك","dl":"","sh":{"lg":"يدل على التأخر والبقاء بعد غيره.","x":["الباقي بعد فناء الخلق، الذي ليس بعده شيء: ﴿كل من عليها فان ويبقى وجه ربك﴾.","وهو الغاية التي تنتهي إليها الأمور، فإليه المرجع والمصير."],"a":["تفنى الدنيا ومن فيها، ثم يُعلَن: ﴿لمن الملك اليوم﴾، فلا يبقى إلا هو.","وكل محبة أو تعلّق لا ينتهي إليه فمصيره إلى الانقطاع."],"nb":"التعبد بالاسمين معًا: أن تجعل الله أول همّك وآخره؛ تبدأ به كل عمل، وتجعل غاية كل عمل رضاه."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%A2%D8%AE%D8%B1.html","verse":{"html":"هُوَ ٱلۡأَوَّلُ <mark>وَٱلۡأٓخِرُ</mark> وَٱلظَّـٰهِرُ وَٱلۡبَاطِنُۖ وَهُوَ بِكُلِّ شَيۡءٍ عَلِيمٌ","text":"هُوَ ٱلۡأَوَّلُ وَٱلۡأٓخِرُ وَٱلظَّـٰهِرُ وَٱلۡبَاطِنُۖ وَهُوَ بِكُلِّ شَيۡءٍ عَلِيمٌ","ref":"سورة الحديد · الآية ٣"}},{"id":17,"n":"الظاهر","v":"الظَّاهِر","c":"azama","s":"ليس فوقه شيء","m":"العالي فوق جميع خلقه، الذي ليس فوقه شيء، كما فسّره النبي ﷺ: «وأنت الظاهر فليس فوقك شيء». وهو الظاهر بآياته الدالة عليه في كل شيء.","f":"ارفع بصرك إلى السماء وتذكّر أن ربك فوق خلقه، مطّلع عليهم، لا يخفى عليه شيء. وكلما رأيت آية في الكون فاعلم أنها دليل يدلّك عليه.","d":"يا ظاهر، أرني آياتك في نفسي وفي الآفاق، وزدني بك يقينًا","dl":"","sh":{"lg":"من الظهور، ويأتي بمعنى العلو والارتفاع، يقال: ظهر على السطح إذا علاه، وبمعنى الوضوح والبيان.","x":["العالي فوق كل شيء، فليس فوقه شيء، كما فسّره النبي ﷺ.","وهو الظاهر بآياته وأدلته؛ فكل ما في الكون شاهد عليه."],"a":["تعرفه الفطرة، ويستدل عليه العقل بآياته في الأنفس والآفاق.","ولهذا يرفع المؤمن يديه إلى السماء حين يدعو، لأن ربه فوق خلقه."],"nb":"الظاهر والباطن لا يتعارضان: فهو الظاهر الذي ليس فوقه شيء، والباطن الذي ليس دونه شيء؛ عالٍ في قربه، قريب في علوّه."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B8%D8%A7%D9%87%D8%B1.html","verse":{"html":"هُوَ ٱلۡأَوَّلُ وَٱلۡأٓخِرُ <mark>وَٱلظَّـٰهِرُ</mark> وَٱلۡبَاطِنُۖ وَهُوَ بِكُلِّ شَيۡءٍ عَلِيمٌ","text":"هُوَ ٱلۡأَوَّلُ وَٱلۡأٓخِرُ وَٱلظَّـٰهِرُ وَٱلۡبَاطِنُۖ وَهُوَ بِكُلِّ شَيۡءٍ عَلِيمٌ","ref":"سورة الحديد · الآية ٣"}},{"id":18,"n":"الباطن","v":"البَاطِن","c":"azama","s":"ليس دونه شيء","m":"الذي ليس دونه شيء، فهو قريب محيط، يعلم بواطن الأمور وخفايا الصدور، لا يحجبه شيء عن شيء، كما فسّره النبي ﷺ: «وأنت الباطن فليس دونك شيء».","f":"ما تخفيه في صدرك عن الناس مكشوف له؛ فاعتنِ بسريرتك كما تعتني بمظهرك. وأبشر إن كانت نيتك صالحة، فهو يعلم صدقك وإن لم يعلمه أحد.","d":"يا باطن، أصلح سريرتي كما تحب، فإنه لا يخفى عليك شيء","dl":"","sh":{"lg":"من البطون، وهو الخفاء والقرب؛ يقال: بطن الأمر إذا خفي، وبطانة الرجل خاصته المقرّبون.","x":["الذي ليس دونه شيء، فهو قريب محيط بكل شيء، مع علوه فوق خلقه.","العالم بالسرائر والخفايا، المطّلع على ما تخفي الصدور."],"a":["لا يحجبه شيء عن شيء، ولا تخفى عليه خافية في الأرض ولا في السماء.","وهو الذي ﴿يعلم خائنة الأعين وما تخفي الصدور﴾."],"nb":"لا تدركه الأبصار في الدنيا، ويراه المؤمنون في الجنة، ورؤيته أعظم نعيم أهلها."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%A8%D8%A7%D8%B7%D9%86.html","verse":{"html":"هُوَ ٱلۡأَوَّلُ وَٱلۡأٓخِرُ وَٱلظَّـٰهِرُ <mark>وَٱلۡبَاطِنُۖ</mark> وَهُوَ بِكُلِّ شَيۡءٍ عَلِيمٌ","text":"هُوَ ٱلۡأَوَّلُ وَٱلۡأٓخِرُ وَٱلظَّـٰهِرُ وَٱلۡبَاطِنُۖ وَهُوَ بِكُلِّ شَيۡءٍ عَلِيمٌ","ref":"سورة الحديد · الآية ٣"}},{"id":19,"n":"المالك","v":"المَالِك","c":"azama","s":"مالك كل شيء، ومالك يوم الدين","m":"الذي يملك الخلق كلهم ويتصرف فيهم بما يشاء، وهو مالك يوم الدين الذي لا يملك فيه أحد لأحد شيئًا. وكل ما في يدك عاريةٌ منه، يستردّها متى شاء.","f":"ما بين يديك من مال وصحة وأولاد أمانة من المالك، فاستعملها فيما يرضيه. وإذا فقدت شيئًا فقل: «إنا لله وإنا إليه راجعون»، فالمالك أخذ ما هو له.","d":"يا مالك يوم الدين، اجعلني ممن تقرّ عينه يوم لقائك","dl":"","sh":{"lg":"من المِلك، وهو احتواء الشيء والقدرة على التصرف فيه.","x":["المالك للأعيان والأشياء كلها، يتصرف فيها كيف يشاء.","مالك يوم الدين؛ اليوم الذي لا يملك فيه أحد لأحد شيئًا، والأمر يومئذ لله."],"a":["ملكه للعباد ملك حقيقي: خلقهم ويرزقهم ويدبّرهم، وإليه يرجعون.","ولذلك يقول المصاب: «إنا لله وإنا إليه راجعون»، اعترافًا بأن المالك أخذ ملكه."],"nb":"أخبر النبي ﷺ أن أخنع اسم عند الله رجلٌ تسمّى «ملك الأملاك»؛ لأن هذا الوصف لا يليق إلا بالله."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D8%A7%D9%84%D9%83.html","verse":{"html":"<mark>مَٰلِكِ</mark> يَوۡمِ ٱلدِّينِ","text":"مَٰلِكِ يَوۡمِ ٱلدِّينِ","ref":"سورة الفاتحة · الآية ٤"}},{"id":20,"n":"المليك","v":"المَلِيك","c":"azama","s":"عظيم الملك، يُقرّب أولياءه","m":"بمعنى الملك، وفي صيغته مبالغة تدل على عظمة ملكه وسعة سلطانه. وأخبر القرآن أن المتقين يوم القيامة في مقعد صدق عند مليك مقتدر؛ فهو الذي يقرّب أولياءه ويكرمهم.","f":"تخيّل مقعد الصدق عند المليك المقتدر في جنات ونهر؛ أليس يستحق أن تصبر لأجله؟ اجعل هذا المشهد حاضرًا كلما ثقل عليك ترك معصية أو فعل طاعة.","d":"اللهم عالم الغيب والشهادة، فاطر السماوات والأرض، ربّ كل شيء ومليكه، أشهد أن لا إله إلا أنت، أعوذ بك من شر نفسي، ومن شر الشيطان وشركه","dl":"ذكر نبوي","sh":{"lg":"صيغة مبالغة من المَلِك والمالك، تدل على كمال الملك وعظمته.","x":["عظيم الملك، واسع السلطان، الذي له الملك والمُلك معًا.","ويدل على قرب أوليائه منه وإكرامهم يوم القيامة: ﴿في مقعد صدق عند مليك مقتدر﴾."],"a":["في ذكر الصباح والمساء: «رب كل شيء ومليكه»؛ فهو رب الأشياء والمتصرف فيها.","ومجالس الصدق عند المليك جزاء من صدق في إيمانه وعمله."],"nb":"لم يرد «المليك» في القرآن إلا مرة واحدة، مقرونًا بـ«المقتدر»؛ فاجتمع فيه كمال الملك وكمال القدرة."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D9%84%D9%8A%D9%83.html","verse":{"html":"إِنَّ ٱلۡمُتَّقِينَ فِي جَنَّـٰتࣲ وَنَهَرࣲ <span class=\"an\">٥٤</span> فِي مَقۡعَدِ صِدۡقٍ عِندَ <mark>مَلِيكࣲ</mark> مُّقۡتَدِرِۭ <span class=\"an\">٥٥</span>","text":"إِنَّ ٱلۡمُتَّقِينَ فِي جَنَّـٰتࣲ وَنَهَرࣲ (٥٤) فِي مَقۡعَدِ صِدۡقٍ عِندَ مَلِيكࣲ مُّقۡتَدِرِۭ (٥٥)","ref":"سورة القمر · الآيات ٥٤–٥٥"}},{"id":21,"n":"الهادي","v":"الهَادِي","c":"khalq","s":"يدلّ عباده ويوفّقهم للحق","m":"الذي يهدي عباده إلى ما ينفعهم: هداية البيان والدلالة بإرسال الرسل وإنزال الكتب، وهداية التوفيق والإلهام التي لا يملكها إلا هو. وهدى كل مخلوق إلى ما يصلح معاشه.","f":"الهداية لا تُشترى بذكاء ولا بمال، بل تُطلب من الهادي؛ لذلك تسأله في كل ركعة: «اهدنا الصراط المستقيم». فاستحضر حاجتك إليها كأنك تسألها لأول مرة.","d":"اللهم اهدني وسدّدني","dl":"دعاء نبوي","sh":{"lg":"من الهداية، وهي الدلالة والإرشاد بلطف إلى ما يوصل إلى المطلوب.","x":["هدى كل مخلوق إلى ما يصلح أمره: ﴿أعطى كل شيء خلقه ثم هدى﴾.","وهدى عباده إلى الحق: هداية بيان وإرشاد للجميع، وهداية توفيق وإلهام لمن شاء."],"a":["أرسل الرسل وأنزل الكتب هدايةً للناس، وجعل القرآن ﴿يهدي للتي هي أقوم﴾.","وعلّمنا أن نسأله الهداية في كل ركعة، لأن العبد لا يستغني عنها لحظة."],"nb":"هداية التوفيق بيد الله وحده؛ ولذلك قال لنبيه ﷺ: ﴿إنك لا تهدي من أحببت ولكن الله يهدي من يشاء﴾، مع أنه ﷺ يهدي الناس هداية بيان: ﴿وإنك لتهدي إلى صراط مستقيم﴾."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%87%D8%A7%D8%AF%D9%8A.html","verse":{"html":"وَكَفَىٰ بِرَبِّكَ <mark>هَادِيࣰا</mark> وَنَصِيرࣰا","text":"وَكَفَىٰ بِرَبِّكَ هَادِيࣰا وَنَصِيرࣰا","ref":"سورة الفرقان · من الآية ٣١"}},{"id":22,"n":"السميع","v":"السَّمِيع","c":"ilm","s":"يسمع كل صوت ونجوى","m":"الذي يسمع جميع الأصوات على اختلاف اللغات وتنوّع الحاجات، لا يشغله سمع عن سمع، ويستوي عنده السر والجهر. ويسمع الدعاء سمع إجابة وقبول.","f":"لا تحتاج أن ترفع صوتك ولا أن تحسن العبارة؛ فهو يسمع همسك وأنين قلبك. ولهذا احفظ لسانك، فكل كلمة تقولها مسموعة عنده.","d":"بسم الله الذي لا يضرّ مع اسمه شيءٌ في الأرض ولا في السماء، وهو السميع العليم","dl":"ذكر نبوي","sh":{"lg":"من السمع، وهو إدراك الأصوات؛ وصيغة «فعيل» تدل على كمال السمع وسعته.","x":["يسمع جميع الأصوات خفيّها وجليّها، لا تختلط عليه اللغات ولا تشتبه عليه الحاجات.","ويسمع سمع إجابة وقبول؛ ومنه قول المصلي: «سمع الله لمن حمده» أي استجاب له."],"a":["سمع شكوى المرأة التي جاءت تجادل النبي ﷺ في زوجها، وعائشة رضي الله عنها في ناحية البيت يخفى عليها بعض كلامها؛ فنزل: ﴿قد سمع الله قول التي تجادلك في زوجها﴾.","وسمع دعاء الأنبياء في أشد الأحوال: يونس في بطن الحوت، وأيوب في بلائه، فاستجاب لهم."],"nb":"رفع الصحابة أصواتهم بالتكبير في سفر، فقال ﷺ: «إنكم لا تدعون أصمّ ولا غائبًا»؛ فربّك سميع قريب، يسمع الهمس كما يسمع الجهر."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B3%D9%85%D9%8A%D8%B9.html","verse":{"html":"إِنَّ رَبِّي <mark>لَسَمِيعُ</mark> ٱلدُّعَآءِ","text":"إِنَّ رَبِّي لَسَمِيعُ ٱلدُّعَآءِ","ref":"سورة إبراهيم · من الآية ٣٩"}},{"id":23,"n":"البصير","v":"البَصِير","c":"ilm","s":"يرى كل شيء ولا يخفى عليه شيء","m":"الذي يرى كل شيء وإن دقّ وصغر؛ يرى دبيب النملة السوداء على الصخرة الصمّاء في الليلة الظلماء، ويبصر أعمال عباده ظاهرها وباطنها، بصيرٌ بأحوالهم وما يصلحهم.","f":"إذا عملت خيرًا لا يراه أحد فيكفيك أن البصير يراه. وإذا هممت بمعصية في خلوة فتذكّر أنه يراك؛ وهذه حقيقة الإحسان: أن تعبد الله كأنك تراه.","d":"يا بصير، اجعلني أخشاك كأني أراك","dl":"","sh":{"lg":"من البصر، وهو الرؤية، ويأتي بمعنى العلم والخبرة، ومنه البصيرة.","x":["يرى كل شيء وإن دقّ وخفي، في ظلمات البر والبحر وأعماق الأرض.","بصيرٌ بأحوال عباده: بمن يستحق الهداية ومن لا يستحقها، ومن يصلحه الغنى ومن يصلحه الفقر."],"a":["قال لموسى وهارون حين خافا من فرعون: ﴿إنني معكما أسمع وأرى﴾.","وعلى هذا المعنى قام مقام الإحسان: «أن تعبد الله كأنك تراه، فإن لم تكن تراه فإنه يراك»."],"nb":"اقترن «السميع» بـ«البصير» في القرآن كثيرًا؛ ليجمع بين إدراك الأقوال وإدراك الأفعال، فلا يغيب عنه قول ولا عمل."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%A8%D8%B5%D9%8A%D8%B1.html","verse":{"html":"لَيۡسَ كَمِثۡلِهِۦ شَيۡءࣱۖ وَهُوَ ٱلسَّمِيعُ <mark>ٱلۡبَصِيرُ</mark>","text":"لَيۡسَ كَمِثۡلِهِۦ شَيۡءࣱۖ وَهُوَ ٱلسَّمِيعُ ٱلۡبَصِيرُ","ref":"سورة الشورى · من الآية ١١"}},{"id":24,"n":"الواسع","v":"الوَاسِع","c":"azama","s":"وسع كل شيء رحمةً وعلمًا وعطاءً","m":"واسع الصفات والنعوت: وسع علمُه كلَّ شيء، ووسعت رحمته كل شيء، وهو واسع الفضل والعطاء والمغفرة. لا يضيق عطاؤه بكثرة السائلين، ولا تنقص خزائنه بالإنفاق.","f":"إذا ضاقت عليك الأرض فتذكّر أن ربك واسع، ورحمته أوسع من ضيقك وذنبك. وأحسن الظن به حين تدعو، فلا تستعظم حاجةً على من لا تنفد خزائنه.","d":"اللهم اغفر لي ذنبي، ووسّع لي في داري، وبارك لي في رزقي","dl":"","sh":{"lg":"من السَّعة ضد الضيق؛ يقال: وسع الشيءُ الشيءَ إذا استوعبه.","x":["واسع العلم أحاط بكل شيء علمًا، وواسع الرحمة وسعت رحمته كل شيء.","واسع الفضل والعطاء: لو أعطى كل سائل مسألته ما نقص ذلك مما عنده إلا كما ينقص المِخيط إذا أُدخل البحر."],"a":["وسع كرسيّه السماوات والأرض، ووسعت مغفرته الذنوب مهما عظمت.","ووسّع على عباده في شريعته: ﴿وما جعل عليكم في الدين من حرج﴾."],"nb":"جاء «الواسع» في القرآن مقرونًا بـ«العليم» في أكثر مواضعه؛ لأن سعة عطائه تجري على وفق علمه بمن يستحقه."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%88%D8%A7%D8%B3%D8%B9.html","verse":{"html":"وَٱللَّهُ يَعِدُكُم مَّغۡفِرَةࣰ مِّنۡهُ وَفَضۡلࣰاۗ وَٱللَّهُ <mark>وَٰسِعٌ</mark> عَلِيمࣱ","text":"وَٱللَّهُ يَعِدُكُم مَّغۡفِرَةࣰ مِّنۡهُ وَفَضۡلࣰاۗ وَٱللَّهُ وَٰسِعٌ عَلِيمࣱ","ref":"سورة البقرة · من الآية ٢٦٨"}},{"id":25,"n":"المحيط","v":"المُحِيط","c":"ilm","s":"أحاط بكل شيء علمًا وقدرة","m":"الذي أحاط بكل شيء علمًا وقدرة وسلطانًا، فلا يفوته شيء ولا يُعجزه شيء، ولا يخرج أحد عن قبضته. أحاط بالماضي والحاضر والمستقبل، وبالظاهر والخفي.","f":"إذا خشيت كيد أحد أو مكره فتذكّر أن الله محيط به، لا يتحرك إلا بإذنه. وهذا يبعث في قلبك الطمأنينة: لستَ تائهًا في هذا العالم، فكل شيء في قبضة ربك.","d":"يا محيطًا بكل شيء، أحِطني بحفظك ورعايتك","dl":"","sh":{"lg":"من الإحاطة، وهي الاشتمال على الشيء من جميع جهاته، ومنه الحائط لأنه يحيط بما وراءه.","x":["أحاط بكل شيء علمًا، فلا يخفى عليه شيء في الأرض ولا في السماء.","وأحاط بكل شيء قدرةً وسلطانًا، فلا يخرج أحد عن قبضته، ولا يفلت من حكمه."],"a":["أحاط بأعمال العباد إحصاءً، وبمكر الماكرين قدرةً، فمهما مكروا فهو محيط بهم.","وإحاطته لا تعني حلوله في المخلوقات؛ فهو فوق عرشه، وعلمه وقدرته محيطان بكل شيء."],"nb":"في قوله: ﴿والله محيط بالكافرين﴾ طمأنة للمؤمنين؛ فأعداؤهم في قبضة الله مهما طال إمهالهم."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D8%AD%D9%8A%D8%B7.html","verse":{"html":"وَلِلَّهِ مَا فِي ٱلسَّمَٰوَٰتِ وَمَا فِي ٱلۡأَرۡضِۚ وَكَانَ ٱللَّهُ بِكُلِّ شَيۡءࣲ <mark>مُّحِيطࣰا</mark>","text":"وَلِلَّهِ مَا فِي ٱلسَّمَٰوَٰتِ وَمَا فِي ٱلۡأَرۡضِۚ وَكَانَ ٱللَّهُ بِكُلِّ شَيۡءࣲ مُّحِيطࣰا","ref":"سورة النساء · الآية ١٢٦"}},{"id":26,"n":"علّام الغيوب","v":"عَلَّامُ الغُيُوب","c":"ilm","s":"يعلم كل غائب وخفيّ","m":"الذي يعلم ما غاب عن الخلق كله: ما كان، وما سيكون، وما لم يكن لو كان كيف يكون، ويعلم السر وما هو أخفى منه. وصيغة «علّام» تدل على كثرة علمه وكماله.","f":"حين تحتار في أمر لا تعرف عاقبته فاستخره، فهو يعلم ما لا تعلم. وإذا أخفيت نية صالحة أو ذنبًا ثقيلًا فاعلم أن علّام الغيوب مطّلع عليه، فأصلح ما بينك وبينه.","d":"اللهم إني أستخيرك بعلمك، وأستقدرك بقدرتك، وأسألك من فضلك العظيم، فإنك تقدر ولا أقدر، وتعلم ولا أعلم، وأنت علّام الغيوب","dl":"دعاء نبوي","sh":{"lg":"«علّام» صيغة مبالغة من العلم، و«الغيوب» جمع غيب، وهو كل ما غاب عن الحواس والإدراك.","x":["يعلم كل غيب: ما كان في الماضي، وما سيكون في المستقبل، وما في الصدور من الأسرار.","تفرّد بمفاتح الغيب، فلا يعلمها أحد سواه."],"a":["خمسٌ لا يعلمها إلا الله: علم الساعة، ونزول الغيث، وما في الأرحام، وما تكسب كل نفس غدًا، وبأي أرض تموت.","ولهذا شُرعت الاستخارة: أن يفوّض العبد اختياره إلى من يعلم الغيب."],"nb":"جاء هذا الاسم على لسان عيسى عليه السلام يوم القيامة: ﴿إنك أنت علام الغيوب﴾، تبرّؤًا من علم ما لم يُعلَّمه."},"url":"https://surahquran.com/Names-of-Allah-%D8%B9%D9%84%D9%91%D8%A7%D9%85+%D8%A7%D9%84%D8%BA%D9%8A%D9%88%D8%A8.html","verse":{"html":"أَلَمۡ يَعۡلَمُوٓاْ أَنَّ ٱللَّهَ يَعۡلَمُ سِرَّهُمۡ وَنَجۡوَىٰهُمۡ وَأَنَّ ٱللَّهَ <mark>عَلَّـٰمُ</mark> <mark>ٱلۡغُيُوبِ</mark>","text":"أَلَمۡ يَعۡلَمُوٓاْ أَنَّ ٱللَّهَ يَعۡلَمُ سِرَّهُمۡ وَنَجۡوَىٰهُمۡ وَأَنَّ ٱللَّهَ عَلَّـٰمُ ٱلۡغُيُوبِ","ref":"سورة التوبة · الآية ٧٨"}},{"id":27,"n":"الشاكر","v":"الشَّاكِر","c":"rahma","s":"يجزي على القليل بالكثير","m":"الذي يشكر عباده على طاعتهم، فيثيبهم على العمل القليل بالأجر الكثير، ولا يضيع عنده عمل عامل. وشكره سبحانه قبولُ العمل ومضاعفةُ الجزاء والثناءُ على أهله.","f":"لا تحقرنّ عملًا صغيرًا: كلمة طيبة، أو شربة ماء لعطشان؛ فالشاكر يقبلها ويضاعفها. وكن أنت شاكرًا لنعمه، فمن شكر زاده الله.","d":"يا شاكر، تقبّل مني قليل عملي، وضاعفه برحمتك","dl":"","sh":{"lg":"من الشكر، وأصله في اللغة الظهور والزيادة؛ يقال: دابة شكور إذا ظهر عليها من السِّمن أكثر مما تأخذ من العلف.","x":["يشكر عباده على العمل القليل، فيثيبهم عليه بالأجر الكثير.","ومن شكره أنه يثني على عباده المطيعين، ويذكرهم في الملأ الأعلى."],"a":["قال تعالى في الحديث القدسي: «وإن ذكرني في ملأ ذكرته في ملأ خير منهم».","ومن شكره أن الحسنة بعشر أمثالها، إلى سبعمائة ضعف، إلى أضعاف كثيرة."],"nb":"شكر الله لعبده ليس كشكر العبد لربه؛ فالعبد يشكر نعمةً وصلته، والله يشكر عملًا هو الذي وفّق إليه وأعان عليه، ثم يجزي عليه."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B4%D8%A7%D9%83%D8%B1.html","verse":{"html":"مَّا يَفۡعَلُ ٱللَّهُ بِعَذَابِكُمۡ إِن شَكَرۡتُمۡ وَءَامَنتُمۡۚ وَكَانَ ٱللَّهُ <mark>شَاكِرًا</mark> عَلِيمࣰا","text":"مَّا يَفۡعَلُ ٱللَّهُ بِعَذَابِكُمۡ إِن شَكَرۡتُمۡ وَءَامَنتُمۡۚ وَكَانَ ٱللَّهُ شَاكِرًا عَلِيمࣰا","ref":"سورة النساء · الآية ١٤٧"}},{"id":28,"n":"البر","v":"البَرّ","c":"rahma","s":"واسع الإحسان والخير","m":"كثير البرّ والإحسان، الذي عمّ ببرّه جميع خلقه، يحسن إليهم ويتجاوز عن مسيئهم، ويصدق وعده لأوليائه. ومن برّه أنه يعطي قبل السؤال، ويستر بعد المعصية.","f":"تذكّر كم مرة أحسن إليك وأنت مقصّر، وكم مرة ستر عليك وأنت تعصيه؛ هذا من برّه. فقابل برّه بالطاعة، وكن بارًّا بوالديك وبالناس، فالله يحب أهل البر.","d":"يا برّ، عاملني ببرّك وإحسانك، ولا تعاملني بما أنا أهله","dl":"","sh":{"lg":"من البِرّ، وهو الاتساع في الإحسان والخير؛ ومنه البَرّ أي اليابسة لاتساعها.","x":["واسع الإحسان إلى خلقه، يعطي ويمنح ويتفضل بلا حدود.","صادق الوعد، يبرّ بعباده المؤمنين فيوفي لهم بما وعدهم."],"a":["قالها أهل الجنة وهم يتذكرون دعاءهم في الدنيا: ﴿إنه هو البر الرحيم﴾.","ومن برّه أنه يقبل اليسير، ويعفو عن الكثير، ويستر العيوب."],"nb":"لم يرد «البر» اسمًا لله في القرآن إلا مرة واحدة، على لسان أهل الجنة؛ فهو اسم يعرفه أهل النعيم حين يرون آثار برّه."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%A8%D8%B1.html","verse":{"html":"إِنَّا كُنَّا مِن قَبۡلُ نَدۡعُوهُۖ إِنَّهُۥ هُوَ <mark>ٱلۡبَرُّ</mark> ٱلرَّحِيمُ","text":"إِنَّا كُنَّا مِن قَبۡلُ نَدۡعُوهُۖ إِنَّهُۥ هُوَ ٱلۡبَرُّ ٱلرَّحِيمُ","ref":"سورة الطور · الآية ٢٨"}},{"id":29,"n":"التواب","v":"التَّوَّاب","c":"rahma","s":"يقبل التوبة مرة بعد مرة","m":"الذي يوفّق عباده للتوبة أولًا، ثم يقبلها منهم ثانيًا، ويتوب على من تاب مهما تكررت ذنوبه. وصيغة «توّاب» تدل على كثرة قبوله للتوبة.","f":"كلما أذنبت فلا تقل: «عدتُ مرة أخرى، لن يقبلني»؛ فالتوّاب يحب أن تعود إليه في كل مرة. وتذكّر آدم عليه السلام: أخطأ، فتلقى من ربه كلمات التوبة، فتاب الله عليه.","d":"ربِّ اغفر لي وتُب عليّ، إنك أنت التواب الرحيم","dl":"دعاء نبوي","sh":{"lg":"من التوب، وهو الرجوع؛ و«توّاب» صيغة مبالغة تدل على كثرة قبول التوبة.","x":["يتوب على عبده أولًا فيلهمه التوبة ويوفقه إليها، ثم يتوب عليه ثانيًا فيقبلها منه ويمحو بها ذنبه.","ويقبل توبة العبد ما لم يغرغر، أي ما لم تبلغ روحه الحلقوم."],"a":["قال عن الثلاثة الذين خُلّفوا: ﴿ثم تاب عليهم ليتوبوا﴾؛ فتوبة الله على العبد تسبق توبة العبد.","وأخبر النبي ﷺ أن الله أشد فرحًا بتوبة عبده من رجل أضلّ راحلته في فلاة ثم وجدها."],"nb":"يأتي «التواب» في القرآن غالبًا مقرونًا بـ«الرحيم»؛ لأن التوبة من أعظم آثار رحمته."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%AA%D9%88%D8%A7%D8%A8.html","verse":{"html":"فَتَلَقَّىٰٓ ءَادَمُ مِن رَّبِّهِۦ كَلِمَٰتࣲ فَتَابَ عَلَيۡهِۚ إِنَّهُۥ هُوَ <mark>ٱلتَّوَّابُ</mark> ٱلرَّحِيمُ","text":"فَتَلَقَّىٰٓ ءَادَمُ مِن رَّبِّهِۦ كَلِمَٰتࣲ فَتَابَ عَلَيۡهِۚ إِنَّهُۥ هُوَ ٱلتَّوَّابُ ٱلرَّحِيمُ","ref":"سورة البقرة · الآية ٣٧"}},{"id":30,"n":"الرؤوف","v":"الرَّؤُوف","c":"rahma","s":"شديد الرحمة واللطف بعباده","m":"الرأفة أشد الرحمة وأرقّها؛ فهو الذي يرأف بعباده، فلا يكلّفهم ما لا يطيقون، ويدفع عنهم ما يضرهم، ويخفف عنهم في أحكامه. ومن رأفته أنه لا يضيّع إيمانهم ولا عملهم.","f":"حين ترى التيسير في الشريعة — كقصر الصلاة في السفر، والرخصة للمريض — فهذا من رأفته بك. فلا تشدّد على نفسك فيما يسّره، وارأف أنت بالضعفاء من حولك.","d":"يا رؤوف، ارأف بضعفي، وخفّف عني ما لا أطيق","dl":"","sh":{"lg":"من الرأفة، وهي أشد الرحمة وأرقّها؛ فالرأفة رحمة خاصة فيها لطف ورقة.","x":["يرأف بعباده، فيدفع عنهم المكاره والشدائد، ويرحمهم أبلغ الرحمة.","ومن رأفته أنه لا يكلّفهم ما يشقّ عليهم، ولا يضيّع أعمالهم."],"a":["لما تحوّلت القبلة خاف الصحابة على صلاة من مات قبل التحويل، فأنزل الله: ﴿وما كان الله ليضيع إيمانكم إن الله بالناس لرءوف رحيم﴾.","وشرع الرخص: التيمم عند فقد الماء، والفطر للمسافر والمريض، وقصر الصلاة في السفر."],"nb":"وصف الله نبيه ﷺ بأنه ﴿بالمؤمنين رءوف رحيم﴾؛ فمن تخلّق بالرأفة مع الناس كان أقرب إلى هدي نبيه."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B1%D8%A4%D9%88%D9%81.html","verse":{"html":"إِنَّ ٱللَّهَ بِٱلنَّاسِ <mark>لَرَءُوفࣱ</mark> رَّحِيمࣱ","text":"إِنَّ ٱللَّهَ بِٱلنَّاسِ لَرَءُوفࣱ رَّحِيمࣱ","ref":"سورة البقرة · من الآية ١٤٣"}},{"id":31,"n":"الولي","v":"الوَلِيّ","c":"kifaya","s":"يتولّى أولياءه بالنصرة والرعاية","m":"الذي يتولى أمور خلقه بالتدبير، ويتولى عباده المؤمنين ولايةً خاصة: يحبهم ويحفظهم وينصرهم، ويخرجهم من ظلمات الجهل والمعصية إلى نور العلم والطاعة.","f":"من كان الله وليّه فلن يضيع. فاسعَ أن تكون من أوليائه بالإيمان والتقوى، وإذا تخلّى عنك الناس فقل: «الله وليّي»، فهو يكفيك عنهم.","d":"اللهم اهدني فيمن هديت، وعافني فيمن عافيت، وتولّني فيمن تولّيت","dl":"دعاء نبوي","sh":{"lg":"من الوَلْي، وهو القرب والدنو؛ والولاية: النصرة والمحبة والتولّي.","x":["الولي العام: المتولي أمور خلقه كلهم بالتدبير والرزق والحفظ.","والولي الخاص: المتولي عباده المؤمنين بالمحبة والنصرة والهداية، يخرجهم من الظلمات إلى النور."],"a":["من تولّاه الله فلا يخاف ولا يحزن: ﴿ألا إن أولياء الله لا خوف عليهم ولا هم يحزنون﴾.","وفي الحديث القدسي: «من عادى لي وليًّا فقد آذنته بالحرب»."],"nb":"بيّن الله صفة أوليائه في الآية التي تليها: ﴿الذين آمنوا وكانوا يتقون﴾؛ فالولاية تُنال بالإيمان والتقوى."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%88%D9%84%D9%8A.html","verse":{"html":"ٱللَّهُ <mark>وَلِيُّ</mark> ٱلَّذِينَ ءَامَنُواْ يُخۡرِجُهُم مِّنَ ٱلظُّلُمَٰتِ إِلَى ٱلنُّورِ","text":"ٱللَّهُ وَلِيُّ ٱلَّذِينَ ءَامَنُواْ يُخۡرِجُهُم مِّنَ ٱلظُّلُمَٰتِ إِلَى ٱلنُّورِ","ref":"سورة البقرة · من الآية ٢٥٧"}},{"id":32,"n":"المولى","v":"المَوْلَى","c":"kifaya","s":"السيد الناصر المتولّي لعباده","m":"الربّ السيد المالك، الذي يتولّى عباده المؤمنين بالنصر والتأييد والرعاية. وهو نِعم المولى لمن تولّاه، ونِعم النصير لمن استنصره.","f":"حين تشعر بالضعف أمام عدو أو مشكلة فقل بقلب واثق: «الله مولاي». فمن كان الله مولاه لم يخذله ولم يُسلمه، وهو خير الناصرين.","d":"اللهم أنت مولاي، فنِعم المولى ونِعم النصير","dl":"","sh":{"lg":"من الولاية أيضًا، ويأتي بمعنى السيد والمالك والناصر والمعين.","x":["مولى المؤمنين: سيدهم وناصرهم ومتولي أمورهم.","ومولى الخلق كلهم بمعنى المالك والسيد، إليه يُردّون: ﴿ثم ردوا إلى الله مولاهم الحق﴾."],"a":["يوم أحد نادى أبو سفيان: لنا العُزّى ولا عُزّى لكم، فقال النبي ﷺ: «قولوا: الله مولانا ولا مولى لكم».","وخُتمت سورة البقرة بدعاء: ﴿أنت مولانا فانصرنا على القوم الكافرين﴾."],"nb":"الولي والمولى متقاربان، غير أن «المولى» أظهر في معنى السيد الناصر؛ ولذلك يُقال في الشدائد: نعم المولى ونعم النصير."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D9%88%D9%84%D9%89.html","verse":{"html":"بَلِ ٱللَّهُ <mark>مَوۡلَىٰكُمۡۖ</mark> وَهُوَ خَيۡرُ ٱلنَّـٰصِرِينَ","text":"بَلِ ٱللَّهُ مَوۡلَىٰكُمۡۖ وَهُوَ خَيۡرُ ٱلنَّـٰصِرِينَ","ref":"سورة آل عمران · الآية ١٥٠"}},{"id":33,"n":"الرب","v":"الرَّبّ","c":"tawheed","s":"الخالق المالك المربّي","m":"الذي يربّي خلقه بنعمه: خلقهم ورزقهم ودبّر أمورهم، ويربّي أولياءه بإصلاح قلوبهم وتزكيتها. وهو المالك السيد المتصرف، ولا يُطلق «الرب» معرّفًا إلا عليه سبحانه.","f":"أنت في تربية ربك منذ كنت نطفة إلى هذه اللحظة؛ يرعاك ويصلحك ولو بالابتلاء. فإذا نزلت بك شدة فقل: «يا رب»، فبها افتتح الأنبياء أكثر دعائهم في القرآن.","d":"رضيتُ بالله ربًّا، وبالإسلام دينًا، وبمحمد ﷺ نبيًّا","dl":"ذكر نبوي","sh":{"lg":"من التربية، وهي إنشاء الشيء حالًا فحالًا إلى حد التمام؛ ويأتي بمعنى المالك والسيد والمصلح.","x":["الخالق المالك المدبّر لجميع الخلق؛ فالربوبية خلق وملك وتدبير.","يربّي خلقه بالنعم الظاهرة والباطنة، ويربّي أولياءه بإصلاح قلوبهم وتزكيتها."],"a":["أول ما يُسأل عنه العبد في قبره: من ربك؟ فيثبّت الله المؤمن فيقول: ربي الله.","وأكثر دعاء الأنبياء في القرآن يُفتتح بـ«رب» أو «ربنا»؛ لأن الدعاء طلبٌ للتربية والإصلاح."],"nb":"لا يُطلق «الرب» معرّفًا بأل إلا على الله، أما مضافًا فيجوز لغيره، كربّ الدار وربّ المال."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B1%D8%A8.html","verse":{"html":"ٱلۡحَمۡدُ لِلَّهِ <mark>رَبِّ</mark> ٱلۡعَٰلَمِينَ","text":"ٱلۡحَمۡدُ لِلَّهِ رَبِّ ٱلۡعَٰلَمِينَ","ref":"سورة الفاتحة · الآية ٢"}},{"id":34,"n":"الخلاق","v":"الخَلَّاق","c":"khalq","s":"كثير الخلق، دائم الإبداع","m":"صيغة مبالغة من الخالق، تدل على كثرة خلقه وتجدده؛ فهو يخلق في كل لحظة ما لا يُحصى من المخلوقات، ويعيد الخلق بعد فنائه، ولا يُعجزه بعث الأجساد بعد الموت.","f":"في جسدك وحده تتجدد مليارات الخلايا كل يوم؛ أثرٌ من آثار الخلّاق. فإذا استبعدت تغيّر حالك أو صلاح أمرك فتذكّر أن الذي يخلق كل لحظة لا يعجزه أن يخلق لك فرجًا جديدًا.","d":"يا خلّاق، جدّد الإيمان في قلبي، وأحيِ فيه الأمل","dl":"","sh":{"lg":"صيغة مبالغة من الخلق، تدل على كثرة الخلق وتكراره ودوامه.","x":["يخلق خلقًا بعد خلق، لا يتوقف خلقه ولا يحدّه زمان.","ويبدأ الخلق ثم يعيده بعد فنائه، ﴿وهو أهون عليه﴾."],"a":["احتج به على منكري البعث: ﴿أوليس الذي خلق السماوات والأرض بقادر على أن يخلق مثلهم بلى وهو الخلاق العليم﴾.","وفي كل لحظة تتجدد في الكون مخلوقات لا يحصيها إلا هو."],"nb":"لم يرد «الخلاق» في القرآن إلا مرتين، وفي كلتيهما مقرونًا بـ«العليم»؛ لأن كثرة الخلق مع إتقانه لا تكون إلا عن علم محيط."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%AE%D9%84%D8%A7%D9%82.html","verse":{"html":"إِنَّ رَبَّكَ هُوَ <mark>ٱلۡخَلَّـٰقُ</mark> ٱلۡعَلِيمُ","text":"إِنَّ رَبَّكَ هُوَ ٱلۡخَلَّـٰقُ ٱلۡعَلِيمُ","ref":"سورة الحجر · الآية ٨٦"}},{"id":35,"n":"القدير","v":"القَدِير","c":"qudra","s":"لا يعجزه شيء","m":"كامل القدرة، الذي لا يعجزه شيء في الأرض ولا في السماء، إذا أراد شيئًا قال له: كن فيكون. وقدرته شاملة لكل شيء: الإيجاد والإعدام، والإحياء والإماتة، وتقليب القلوب والأحوال.","f":"حين تقول «مستحيل» فتذكّر من بيده الملك وهو على كل شيء قدير. لا تيأس من صلاح ولد، أو شفاء مرض، أو قضاء دين؛ فالأسباب كلها في قبضته.","d":"يا قدير، لا يعجزك شيء، فيسّر لي أمري","dl":"","sh":{"lg":"من القدرة، وصيغة «فعيل» تدل على المبالغة وكمال القدرة.","x":["كامل القدرة، لا يعجزه شيء في الأرض ولا في السماء.","يفعل ما يشاء متى شاء كيف شاء، وأمره إذا أراد شيئًا أن يقول له: كن فيكون."],"a":["من آثار قدرته: خلق السماوات والأرض، وإحياء الموتى، وتقليب القلوب، وتبديل الأحوال في لحظة.","وتُختم كثير من الآيات بقوله: «إن الله على كل شيء قدير»؛ طمأنةً للمؤمن وتحذيرًا للمعاند."],"nb":"قدرة الله تتعلق بكل ممكن؛ فلا يقال عن أمر ممكن: هذا مستحيل على الله. ومن تمام الأدب أن تسأله ما تشاء وأنت موقن بقدرته."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%82%D8%AF%D9%8A%D8%B1.html","verse":{"html":"تَبَٰرَكَ ٱلَّذِي بِيَدِهِ ٱلۡمُلۡكُ وَهُوَ عَلَىٰ كُلِّ شَيۡءࣲ <mark>قَدِيرٌ</mark>","text":"تَبَٰرَكَ ٱلَّذِي بِيَدِهِ ٱلۡمُلۡكُ وَهُوَ عَلَىٰ كُلِّ شَيۡءࣲ قَدِيرٌ","ref":"سورة الملك · الآية ١"}},{"id":36,"n":"النصير","v":"النَّصِير","c":"kifaya","s":"ينصر عباده ويؤيدهم","m":"الذي ينصر رسله وأولياءه على أعدائهم، ويؤيدهم بقوته، فلا يُغلب من نصره، ولا ينتصر من خذله. ونصره قريب لمن نصر دينه وصبر.","f":"النصر لا يأتي من كثرة العدد ولا قوة السلاح، بل من عند النصير. فإذا ظُلمت أو حوربت في الحق فاستنصر به، وانصر دينه في نفسك يأتك نصره.","d":"اللهم أنت عضدي ونصيري، بك أحول، وبك أصول، وبك أقاتل","dl":"دعاء نبوي","sh":{"lg":"من النصر، وهو العون والتأييد على العدو؛ وصيغة «فعيل» للمبالغة.","x":["ينصر رسله وأولياءه في الدنيا والآخرة: ﴿إنا لننصر رسلنا والذين آمنوا في الحياة الدنيا ويوم يقوم الأشهاد﴾.","ونصره لا يتوقف على كثرة العدد ولا قوة العتاد."],"a":["نصر نبيه ﷺ وأصحابه يوم بدر وهم قلة، وأيّدهم بالملائكة.","ونصر نوحًا وإبراهيم وموسى على أقوامهم، وجعل العاقبة للمتقين."],"nb":"علّق الله نصره بنصرة دينه: ﴿إن تنصروا الله ينصركم ويثبت أقدامكم﴾؛ فطريق النصر يبدأ من طاعته."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%86%D8%B5%D9%8A%D8%B1.html","verse":{"html":"وَإِن تَوَلَّوۡاْ فَٱعۡلَمُوٓاْ أَنَّ ٱللَّهَ مَوۡلَىٰكُمۡۚ نِعۡمَ ٱلۡمَوۡلَىٰ وَنِعۡمَ <mark>ٱلنَّصِيرُ</mark>","text":"وَإِن تَوَلَّوۡاْ فَٱعۡلَمُوٓاْ أَنَّ ٱللَّهَ مَوۡلَىٰكُمۡۚ نِعۡمَ ٱلۡمَوۡلَىٰ وَنِعۡمَ ٱلنَّصِيرُ","ref":"سورة الأنفال · الآية ٤٠"}},{"id":37,"n":"الغني","v":"الغَنِيّ","c":"azama","s":"لا يحتاج إلى أحد، والكل محتاج إليه","m":"الذي له الغنى التام المطلق من كل وجه، لا يحتاج إلى خلقه ولا إلى عبادتهم، وهم جميعًا فقراء إليه في كل لحظة. ومن غناه أنه يُغني عباده ويعطيهم بلا حساب.","f":"طاعتك لا تزيد في ملكه شيئًا، ومعصيتك لا تنقصه؛ فإنما تعمل لنفسك. وإذا شعرت بالحاجة فاعرضها على الغني، فما أذلّ أن تعرض حاجتك على فقير مثلك.","d":"يا غني، أغنني بك عمّن سواك، ولا تُحوجني إلى أحد من خلقك","dl":"","sh":{"lg":"من الغنى ضد الفقر، وهو عدم الحاجة.","x":["له الغنى التام المطلق: لا يحتاج إلى أحد في ذاته ولا صفاته ولا أفعاله.","وكل من سواه فقير إليه في وجوده وبقائه وكل شأنه."],"a":["قال في الحديث القدسي: «يا عبادي، لو أن أولكم وآخركم وإنسكم وجنكم كانوا على أتقى قلب رجل واحد منكم، ما زاد ذلك في ملكي شيئًا».","ومن غناه أنه يُغني من يشاء بلا حساب، ولا تنقص خزائنه بالعطاء."],"nb":"يقترن «الغني» بـ«الحميد» في القرآن كثيرًا؛ لأن غناه محمود، فهو يجود ويعطي، بخلاف غنى المخلوق الذي قد يقترن بالبخل والطغيان."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%BA%D9%86%D9%8A.html","verse":{"html":"وَٱللَّهُ <mark>ٱلۡغَنِيُّ</mark> وَأَنتُمُ ٱلۡفُقَرَآءُ","text":"وَٱللَّهُ ٱلۡغَنِيُّ وَأَنتُمُ ٱلۡفُقَرَآءُ","ref":"سورة محمد · من الآية ٣٨"}},{"id":38,"n":"الحميد","v":"الحَمِيد","c":"azama","s":"المحمود في ذاته وأفعاله","m":"المستحق للحمد كله، المحمود في ذاته وأسمائه وصفاته وأفعاله، في السراء والضراء. فكل ما يفعله محمود عليه، لأنه صادر عن رحمة وحكمة وعدل.","f":"اجعل «الحمد لله» على لسانك في الخير والشر، فهو محمود على كل حال. وإذا ابتُليت فقل: «الحمد لله على كل حال»، فإنك تحمد حكيمًا لا يقضي إلا بخير.","d":"ربنا ولك الحمد، حمدًا كثيرًا طيبًا مباركًا فيه","dl":"ذكر نبوي","sh":{"lg":"على وزن «فعيل» بمعنى «مفعول» أي المحمود، ويأتي بمعنى «فاعل» أي الحامد لعباده المطيعين.","x":["المحمود في ذاته وأسمائه وصفاته وأفعاله، فله الحمد كله في الأولى والآخرة.","ويحمد عباده المؤمنين، فيثني عليهم ويجزيهم."],"a":["افتتح كتابه بالحمد: ﴿الحمد لله رب العالمين﴾، وجعلها في كل ركعة.","وأخبر عن أهل الجنة: ﴿وآخر دعواهم أن الحمد لله رب العالمين﴾."],"nb":"الحمد ثناء على المحمود بصفاته وأفعاله، سواء أنعم على الحامد أم لم ينعم؛ ولذلك يُحمد الله على كل حال، في السراء والضراء."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%AD%D9%85%D9%8A%D8%AF.html","verse":{"html":"يَـٰٓأَيُّهَا ٱلنَّاسُ أَنتُمُ ٱلۡفُقَرَآءُ إِلَى ٱللَّهِۖ وَٱللَّهُ هُوَ ٱلۡغَنِيُّ <mark>ٱلۡحَمِيدُ</mark>","text":"يَـٰٓأَيُّهَا ٱلنَّاسُ أَنتُمُ ٱلۡفُقَرَآءُ إِلَى ٱللَّهِۖ وَٱللَّهُ هُوَ ٱلۡغَنِيُّ ٱلۡحَمِيدُ","ref":"سورة فاطر · الآية ١٥"}},{"id":39,"n":"المجيد","v":"المَجِيد","c":"azama","s":"واسع الشرف والكرم والعظمة","m":"الواسع المجد، الذي له صفات العظمة والجلال والكرم، الكثير الخير والإحسان. والمجد سعة الصفات وكثرة العطاء؛ ولذلك جاء مقرونًا بالحميد: كمال الصفات وكمال الإحسان.","f":"حين تصلي على النبي ﷺ في التشهد تختم بـ «إنك حميد مجيد»؛ فاستحضر أنك تتوسل إلى الله بمجده وكرمه أن يبارك على نبيه. وكلما ذكرت مجده صغُرت في عينك أمجاد الدنيا.","d":"اللهم صلِّ على محمد وعلى آل محمد، كما صلّيت على إبراهيم وعلى آل إبراهيم، إنك حميدٌ مجيد","dl":"دعاء نبوي","sh":{"lg":"من المجد، وهو السعة والكثرة والشرف؛ ومنه قول العرب: أمجد الدابةَ علفًا، إذا أكثر لها منه.","x":["الواسع المجد والشرف، الكثير الصفات العظيمة.","والمجد يجمع العظمة والجلال، مع كثرة الخير والإحسان."],"a":["ووصف كتابه بالمجد: ﴿ق والقرآن المجيد﴾، ﴿بل هو قرآن مجيد﴾.","ونختم الصلاة على النبي ﷺ في التشهد بقولنا: «إنك حميد مجيد»."],"nb":"اقترن «المجيد» بـ«الحميد» في التشهد وفي آية سورة هود؛ فالحمد لكمال الصفات، والمجد لعظمتها وسعتها."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D8%AC%D9%8A%D8%AF.html","verse":{"html":"رَحۡمَتُ ٱللَّهِ وَبَرَكَٰتُهُۥ عَلَيۡكُمۡ أَهۡلَ ٱلۡبَيۡتِۚ إِنَّهُۥ حَمِيدࣱ <mark>مَّجِيدࣱ</mark>","text":"رَحۡمَتُ ٱللَّهِ وَبَرَكَٰتُهُۥ عَلَيۡكُمۡ أَهۡلَ ٱلۡبَيۡتِۚ إِنَّهُۥ حَمِيدࣱ مَّجِيدࣱ","ref":"سورة هود · من الآية ٧٣"}},{"id":40,"n":"الحق","v":"الحَقّ","c":"tawheed","s":"الثابت الذي لا شك فيه","m":"الموجود حقًّا، الثابت الذي لا يزول؛ قوله حق، ووعده حق، ولقاؤه حق، وعبادته وحده هي الحق، وكل ما يُعبد من دونه باطل.","f":"حين تتعدد الآراء وتختلط الأمور فتمسّك بما جاء من عند الحق. واطمئن إلى وعده، فإن وعده حق ولو تأخر عنك ما ترجو؛ فما بعد الحق إلا الضلال.","d":"اللهم أرِنا الحق حقًّا وارزقنا اتّباعه، وأرِنا الباطل باطلًا وارزقنا اجتنابه","dl":"","sh":{"lg":"الحق: الثابت الذي لا يزول، ضد الباطل؛ يقال: حقّ الأمر إذا ثبت ووجب.","x":["الحق في ذاته: الموجود حقًّا، الذي لا يقبل العدم ولا الزوال.","والحق في أقواله وأفعاله ووعده ووعيده؛ وعبادته وحده هي الحق، وكل معبود سواه باطل."],"a":["كان النبي ﷺ يقول في قيام الليل: «أنت الحق، ووعدك الحق، ولقاؤك حق، وقولك حق، والجنة حق، والنار حق».","وخلق السماوات والأرض بالحق لا عبثًا، وأنزل كتابه بالحق."],"nb":"من عرف أن الله هو الحق سهل عليه قبول الحق ولو خالف هواه، وثبت عليه ولو خالفه الناس."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%AD%D9%82.html","verse":{"html":"فَذَٰلِكُمُ ٱللَّهُ رَبُّكُمُ <mark>ٱلۡحَقُّۖ</mark> فَمَاذَا بَعۡدَ ٱلۡحَقِّ إِلَّا ٱلضَّلَٰلُ","text":"فَذَٰلِكُمُ ٱللَّهُ رَبُّكُمُ ٱلۡحَقُّۖ فَمَاذَا بَعۡدَ ٱلۡحَقِّ إِلَّا ٱلضَّلَٰلُ","ref":"سورة يونس · من الآية ٣٢"}},{"id":41,"n":"المبين","v":"المُبِين","c":"tawheed","s":"الظاهر أمره، المبيّن للحق","m":"الذي أمره ظاهر لا يخفى، ووحدانيته واضحة لمن تأمل، وهو الذي بيّن لعباده طريق الهداية والرشاد، وبيّن لهم الحلال والحرام، فلم يتركهم في حيرة.","f":"إذا اشتبهت عليك الأمور فارجع إلى ما بيّنه الله في كتابه وسنة نبيه ﷺ. وسيأتي يوم يعلم فيه الجميع أن الله هو الحق المبين، فاجعل يقينك اليوم كيقينهم يومئذ.","d":"اللهم بيّن لي الحق، واجعلني من أهله","dl":"","sh":{"lg":"من الإبانة، وهي الظهور والوضوح، والإظهار والتبيين.","x":["الظاهر أمره، البيّنة وحدانيته وأدلته لمن نظر وتأمل.","والمبيّن لعباده طريق الحق، فلم يترك شيئًا يحتاجون إليه في دينهم إلا بيّنه."],"a":["سمّى كتابه «الكتاب المبين»، وأرسل رسله بالبلاغ المبين.","ويوم القيامة يرى الناس الحقائق بلا حجاب، فيعلمون أن الله هو الحق المبين."],"nb":"لم يرد «المبين» اسمًا لله في القرآن إلا في آية سورة النور، مقرونًا بـ«الحق»؛ فالحق ثابت في نفسه، والمبين ظاهرٌ لغيره."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D8%A8%D9%8A%D9%86.html","verse":{"html":"وَيَعۡلَمُونَ أَنَّ ٱللَّهَ هُوَ ٱلۡحَقُّ <mark>ٱلۡمُبِينُ</mark>","text":"وَيَعۡلَمُونَ أَنَّ ٱللَّهَ هُوَ ٱلۡحَقُّ ٱلۡمُبِينُ","ref":"سورة النور · من الآية ٢٥"}},{"id":42,"n":"القوي","v":"القَوِيّ","c":"qudra","s":"كامل القوة، لا يُغالَب","m":"صاحب القوة الكاملة التي لا يلحقها ضعف ولا تعب ولا عجز، فلا يعجزه شيء ولا يغالبه أحد. وبقوته خلق السماوات والأرض وما بينهما، وما مسّه من تعب.","f":"كلما شعرت بضعفك فقل: «لا حول ولا قوة إلا بالله»؛ فإنك تستمد القوة من مصدرها. ولا تغترّ بقوتك ولا تخشَ قوة غيرك، فالقوة لله جميعًا.","d":"لا حول ولا قوة إلا بالله","dl":"ذكر نبوي","sh":{"lg":"من القوة ضد الضعف، وهي تمام القدرة والشدة.","x":["صاحب القوة الكاملة التي لا يلحقها ضعف ولا تعب ولا فتور.","لا يعجزه شيء، ولا يمتنع عليه شيء، ولا يغالبه أحد."],"a":["قالت عاد: ﴿من أشد منا قوة﴾، فأراهم أن الله الذي خلقهم هو أشد منهم قوة، فأهلكهم بريح صرصر.","وجعل كلمة «لا حول ولا قوة إلا بالله» كنزًا من كنوز الجنة."],"nb":"يقترن «القوي» بـ«العزيز» في القرآن؛ لأن القوة أصل العزة، فمن كملت قوته لم يُغلب."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%82%D9%88%D9%8A.html","verse":{"html":"وَلَيَنصُرَنَّ ٱللَّهُ مَن يَنصُرُهُۥٓۚ إِنَّ ٱللَّهَ <mark>لَقَوِيٌّ</mark> عَزِيزٌ","text":"وَلَيَنصُرَنَّ ٱللَّهُ مَن يَنصُرُهُۥٓۚ إِنَّ ٱللَّهَ لَقَوِيٌّ عَزِيزٌ","ref":"سورة الحج · من الآية ٤٠"}},{"id":43,"n":"المتين","v":"المَتِين","c":"qudra","s":"شديد القوة، لا تضعف قوته","m":"الشديد القوي الذي لا تلين قوته ولا تضعف، ولا يحتاج إلى معين، ولا تنقطع قدرته مهما عظمت الأمور. وجاء مقرونًا بالرزق: فهو الرزاق ذو القوة المتين، يرزق الخلق كلهم ولا يعجزه رزقهم.","f":"إذا خشيت على رزقك من ضعف حيلتك أو قسوة الظروف فتذكّر أن رازقك قوي متين لا تؤثر فيه الأزمات. فاعمل بالأسباب واترك القلق، فرزقك مضمون عند من لا يضعف.","d":"يا قوي يا متين، قوِّ ضعفي، واربط على قلبي","dl":"","sh":{"lg":"من المتانة، وهي الشدة والصلابة والإحكام.","x":["الشديد القوة الذي لا تنقطع قوته ولا تضعف ولا تفتر.","لا يحتاج في أفعاله إلى معين، ولا يشقّ عليه شيء مهما عظم."],"a":["تكفّل بأرزاق الخلائق جميعًا منذ خُلقت إلى قيام الساعة، فما ضعف ولا عجز.","ووصف تدبيره للمكذبين بالمتانة: ﴿وأملي لهم إن كيدي متين﴾؛ فلا يفلتون منه."],"nb":"لم يرد «المتين» اسمًا لله إلا في آية الذاريات، مقرونًا بالرزق والقوة؛ ليطمئن العبد أن رزقه بيد من لا يضعف."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D8%AA%D9%8A%D9%86.html","verse":{"html":"إِنَّ ٱللَّهَ هُوَ ٱلرَّزَّاقُ ذُو ٱلۡقُوَّةِ <mark>ٱلۡمَتِينُ</mark>","text":"إِنَّ ٱللَّهَ هُوَ ٱلرَّزَّاقُ ذُو ٱلۡقُوَّةِ ٱلۡمَتِينُ","ref":"سورة الذاريات · الآية ٥٨"}},{"id":44,"n":"المنتقم","v":"المُنْتَقِم","c":"qudra","s":"يأخذ للمظلوم من الظالمين بعدله","m":"الذي يعاقب المجرمين المعاندين بعد إمهالهم وإقامة الحجة عليهم، فلا يفلت ظالم من عقوبته ما لم يتب. وورد في القرآن بلفظ «عزيز ذو انتقام»، وانتقامه عدل محض لا ظلم فيه، ولا يكون إلا لمن استحقه.","f":"إذا ظُلمت فلا تحرق قلبك بالحقد؛ فإن الله لا يُخلف وعده، وهو آخذ للمظلوم حقه في الدنيا أو الآخرة. واحذر أن تكون أنت ظالمًا لأحد، فدعوة المظلوم ليس بينها وبين الله حجاب.","d":"اللهم لا تجعلني ظالمًا ولا مظلومًا، وخذ لي حقي بعدلك","dl":"","sh":{"lg":"من النقمة، وهي العقوبة؛ والانتقام: المعاقبة على الذنب جزاءً له.","x":["الذي يعاقب المجرمين المعاندين على إجرامهم، بعد الإمهال والإنذار وإقامة الحجة.","وانتقامه عدل محض، لا ظلم فيه ولا تشفٍّ كما يكون من المخلوق."],"a":["انتقم من فرعون وقومه فأغرقهم، ومن قوم لوط فجعل عالي ديارهم سافلها.","ويمهل الظالم ولا يهمله، حتى إذا أخذه لم يفلته."],"nb":"ورد هذا المعنى في القرآن بلفظ «ذو انتقام» و«منتقمون»، ولذلك عدّه بعض العلماء من الصفات لا من الأسماء المفردة، وأدرجته قوائم أخرى ضمن الأسماء الحسنى، ومنها قائمة الموقع."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D9%86%D8%AA%D9%82%D9%85.html","verse":{"html":"فَلَا تَحۡسَبَنَّ ٱللَّهَ مُخۡلِفَ وَعۡدِهِۦ رُسُلَهُۥٓۚ إِنَّ ٱللَّهَ عَزِيزࣱ ذُو <mark>ٱنتِقَامࣲ</mark>","text":"فَلَا تَحۡسَبَنَّ ٱللَّهَ مُخۡلِفَ وَعۡدِهِۦ رُسُلَهُۥٓۚ إِنَّ ٱللَّهَ عَزِيزࣱ ذُو ٱنتِقَامࣲ","ref":"سورة إبراهيم · الآية ٤٧"}},{"id":45,"n":"العفو","v":"العَفُوّ","c":"rahma","s":"يمحو الذنب ولا يُبقي له أثرًا","m":"الذي يمحو السيئات ويتجاوز عن المعاصي، فلا يعاقب عليها ولا يُبقي لها أثرًا، مع قدرته الكاملة على العقوبة. والعفو أبلغ من الستر؛ فالستر تغطية للذنب، والعفو محوٌ له.","f":"إذا أثقلتك ذنوبك فتذكّر أن ربك يحب العفو، فاطلبه بإلحاح، ولا سيما في ليالي العشر الأواخر من رمضان. واعفُ أنت عمّن أساء إليك؛ فالآية تدعوك إلى العفو مع القدرة، كما يعفو الله وهو القدير.","d":"اللهم إنك عفوٌّ تحب العفو فاعفُ عني","dl":"دعاء نبوي","sh":{"lg":"من العفو، وأصله في اللغة المحو والطمس؛ يقال: عفت الريح الأثر إذا محته، ويأتي بمعنى الترك والتجاوز.","x":["يمحو السيئات ويتجاوز عن المعاصي فلا يؤاخذ بها، مع كمال قدرته على العقوبة.","وعفوه نوعان: عفو عام عن كثير من الذنوب فلا يعاجل بالعقوبة، وعفو خاص عن التائبين المستغفرين."],"a":["قال: ﴿وما أصابكم من مصيبة فبما كسبت أيديكم ويعفو عن كثير﴾.","وعلّم النبي ﷺ عائشة رضي الله عنها أن تقول إن وافقت ليلة القدر: «اللهم إنك عفو تحب العفو فاعف عني»."],"nb":"قرن الله «العفو» بـ«القدير» في سورة النساء؛ لأن أكمل العفو ما كان عن قدرة، لا عن عجز."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B9%D9%81%D9%88.html","verse":{"html":"إِن تُبۡدُواْ خَيۡرًا أَوۡ تُخۡفُوهُ أَوۡ تَعۡفُواْ عَن سُوٓءࣲ فَإِنَّ ٱللَّهَ كَانَ <mark>عَفُوࣰّا</mark> قَدِيرًا","text":"إِن تُبۡدُواْ خَيۡرًا أَوۡ تُخۡفُوهُ أَوۡ تَعۡفُواْ عَن سُوٓءࣲ فَإِنَّ ٱللَّهَ كَانَ عَفُوࣰّا قَدِيرًا","ref":"سورة النساء · الآية ١٤٩"}},{"id":46,"n":"الغفور","v":"الغَفُور","c":"rahma","s":"يستر الذنب ويتجاوز عنه","m":"الذي يستر ذنوب عباده فلا يفضحهم بها، ويتجاوز عنها فلا يؤاخذهم، مهما كثرت إذا تابوا واستغفروا. والمغفرة من الغَفر وهو الستر، ومنه المِغفر الذي يقي الرأس.","f":"لا تدع الشيطان يقنّطك بقوله: ذنوبك أكبر من أن تُغفر. تأمّل الآية التي نادت المسرفين على أنفسهم بأحب نداء: «يا عبادي»، ثم أخبرتهم أن الله يغفر الذنوب جميعًا.","d":"اللهم إني ظلمت نفسي ظلمًا كثيرًا، ولا يغفر الذنوب إلا أنت، فاغفر لي مغفرةً من عندك، وارحمني، إنك أنت الغفور الرحيم","dl":"دعاء نبوي","sh":{"lg":"من الغَفْر، وهو الستر والتغطية؛ ومنه المِغفر الذي يلبسه المقاتل على رأسه ليستره ويقيه.","x":["يستر ذنوب عباده في الدنيا فلا يفضحهم، ويتجاوز عنها في الآخرة فلا يعاقبهم.","ومغفرته واسعة لا يتعاظمها ذنب، مهما كثر وعظم، لمن تاب وأناب."],"a":["قال في الحديث القدسي: «يا ابن آدم، لو بلغت ذنوبك عنان السماء ثم استغفرتني غفرت لك ولا أبالي».","ويوم القيامة يُدني المؤمن فيقرّره بذنوبه، ثم يقول: «سترتها عليك في الدنيا، وأنا أغفرها لك اليوم»."],"nb":"الفرق بين الغفور والغفار: «الغفور» يدل على سعة المغفرة وعظمها، و«الغفار» يدل على كثرتها وتكرارها."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%BA%D9%81%D9%88%D8%B1.html","verse":{"html":"قُلۡ يَٰعِبَادِيَ ٱلَّذِينَ أَسۡرَفُواْ عَلَىٰٓ أَنفُسِهِمۡ لَا تَقۡنَطُواْ مِن رَّحۡمَةِ ٱللَّهِۚ إِنَّ ٱللَّهَ يَغۡفِرُ ٱلذُّنُوبَ جَمِيعًاۚ إِنَّهُۥ هُوَ <mark>ٱلۡغَفُورُ</mark> ٱلرَّحِيمُ","text":"قُلۡ يَٰعِبَادِيَ ٱلَّذِينَ أَسۡرَفُواْ عَلَىٰٓ أَنفُسِهِمۡ لَا تَقۡنَطُواْ مِن رَّحۡمَةِ ٱللَّهِۚ إِنَّ ٱللَّهَ يَغۡفِرُ ٱلذُّنُوبَ جَمِيعًاۚ إِنَّهُۥ هُوَ ٱلۡغَفُورُ ٱلرَّحِيمُ","ref":"سورة الزمر · الآية ٥٣"}},{"id":47,"n":"الحليم","v":"الحَلِيم","c":"rahma","s":"لا يعاجل العصاة بالعقوبة","m":"الذي يرى معصية العاصين فلا يعجل عليهم بالعقوبة مع قدرته عليها، بل يمهلهم ويرزقهم ويعافيهم لعلهم يتوبون. فحِلمه ليس عن عجز، بل عن كمال وقدرة ورحمة.","f":"تأمّل كم عصيته وهو يرزقك ويسترك ويعافيك؛ هذا حِلمه، فلا تجعل حلمه سببًا في تماديك. وتخلّق بالحلم مع أهلك ومن يسيء إليك، فما أجمل أن تحلم وأنت قادر على الرد.","d":"لا إله إلا الله العظيم الحليم، لا إله إلا الله رب العرش العظيم","dl":"دعاء نبوي","sh":{"lg":"من الحِلم، وهو الأناة وضبط النفس، وترك العجلة بالعقوبة مع القدرة عليها.","x":["يرى معاصي العباد ومخالفتهم فلا يعاجلهم بالعقوبة، بل يمهلهم ليتوبوا.","ويُدرّ عليهم رزقه ويعافيهم، وهم يعصونه."],"a":["قال: ﴿ولو يؤاخذ الله الناس بما كسبوا ما ترك على ظهرها من دابة﴾.","وقال ﷺ: «ما أحد أصبر على أذى سمعه من الله، يدّعون له الولد ثم يعافيهم ويرزقهم»."],"nb":"يقترن «الحليم» في القرآن بـ«الغفور» و«العليم» و«الغني»؛ فحلمه عن علم بذنوبهم، وعن غنى عنهم، ويتبعه مغفرة لمن تاب."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%AD%D9%84%D9%8A%D9%85.html","verse":{"html":"وَٱعۡلَمُوٓاْ أَنَّ ٱللَّهَ يَعۡلَمُ مَا فِيٓ أَنفُسِكُمۡ فَٱحۡذَرُوهُۚ وَٱعۡلَمُوٓاْ أَنَّ ٱللَّهَ غَفُورٌ <mark>حَلِيمࣱ</mark>","text":"وَٱعۡلَمُوٓاْ أَنَّ ٱللَّهَ يَعۡلَمُ مَا فِيٓ أَنفُسِكُمۡ فَٱحۡذَرُوهُۚ وَٱعۡلَمُوٓاْ أَنَّ ٱللَّهَ غَفُورٌ حَلِيمࣱ","ref":"سورة البقرة · من الآية ٢٣٥"}},{"id":48,"n":"القريب","v":"القَرِيب","c":"kifaya","s":"قريب من عباده، يسمع ويجيب","m":"القريب من عباده بعلمه وإحاطته، والقريب من الداعين والعابدين بإجابته ولطفه ونصرته، مع علوّه فوق خلقه. فلا يحتاج العبد إلى واسطة بينه وبين ربه حين يدعوه.","f":"لاحظ أن الآية لم تقل «فقل لهم إني قريب»، بل جاء الجواب مباشرة: «فإني قريب»، بلا واسطة. فادعه الآن، في سجودك، في سيارتك، في فراشك؛ هو أقرب إليك مما تظن.","d":"يا قريب، قرّبني إليك، ولا تُبعدني عنك","dl":"","sh":{"lg":"من القُرب ضد البُعد.","x":["قريب من جميع خلقه بعلمه وإحاطته واطلاعه، مع علوه فوق عرشه.","وقريب قربًا خاصًّا من الداعين والعابدين: بالإجابة والإثابة واللطف والتوفيق."],"a":["قال ﷺ: «أقرب ما يكون العبد من ربه وهو ساجد، فأكثروا الدعاء».","وفي الحديث القدسي أن العبد إذا تقرّب إلى ربه شبرًا تقرّب إليه ذراعًا."],"nb":"يأتي «القريب» في القرآن مقرونًا بـ«المجيب» وبـ«السميع»؛ لأن ثمرة القرب سماع الدعاء وإجابته."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%82%D8%B1%D9%8A%D8%A8.html","verse":{"html":"وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي <mark>قَرِيبٌۖ</mark> أُجِيبُ دَعۡوَةَ ٱلدَّاعِ إِذَا دَعَانِ","text":"وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌۖ أُجِيبُ دَعۡوَةَ ٱلدَّاعِ إِذَا دَعَانِ","ref":"سورة البقرة · من الآية ١٨٦"}},{"id":49,"n":"المجيب","v":"المُجِيب","c":"kifaya","s":"يجيب الداعي ويعطي السائل","m":"الذي يجيب دعوة الداعين، ويقضي حاجات السائلين، ويغيث المضطرين؛ فلا يردّ سائلًا صادقًا. وإجابته إما بتعجيل المطلوب، أو بصرف سوء مثله، أو بادّخار الأجر في الآخرة.","f":"لا تقل: دعوت فلم يُستجب لي؛ فقد تكون الإجابة في صورة لم تنتبه لها. ألحّ في الدعاء، وتحرَّ أوقات الإجابة كالسجود وآخر الليل، وأحسن الظن بالمجيب.","d":"يا مجيب الدعاء، لا تردّني خائبًا، واستجب لي كما وعدتني","dl":"","sh":{"lg":"من الإجابة، وهي مقابلة الدعاء والسؤال بالعطاء والقبول.","x":["يجيب دعوة الداعي إذا دعاه، ويعطي السائل إذا سأله، ويغيث المضطر إذا ناداه.","وإجابته عامة لكل مضطر، وخاصة لأوليائه المستجيبين له."],"a":["قال: ﴿أمن يجيب المضطر إذا دعاه ويكشف السوء﴾.","استجاب لأيوب فكشف ضره، ولزكريا فوهب له يحيى، وليونس فنجّاه من الغم."],"nb":"للإجابة شروط وآداب، منها: الإخلاص، وطيب المطعم، وحضور القلب، وترك الاستعجال؛ قال ﷺ: «يُستجاب لأحدكم ما لم يعجل، يقول: دعوت فلم يُستجب لي»."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D8%AC%D9%8A%D8%A8.html","verse":{"html":"فَٱسۡتَغۡفِرُوهُ ثُمَّ تُوبُوٓاْ إِلَيۡهِۚ إِنَّ رَبِّي قَرِيبࣱ <mark>مُّجِيبࣱ</mark>","text":"فَٱسۡتَغۡفِرُوهُ ثُمَّ تُوبُوٓاْ إِلَيۡهِۚ إِنَّ رَبِّي قَرِيبࣱ مُّجِيبࣱ","ref":"سورة هود · من الآية ٦١"}},{"id":50,"n":"الحي","v":"الحَيّ","c":"azama","s":"حياة كاملة لا بداية لها ولا نهاية","m":"الذي له الحياة الكاملة الدائمة، لم يسبقها عدم ولا يلحقها زوال، ولا يعتريها نوم ولا نقص. وكل حياة في الكون فمن عطائه، ومن كمال حياته كمال صفاته كلها.","f":"كل من تتوكل عليه من الخلق سيموت يومًا، أما الحي فلا يموت؛ فلا تجعل اعتمادك إلا عليه. وإذا مات لك عزيز فتعزَّ بأن ربك حي لا يموت، وهو خير من يُرجع إليه.","d":"توكلتُ على الحي الذي لا يموت، وسبّحتُ بحمده","dl":"","sh":{"lg":"من الحياة ضد الموت.","x":["له الحياة الكاملة: لم يسبقها عدم، ولا يلحقها زوال، ولا يعتريها نقص من نوم أو سِنة.","وحياته مستلزمة لجميع صفات الكمال: العلم والقدرة والسمع والبصر وغيرها."],"a":["وهب الحياة لكل حي، وإليه يرجع كل حي.","وقال أبو بكر رضي الله عنه يوم وفاة النبي ﷺ: «من كان يعبد محمدًا فإن محمدًا قد مات، ومن كان يعبد الله فإن الله حي لا يموت»."],"nb":"اقترن «الحي» بـ«القيوم» في ثلاثة مواضع من القرآن: في آية الكرسي، وأول سورة آل عمران، وسورة طه؛ وقيل: إنهما الاسم الأعظم."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%AD%D9%8A.html","verse":{"html":"وَتَوَكَّلۡ عَلَى <mark>ٱلۡحَيِّ</mark> ٱلَّذِي لَا يَمُوتُ وَسَبِّحۡ بِحَمۡدِهِۦ","text":"وَتَوَكَّلۡ عَلَى ٱلۡحَيِّ ٱلَّذِي لَا يَمُوتُ وَسَبِّحۡ بِحَمۡدِهِۦ","ref":"سورة الفرقان · من الآية ٥٨"}},{"id":51,"n":"القيوم","v":"القَيُّوم","c":"azama","s":"قائم بنفسه، مقيم لكل شيء","m":"القائم بنفسه الذي لا يحتاج إلى أحد، والمقيم لغيره؛ فكل شيء قائم به ومحتاج إليه في وجوده وبقائه. لا تأخذه غفلة ولا نوم، ولا قيام لشيء في الكون إلا به سبحانه.","f":"حين تنام فإن القيوم لا ينام؛ يحفظك ويحفظ أهلك ويدبّر أمرك. وإذا ثقلت عليك أمورك فاستغث به ألّا يكلك إلى نفسك طرفة عين، فإن نفسك وحدها لا تقوم بشيء.","d":"يا حيّ يا قيوم، برحمتك أستغيث، أصلح لي شأني كله، ولا تكلني إلى نفسي طرفة عين","dl":"دعاء نبوي","sh":{"lg":"صيغة مبالغة من القيام، على وزن «فيعول».","x":["القائم بنفسه، الغني عن كل ما سواه.","والمقيم لغيره، القائم على كل نفس بما كسبت؛ فلا قيام لشيء إلا به."],"a":["قال ﷺ: «إن الله لا ينام، ولا ينبغي له أن ينام».","وهو الذي ﴿يمسك السماوات والأرض أن تزولا﴾، فلا يختل نظام الكون."],"nb":"كان النبي ﷺ إذا كربه أمر قال: «يا حي يا قيوم، برحمتك أستغيث»؛ فهذان الاسمان ملجأ المكروب."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%82%D9%8A%D9%88%D9%85.html","verse":{"html":"ٱللَّهُ لَآ إِلَٰهَ إِلَّا هُوَ ٱلۡحَيُّ <mark>ٱلۡقَيُّومُۚ</mark> لَا تَأۡخُذُهُۥ سِنَةࣱ وَلَا نَوۡمࣱ","text":"ٱللَّهُ لَآ إِلَٰهَ إِلَّا هُوَ ٱلۡحَيُّ ٱلۡقَيُّومُۚ لَا تَأۡخُذُهُۥ سِنَةࣱ وَلَا نَوۡمࣱ","ref":"سورة البقرة · من الآية ٢٥٥"}},{"id":52,"n":"العلي","v":"العَلِيّ","c":"azama","s":"العالي فوق خلقه ذاتًا وقدرًا وقهرًا","m":"الذي له العلو المطلق من كل وجه: علو الذات، فهو مستوٍ على عرشه فوق سماواته؛ وعلو القدر، فلا يشبهه شيء في صفاته؛ وعلو القهر، فكل شيء تحت سلطانه وقهره.","f":"إذا عرفت علوّ ربك صغُر في عينك كل ما يتعالى به الناس من جاه ومال. وإذا وجدت في نفسك ترفّعًا على أحد فتذكّر علوّ العلي، فتنكسر نفسك وتتواضع.","d":"يا علي يا عظيم، ارفع قدري بطاعتك، واجعلني متواضعًا لعبادك","dl":"","sh":{"lg":"من العلو، وهو الارتفاع؛ وصيغة «فعيل» تدل على كمال العلو.","x":["علو الذات: فهو مستوٍ على عرشه، فوق سماواته، بائن من خلقه.","وعلو القدر والصفات فلا يشبهه شيء، وعلو القهر فكل شيء تحت سلطانه."],"a":["عُرج بالنبي ﷺ إلى السماوات العلا، و﴿إليه يصعد الكلم الطيب﴾.","ولهذا يقول الساجد: «سبحان ربي الأعلى»، ويرفع الداعي يديه إلى السماء."],"nb":"اقترن «العلي» بـ«العظيم» في آية الكرسي، وبـ«الكبير» في مواضع أخرى؛ فعلوّه مقرون بعظمته وكبريائه."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B9%D9%84%D9%8A.html","verse":{"html":"لَهُۥ مَا فِي ٱلسَّمَٰوَٰتِ وَمَا فِي ٱلۡأَرۡضِۖ وَهُوَ <mark>ٱلۡعَلِيُّ</mark> ٱلۡعَظِيمُ","text":"لَهُۥ مَا فِي ٱلسَّمَٰوَٰتِ وَمَا فِي ٱلۡأَرۡضِۖ وَهُوَ ٱلۡعَلِيُّ ٱلۡعَظِيمُ","ref":"سورة الشورى · الآية ٤"}},{"id":53,"n":"العظيم","v":"العَظِيم","c":"azama","s":"كل شيء أمام عظمته صغير","m":"الذي له العظمة الكاملة في ذاته وأسمائه وصفاته، فلا تحيط به العقول، ولا تدرك كُنهه الأفهام. وكل عظيم في نظرك فهو صغير أمام عظمة الله.","f":"حين تكبر في نفسك مشكلة فتذكّر أن ربك العظيم أكبر منها. وعظّم أوامره ونواهيه، فمن عظّم الله في قلبه هان عليه كل ما سواه، وسبّح باسم ربك العظيم في ركوعك بقلب حاضر.","d":"سبحان ربي العظيم","dl":"ذكر نبوي","sh":{"lg":"من العظمة، وهي الكِبَر والجلال وعلو الشأن.","x":["له العظمة الكاملة في ذاته وأسمائه وصفاته، فلا يحيط به علم، ولا تبلغ قدره العقول.","ومن عظمته: ﴿والأرض جميعا قبضته يوم القيامة والسماوات مطويات بيمينه﴾."],"a":["قال ﷺ: «أما الركوع فعظّموا فيه الرب»؛ ولذلك نقول فيه: سبحان ربي العظيم.","وكان من دعائه ﷺ عند الكرب: «لا إله إلا الله العظيم الحليم»."],"nb":"قال تعالى: ﴿وما قدروا الله حق قدره﴾؛ فكل معصية في حقيقتها ضعفٌ في تعظيم الله في القلب، ومن عظّم الله عظّم أمره ونهيه."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B9%D8%B8%D9%8A%D9%85.html","verse":{"html":"فَسَبِّحۡ بِٱسۡمِ رَبِّكَ <mark>ٱلۡعَظِيمِ</mark>","text":"فَسَبِّحۡ بِٱسۡمِ رَبِّكَ ٱلۡعَظِيمِ","ref":"سورة الواقعة · الآية ٩٦"}},{"id":54,"n":"الكبير","v":"الكَبِير","c":"azama","s":"أكبر من كل شيء","m":"العظيم الذي هو أكبر من كل شيء في ذاته وصفاته وأفعاله، وكل شيء دونه صغير. ولذلك شُرع لنا أن نقول «الله أكبر» في الصلاة والأذان والأعياد والمواقف العظيمة.","f":"حين تقول «الله أكبر» في صلاتك فاجعلها حقيقة في قلبك: الله أكبر من همّي، ومن ديني، ومن خوفي، ومن شهوتي. فإذا صدقت فيها صغُر في عينك كل ما يشغلك عنه.","d":"الله أكبر كبيرًا، والحمد لله كثيرًا، وسبحان الله بكرةً وأصيلًا","dl":"ذكر نبوي","sh":{"lg":"من الكِبَر، وهو العظمة في الذات والقدر.","x":["الكبير في ذاته وصفاته وأفعاله، الذي هو أكبر من كل شيء.","وكل شيء دونه صغير، مهما عظم في أعين الناس."],"a":["شُرع التكبير في الأذان والإقامة والصلاة والعيدين والحج وعند الذبح.","وكان الصحابة رضي الله عنهم إذا صعدوا مرتفعًا كبّروا، وإذا نزلوا واديًا سبّحوا."],"nb":"«الله أكبر» تعني: أكبر من كل شيء؛ ولذلك كانت مفتاح الصلاة، ليترك المصلي كل شيء خلفه ويُقبل على الأكبر."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%83%D8%A8%D9%8A%D8%B1.html","verse":{"html":"ذَٰلِكَ بِأَنَّ ٱللَّهَ هُوَ ٱلۡحَقُّ وَأَنَّ مَا يَدۡعُونَ مِن دُونِهِۦ هُوَ ٱلۡبَٰطِلُ وَأَنَّ ٱللَّهَ هُوَ ٱلۡعَلِيُّ <mark>ٱلۡكَبِيرُ</mark>","text":"ذَٰلِكَ بِأَنَّ ٱللَّهَ هُوَ ٱلۡحَقُّ وَأَنَّ مَا يَدۡعُونَ مِن دُونِهِۦ هُوَ ٱلۡبَٰطِلُ وَأَنَّ ٱللَّهَ هُوَ ٱلۡعَلِيُّ ٱلۡكَبِيرُ","ref":"سورة الحج · الآية ٦٢"}},{"id":55,"n":"المتعال","v":"المُتَعَال","c":"azama","s":"المتعالي عن كل نقص وعن شَبَه خلقه","m":"المستعلي على كل شيء بقدرته وقهره، المتعالي فوق خلقه، المتنزّه عن صفات المخلوقين وعن كل نقص. وصيغة «متعال» تدل على تمام العلو وكماله.","f":"حين يوسوس لك الشيطان أن الله كالبشر يغفل أو ينسى أو يتعب، فقل: تعالى الله عن ذلك. وارفع همّتك بالتعلق بالمتعال، فلا ينزل قلبك إلى سفاسف الأمور.","d":"سبحانك ربي، تعاليت عن كل نقص، فاغفر لي تقصيري","dl":"","sh":{"lg":"من العلو، على صيغة «التفاعل» الدالة على المبالغة والتفرد بالعلو.","x":["المتعالي على كل شيء بذاته وقدرته وقهره.","المتنزّه عن صفات المخلوقين، وعن الشريك والولد والنقص."],"a":["يتكرر في القرآن تنزيهه عن الشركاء: ﴿سبحانه وتعالى عما يشركون﴾.","ومن علوّه أن الأمر ينزل من عنده، والأعمال تصعد إليه."],"nb":"لم يرد «المتعال» في القرآن إلا مرة واحدة، في سورة الرعد، مقرونًا بـ«الكبير»."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D8%AA%D8%B9%D8%A7%D9%84.html","verse":{"html":"عَٰلِمُ ٱلۡغَيۡبِ وَٱلشَّهَٰدَةِ ٱلۡكَبِيرُ <mark>ٱلۡمُتَعَالِ</mark>","text":"عَٰلِمُ ٱلۡغَيۡبِ وَٱلشَّهَٰدَةِ ٱلۡكَبِيرُ ٱلۡمُتَعَالِ","ref":"سورة الرعد · الآية ٩"}},{"id":56,"n":"اللطيف","v":"اللَّطِيف","c":"rahma","s":"يوصل الخير إليك من حيث لا تشعر","m":"له معنيان: العليم بدقائق الأمور وخفاياها، والرفيق بعباده الذي يوصل إليهم الخير والإحسان بطرق خفية لا يشعرون بها. ومن لطفه أن يقدّر للعبد ما يكرهه وفيه خيره.","f":"تذكّر يوسف عليه السلام: بئر ثم بيع ثم سجن، ثم صار عزيز مصر؛ كان اللطف يمشي معه في كل خطوة. فإذا مررت بما لا تفهمه فقل: «إن ربي لطيف لما يشاء»، وانتظر الخير.","d":"يا لطيف، الطف بي في أموري كلها، كما تحب وترضى","dl":"","sh":{"lg":"من اللطف، وله في اللغة معنيان: الدقة والخفاء، والرفق والإحسان.","x":["العليم بدقائق الأمور وخفاياها، فلا يخفى عليه شيء مهما دقّ.","والرفيق بعباده، يوصل إليهم مصالحهم بطرق خفية، ويدفع عنهم الشرور من حيث لا يشعرون."],"a":["ساق يوسف عليه السلام من البئر إلى عرش مصر في خطوات ظاهرها البلاء وباطنها اللطف، ثم قال: ﴿إن ربي لطيف لما يشاء﴾.","ويقدّر للعبد ما يكره من المصائب ليرفع درجته، أو يكفّر سيئته، أو يصرف عنه ما هو أشد."],"nb":"يقترن «اللطيف» بـ«الخبير» في القرآن كثيرًا؛ فلطفه مبني على خبرته بدقائق الأمور وعواقبها."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%84%D8%B7%D9%8A%D9%81.html","verse":{"html":"إِنَّ رَبِّي <mark>لَطِيفࣱ</mark> لِّمَا يَشَآءُۚ إِنَّهُۥ هُوَ ٱلۡعَلِيمُ ٱلۡحَكِيمُ","text":"إِنَّ رَبِّي لَطِيفࣱ لِّمَا يَشَآءُۚ إِنَّهُۥ هُوَ ٱلۡعَلِيمُ ٱلۡحَكِيمُ","ref":"سورة يوسف · من الآية ١٠٠"}},{"id":57,"n":"الخبير","v":"الخَبِير","c":"ilm","s":"يعلم بواطن الأمور وحقائقها","m":"العليم ببواطن الأشياء وخفاياها وحقائقها كما يعلم ظواهرها، المطّلع على النيات والسرائر، الذي يعلم عواقب الأمور وما يصلح لعباده.","f":"قد لا يفهم الناس ظروفك ولا نيتك، لكن الخبير يعلم ما في قلبك بدقة. فلا تُتعب نفسك في إرضاء الناس على حساب الحق، وثق أن ربك أخبر بما ينفعك من نفسك.","d":"يا خبير، أنت أعلم بحالي مني، فأصلح لي ما لا أعلمه","dl":"","sh":{"lg":"من الخِبرة، وهي العلم ببواطن الأشياء وحقائقها.","x":["العليم ببواطن الأمور كما يعلم ظواهرها، المطّلع على النوايا والخفايا.","يعلم عواقب الأمور، وما يصلح لعباده وما يفسدهم."],"a":["قال: ﴿ألا يعلم من خلق وهو اللطيف الخبير﴾؛ فخالق الشيء أعلم بحقيقته.","ولهذا كانت شريعته أصلح الشرائع، لأنها من عند الخبير بما يصلح عباده."],"nb":"الفرق بين العليم والخبير: العلم يتعلق بالظاهر والباطن عمومًا، والخبرة أخصّ بالبواطن والخفايا ودقائق الأمور."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%AE%D8%A8%D9%8A%D8%B1.html","verse":{"html":"أَلَا يَعۡلَمُ مَنۡ خَلَقَ وَهُوَ ٱللَّطِيفُ <mark>ٱلۡخَبِيرُ</mark>","text":"أَلَا يَعۡلَمُ مَنۡ خَلَقَ وَهُوَ ٱللَّطِيفُ ٱلۡخَبِيرُ","ref":"سورة الملك · الآية ١٤"}},{"id":58,"n":"الوهاب","v":"الوَهَّاب","c":"rahma","s":"كثير العطايا بلا مقابل","m":"الذي يهب العطايا الكثيرة بلا عوض ولا استحقاق من العبد، ويعطي قبل السؤال وبعده، ويهب الولد والعلم والهداية والرحمة لمن يشاء. وصيغة «وهّاب» تدل على كثرة الهبات ودوامها.","f":"انظر إلى ما وُهب لك دون أن تدفع ثمنه: سمعك وبصرك وأهلك وإيمانك. فإذا رغبت في شيء — ذرية أو علم أو هداية — فاسأل الوهاب، فقد وهب لزكريا يحيى بعد الكِبَر.","d":"اللهم هب لي من لدنك ذريةً طيبة، وعلمًا نافعًا، وقلبًا سليمًا","dl":"","sh":{"lg":"صيغة مبالغة من الهبة، وهي العطية الخالية عن العوض والغرض.","x":["يهب بلا عوض ولا غرض ولا استحقاق، ويعطي من يشاء ما يشاء.","وهباته لا تنقطع ولا تنفد، فهو كثير الهبات دائمها."],"a":["سأله سليمان عليه السلام: ﴿وهب لي ملكا لا ينبغي لأحد من بعدي إنك أنت الوهاب﴾، فسخّر له الريح والجن.","ووهب لإبراهيم إسماعيل وإسحاق على الكبر، ولزكريا يحيى بعد أن بلغ من الكبر عتيًّا."],"nb":"علّمنا القرآن أن نسأل الوهاب الذرية الصالحة: ﴿ربنا هب لنا من أزواجنا وذرياتنا قرة أعين﴾."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%88%D9%87%D8%A7%D8%A8.html","verse":{"html":"رَبَّنَا لَا تُزِغۡ قُلُوبَنَا بَعۡدَ إِذۡ هَدَيۡتَنَا وَهَبۡ لَنَا مِن لَّدُنكَ رَحۡمَةًۚ إِنَّكَ أَنتَ <mark>ٱلۡوَهَّابُ</mark>","text":"رَبَّنَا لَا تُزِغۡ قُلُوبَنَا بَعۡدَ إِذۡ هَدَيۡتَنَا وَهَبۡ لَنَا مِن لَّدُنكَ رَحۡمَةًۚ إِنَّكَ أَنتَ ٱلۡوَهَّابُ","ref":"سورة آل عمران · الآية ٨"}},{"id":59,"n":"الرزاق","v":"الرَّزَّاق","c":"khalq","s":"تكفّل بأرزاق الخلائق كلها","m":"الذي تكفّل بأرزاق جميع الخلق، صغيرهم وكبيرهم، إنسهم وجنهم ودوابهم، فما من دابة في الأرض إلا على الله رزقها. والرزق نوعان: رزق الأبدان من طعام ومال، ورزق القلوب من علم وإيمان.","f":"رزقك مكتوب لن يأخذه غيرك، فلا تطلبه بمعصية، ولا تحرق أعصابك قلقًا عليه. اسعَ بالأسباب كالطير تغدو جائعة وتعود شبعى، واعلم أن أعظم الرزق رزق الإيمان.","d":"اللهم إني أسألك علمًا نافعًا، ورزقًا طيبًا، وعملًا متقبّلًا","dl":"دعاء نبوي","sh":{"lg":"صيغة مبالغة من الرزق، وهو العطاء الجاري الذي يُنتفع به.","x":["تكفّل بأرزاق جميع الخلق، وأوصلها إليهم في أوقاتها.","والرزق نوعان: رزق عام للأبدان من طعام وشراب ومال، ورزق خاص للقلوب من علم وإيمان."],"a":["قال ﷺ: «لو أنكم توكلتم على الله حق توكله لرزقكم كما يرزق الطير، تغدو خماصًا وتروح بطانًا».","وأخبر أن الرزق يُكتب والعبد في بطن أمه، وأن نفسًا لن تموت حتى تستوفي رزقها."],"nb":"طلب الرزق بالحرام لا يزيده، وتركه لله لا ينقصه؛ ولذلك قال ﷺ: «اتقوا الله وأجملوا في الطلب»."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B1%D8%B2%D8%A7%D9%82.html","verse":{"html":"إِنَّ ٱللَّهَ هُوَ <mark>ٱلرَّزَّاقُ</mark> ذُو ٱلۡقُوَّةِ ٱلۡمَتِينُ","text":"إِنَّ ٱللَّهَ هُوَ ٱلرَّزَّاقُ ذُو ٱلۡقُوَّةِ ٱلۡمَتِينُ","ref":"سورة الذاريات · الآية ٥٨"}},{"id":60,"n":"الحسيب","v":"الحَسِيب","c":"kifaya","s":"الكافي، والمحاسب لعباده","m":"له معنيان: الكافي الذي يكفي عباده كل ما أهمّهم، فهو حسبهم؛ والمحاسب الذي يحصي أعمالهم ويحاسبهم عليها بالعدل. فهو حسيب للمتوكل عليه، ورقيب على المكلّف.","f":"قل «حسبنا الله ونعم الوكيل» حين تضيق بك السبل؛ فهي الكلمة التي قالها الخليل إبراهيم حين أُلقي في النار. وحاسب نفسك قبل أن تُحاسَب، فإن الحسيب لا يغادر صغيرة ولا كبيرة.","d":"حسبيَ الله لا إله إلا هو، عليه توكلت، وهو رب العرش العظيم","dl":"دعاء قرآني","sh":{"lg":"من الحَسْب بمعنى الكفاية، يقال: حسبك أي يكفيك؛ ومن الحساب أيضًا.","x":["الكافي لعباده كل ما أهمّهم: ﴿ومن يتوكل على الله فهو حسبه﴾.","والمحاسب لعباده على أعمالهم، المحصي لها، المجازي عليها."],"a":["قالها إبراهيم عليه السلام حين أُلقي في النار، وقالها محمد ﷺ حين قيل له: إن الناس قد جمعوا لكم: ﴿حسبنا الله ونعم الوكيل﴾.","ويوم القيامة يحاسب الخلائق جميعًا، ﴿وهو أسرع الحاسبين﴾."],"nb":"«حسبي الله» كلمة تجمع التوكل والاكتفاء؛ فمن قالها صادقًا كفاه الله ما أهمّه."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%AD%D8%B3%D9%8A%D8%A8.html","verse":{"html":"ٱلَّذِينَ يُبَلِّغُونَ رِسَٰلَٰتِ ٱللَّهِ وَيَخۡشَوۡنَهُۥ وَلَا يَخۡشَوۡنَ أَحَدًا إِلَّا ٱللَّهَۗ وَكَفَىٰ بِٱللَّهِ <mark>حَسِيبࣰا</mark>","text":"ٱلَّذِينَ يُبَلِّغُونَ رِسَٰلَٰتِ ٱللَّهِ وَيَخۡشَوۡنَهُۥ وَلَا يَخۡشَوۡنَ أَحَدًا إِلَّا ٱللَّهَۗ وَكَفَىٰ بِٱللَّهِ حَسِيبࣰا","ref":"سورة الأحزاب · الآية ٣٩"}},{"id":61,"n":"الرقيب","v":"الرَّقِيب","c":"ilm","s":"المطّلع على كل شيء لا يغيب عنه شيء","m":"المطّلع على عباده، الحافظ لأعمالهم، الذي لا يغيب عنه شيء من حركاتهم وسكناتهم وخواطرهم؛ يراقبهم في كل حال، ويحفظ عليهم ما يعملون.","f":"المراقبة تربية للقلب: أن تعلم أن الله يراك في خلوتك كما يراك بين الناس. جرّب أن تتذكر «الله رقيب عليّ» قبل كلمة تقولها أو نظرة تنظرها؛ ستجد قلبك يستحيي ويستقيم.","d":"اللهم اجعلني أخشاك في السر والعلن، وأصلح سريرتي وعلانيتي","dl":"","sh":{"lg":"من المراقبة، وهي الحفظ والرصد والانتظار؛ والرقيب: الحافظ الذي لا يغيب.","x":["المطّلع على ما أكنّته الصدور، القائم على كل نفس بما كسبت.","يراقب عباده ويحفظ أعمالهم، لا تأخذه غفلة ولا نوم."],"a":["قال عيسى عليه السلام: ﴿فلما توفيتني كنت أنت الرقيب عليهم﴾.","ووكّل بالعبد ملكين يكتبان: ﴿ما يلفظ من قول إلا لديه رقيب عتيد﴾."],"nb":"جاء «الرقيب» في أول سورة النساء بعد الأمر بالتقوى وصلة الأرحام؛ لأن هذه الحقوق الخفية يحرسها شعور العبد بأن الله رقيب عليه."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B1%D9%82%D9%8A%D8%A8.html","verse":{"html":"وَٱتَّقُواْ ٱللَّهَ ٱلَّذِي تَسَآءَلُونَ بِهِۦ وَٱلۡأَرۡحَامَۚ إِنَّ ٱللَّهَ كَانَ عَلَيۡكُمۡ <mark>رَقِيبࣰا</mark>","text":"وَٱتَّقُواْ ٱللَّهَ ٱلَّذِي تَسَآءَلُونَ بِهِۦ وَٱلۡأَرۡحَامَۚ إِنَّ ٱللَّهَ كَانَ عَلَيۡكُمۡ رَقِيبࣰا","ref":"سورة النساء · من الآية ١"}},{"id":62,"n":"الشهيد","v":"الشَّهِيد","c":"ilm","s":"الحاضر المطّلع، الشاهد على كل شيء","m":"المطّلع على كل شيء، الشاهد عليه، لا يغيب عن علمه شيء؛ يسمع ويرى ويُحصي. وهو الشاهد لعباده المؤمنين بصدقهم، وعلى المكذبين بأعمالهم، وكفى به شهيدًا.","f":"إذا لم يصدّقك الناس أو جحدوا معروفك فيكفيك أن الله شهيد. وإذا هممت بظلم أو خيانة فتذكّر أن الشاهد هو الحَكَم، فلا مهرب من شهادته.","d":"اللهم إني أُشهدك أني رضيت بك ربًّا، فاجعلني عندك من الصادقين","dl":"","sh":{"lg":"من الشهود، وهو الحضور مع المشاهدة والعلم.","x":["المطّلع على كل شيء، الحاضر الذي لا يغيب؛ يسمع كل قول ويرى كل فعل.","الشاهد لعباده المؤمنين بصدقهم، وعلى المكذبين بكذبهم، وكفى بالله شهيدًا."],"a":["شهد لنفسه بالوحدانية: ﴿شهد الله أنه لا إله إلا هو والملائكة وأولو العلم﴾.","ويُقيم يوم القيامة شهودًا على الناس: الأنبياء والملائكة، بل وجوارحهم."],"nb":"الرقيب يحفظ الأعمال ويراقبها، والشهيد يشهد بها ويقيم الحجة؛ فمراقبته في الدنيا، وشهادته في الدنيا والآخرة."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B4%D9%87%D9%8A%D8%AF.html","verse":{"html":"أَوَلَمۡ يَكۡفِ بِرَبِّكَ أَنَّهُۥ عَلَىٰ كُلِّ شَيۡءࣲ <mark>شَهِيدٌ</mark>","text":"أَوَلَمۡ يَكۡفِ بِرَبِّكَ أَنَّهُۥ عَلَىٰ كُلِّ شَيۡءࣲ شَهِيدٌ","ref":"سورة فصلت · من الآية ٥٣"}},{"id":63,"n":"المقيت","v":"المُقِيت","c":"khalq","s":"يعطي كل مخلوق قُوتَه ويحفظه","m":"الذي خلق الأقوات وأوصلها إلى كل مخلوق في وقتها؛ يعطي الأبدان قوتها من الطعام، والقلوب قوتها من العلم والإيمان. وهو أيضًا الحفيظ المقتدر الشاهد على كل شيء.","f":"كما يرزق جسدك قوته فإنه يرزق قلبك قوته؛ فلا تُطعم جسدك وتُجوّع روحك. وثق أن قوتك وقوت أولادك محفوظ عند المقيت، فلا تمدّ يدك إلى حرام.","d":"يا مقيت، أطعم قلبي من نور الإيمان، وبارك لي في رزقي","dl":"","sh":{"lg":"من القُوت، وهو ما يقوم به البدن من الطعام؛ ويقال: أقات على الشيء إذا اقتدر عليه وحفظه.","x":["خالق الأقوات وموصلها إلى الخلق، كلٌّ بقدر حاجته.","والمقتدر الحفيظ الشاهد على كل شيء؛ يعطي ويحفظ ويحاسب."],"a":["قدّر أرزاق الأرض منذ خلقها: ﴿وقدر فيها أقواتها في أربعة أيام سواء للسائلين﴾.","ويقيت القلوب بالعلم والإيمان، كما يقيت الأبدان بالطعام."],"nb":"لم يرد «المقيت» في القرآن إلا مرة واحدة، في سورة النساء بعد ذكر الشفاعة الحسنة والسيئة؛ فهو المقتدر على الجزاء، الحافظ للأعمال."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D9%82%D9%8A%D8%AA.html","verse":{"html":"وَكَانَ ٱللَّهُ عَلَىٰ كُلِّ شَيۡءࣲ <mark>مُّقِيتࣰا</mark>","text":"وَكَانَ ٱللَّهُ عَلَىٰ كُلِّ شَيۡءࣲ مُّقِيتࣰا","ref":"سورة النساء · من الآية ٨٥"}},{"id":64,"n":"الفتاح","v":"الفَتَّاح","c":"khalq","s":"يفتح أبواب الرحمة ويحكم بالحق","m":"الذي يفتح لعباده أبواب رحمته ورزقه وعلمه، ويفتح المغلق من الأمور، ويحكم بين عباده بالحق والعدل؛ فالفتح يأتي بمعنى الحكم أيضًا. وإذا فتح للناس رحمةً فلا أحد يقدر على إمساكها.","f":"حين تُغلق الأبواب في وجهك — عمل أو زواج أو فهم — فاطرق باب الفتاح. ولا تيأس من باب أُغلق، فقد يغلقه ليفتح لك ما هو خير منه.","d":"اللهم افتح لي أبواب رحمتك","dl":"دعاء نبوي","sh":{"lg":"صيغة مبالغة من الفتح، وهو إزالة الإغلاق، ويأتي بمعنى الحكم والقضاء؛ فالفتّاح: الحاكم.","x":["يفتح أبواب الرحمة والرزق والعلم لعباده، ويفتح المغلق من أمورهم.","ويحكم بين عباده بالحق، فيفصل بين المختلفين ويُظهر المحق من المبطل."],"a":["دعا شعيب عليه السلام: ﴿ربنا افتح بيننا وبين قومنا بالحق وأنت خير الفاتحين﴾.","وفتح لنبيه ﷺ مكة، وسمّى صلح الحديبية فتحًا مبينًا."],"nb":"﴿وعنده مفاتح الغيب﴾ ومفاتيح الخزائن؛ فإذا أغلق الناس أبوابهم دونك فاطرق باب من بيده المفاتيح كلها."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%81%D8%AA%D8%A7%D8%AD.html","verse":{"html":"قُلۡ يَجۡمَعُ بَيۡنَنَا رَبُّنَا ثُمَّ يَفۡتَحُ بَيۡنَنَا بِٱلۡحَقِّ وَهُوَ <mark>ٱلۡفَتَّاحُ</mark> ٱلۡعَلِيمُ","text":"قُلۡ يَجۡمَعُ بَيۡنَنَا رَبُّنَا ثُمَّ يَفۡتَحُ بَيۡنَنَا بِٱلۡحَقِّ وَهُوَ ٱلۡفَتَّاحُ ٱلۡعَلِيمُ","ref":"سورة سبأ · الآية ٢٦"}},{"id":65,"n":"العليم","v":"العَلِيم","c":"ilm","s":"أحاط علمه بكل شيء","m":"الذي أحاط علمه بكل شيء: الظاهر والباطن، والسر والعلن، والماضي والحاضر والمستقبل؛ فلا تسقط ورقة إلا يعلمها، ويعلم ما في الصدور من نيات وخواطر.","f":"يعلم الله ما في قلبك قبل أن تنطق؛ فلا تتصنّع أمامه، وكن صادقًا في دعائك. وإذا استغلقت عليك مسألة أو حرت في فهم فاطلب العلم من العليم.","d":"اللهم انفعني بما علّمتني، وعلّمني ما ينفعني، وزدني علمًا","dl":"دعاء نبوي","sh":{"lg":"من العلم، وصيغة «فعيل» تدل على المبالغة والإحاطة.","x":["أحاط علمه بكل شيء: بالكليات والجزئيات، والظاهر والباطن.","يعلم ما كان وما يكون، وما لم يكن لو كان كيف يكون، ويعلم السر وأخفى."],"a":["قال: ﴿وما تسقط من ورقة إلا يعلمها ولا حبة في ظلمات الأرض ولا رطب ولا يابس إلا في كتاب مبين﴾.","وعلّم آدم الأسماء كلها، وعلّم الإنسان ما لم يعلم؛ فكل علم عند الخلق من فيض علمه."],"nb":"«العليم» من أكثر الأسماء ورودًا في القرآن، ويقترن غالبًا بـ«الحكيم» و«السميع» و«الخبير»."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B9%D9%84%D9%8A%D9%85.html","verse":{"html":"وَأَسِرُّواْ قَوۡلَكُمۡ أَوِ ٱجۡهَرُواْ بِهِۦٓۖ إِنَّهُۥ <mark>عَلِيمُۢ</mark> بِذَاتِ ٱلصُّدُورِ","text":"وَأَسِرُّواْ قَوۡلَكُمۡ أَوِ ٱجۡهَرُواْ بِهِۦٓۖ إِنَّهُۥ عَلِيمُۢ بِذَاتِ ٱلصُّدُورِ","ref":"سورة الملك · الآية ١٣"}},{"id":66,"n":"الحكيم","v":"الحَكِيم","c":"ilm","s":"يضع كل شيء في موضعه","m":"الذي له الحكمة البالغة في خلقه وأمره؛ فلا يخلق شيئًا عبثًا، ولا يشرع حكمًا إلا لمصلحة، ويضع كل شيء في موضعه اللائق به. وهو أيضًا الحاكم بين عباده بعدله.","f":"ما لم تفهمه من أقداره لا يعني أنه بلا حكمة، بل يعني أن علمك قاصر. قل كما قالت الملائكة: «سبحانك لا علم لنا إلا ما علمتنا»، وسلّم للحكيم وأنت مطمئن.","d":"اللهم ارزقني الحكمة، ورضّني بقضائك، واجعل لي فيه خيرًا","dl":"","sh":{"lg":"من الحُكم والإحكام والحكمة؛ وأصل الحكم في اللغة المنع، ومنه «حَكَمة» اللجام التي تمنع الدابة من الجموح.","x":["الحاكم بين عباده بالعدل، وله الحكم القدري والحكم الشرعي.","والمحكم لخلقه وشرعه، الذي يضع كل شيء في موضعه، فلا عبث في فعله ولا خلل في أمره."],"a":["أتقن كل شيء خلقه: ﴿ما ترى في خلق الرحمن من تفاوت﴾.","وما شرع حكمًا إلا لحكمة، علمها من علمها وجهلها من جهلها."],"nb":"يقترن «الحكيم» بـ«العزيز» و«العليم» كثيرًا؛ فعزته مقرونة بالحكمة فلا يظلم، وحكمته صادرة عن علم فلا تخطئ."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%AD%D9%83%D9%8A%D9%85.html","verse":{"html":"قَالُواْ سُبۡحَٰنَكَ لَا عِلۡمَ لَنَآ إِلَّا مَا عَلَّمۡتَنَآۖ إِنَّكَ أَنتَ ٱلۡعَلِيمُ <mark>ٱلۡحَكِيمُ</mark>","text":"قَالُواْ سُبۡحَٰنَكَ لَا عِلۡمَ لَنَآ إِلَّا مَا عَلَّمۡتَنَآۖ إِنَّكَ أَنتَ ٱلۡعَلِيمُ ٱلۡحَكِيمُ","ref":"سورة البقرة · الآية ٣٢"}},{"id":67,"n":"الجامع","v":"الجَامِع","c":"khalq","s":"يجمع الخلائق ليوم لا ريب فيه","m":"الذي يجمع الخلائق ليوم القيامة للحساب والجزاء، ويجمع ما تفرّق من الأجساد بعد فنائها، ويجمع بين القلوب المتنافرة، ويجمع الأشياء المتضادة في الكون بحكمته.","f":"إذا فرّقت الأقدار أو الموت بينك وبين أحبابك فتذكّر أن الجامع سيجمعكم يومًا. واسأله أن يجمع شملك وشمل أهلك على الخير، وأن يجمعكم في جنته.","d":"يا جامع الناس ليوم لا ريب فيه، اجمع بيني وبين أحبابي في جنتك","dl":"","sh":{"lg":"من الجمع، وهو ضم الشيء إلى الشيء وتأليف المتفرق.","x":["يجمع الخلائق ليوم القيامة للحساب والجزاء، فلا يتخلف منهم أحد.","ويجمع بين المتماثلات والمتباينات في الكون بحكمته، ويجمع شمل أوليائه."],"a":["يجمع عظام الإنسان بعد تفرقها: ﴿أيحسب الإنسان ألن نجمع عظامه بلى قادرين على أن نسوي بنانه﴾.","وألّف بين قلوب المؤمنين بعد العداوة: ﴿لو أنفقت ما في الأرض جميعا ما ألفت بين قلوبهم ولكن الله ألف بينهم﴾."],"nb":"ورد هذا الاسم في دعاء الراسخين في العلم أول سورة آل عمران؛ تذكيرًا بيوم الجمع الذي يُجزى فيه كل عامل بعمله."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%AC%D8%A7%D9%85%D8%B9.html","verse":{"html":"رَبَّنَآ إِنَّكَ <mark>جَامِعُ</mark> ٱلنَّاسِ لِيَوۡمࣲ لَّا رَيۡبَ فِيهِۚ إِنَّ ٱللَّهَ لَا يُخۡلِفُ ٱلۡمِيعَادَ","text":"رَبَّنَآ إِنَّكَ جَامِعُ ٱلنَّاسِ لِيَوۡمࣲ لَّا رَيۡبَ فِيهِۚ إِنَّ ٱللَّهَ لَا يُخۡلِفُ ٱلۡمِيعَادَ","ref":"سورة آل عمران · الآية ٩"}},{"id":68,"n":"القادر","v":"القَادِر","c":"qudra","s":"يفعل ما يشاء بلا معارض","m":"الذي يقدر على كل شيء، لا يعجزه شيء في إيجاده أو إعدامه أو تغييره، ومن قدرته إحياء الموتى بعد أن صاروا ترابًا. والقادر والقدير والمقتدر كلها تدل على كمال القدرة، مع تفاوتٍ في المبالغة.","f":"مهما بدت حالك ميؤوسًا منها في نظر الناس فهي في قدرة القادر هيّنة. وكما يحيي الموتى يحيي القلب الميت بالإيمان، ويحيي الأمل بعد الإحباط.","d":"يا قادر، أحيِ قلبي بنورك، وأصلح ما أفسدتُه بيدي","dl":"","sh":{"lg":"اسم فاعل من القدرة، وهي التمكن من الفعل بلا عجز.","x":["القادر على كل شيء، لا يعجزه شيء أراده.","وقدرته تتعلق بالإيجاد والإعدام، والإحياء والإماتة، والجمع والتفريق."],"a":["قادر على إحياء الموتى وبعثهم، كما يحيي الأرض بعد موتها.","وقادر على أن يبعث على الظالمين عذابًا من فوقهم أو من تحت أرجلهم؛ ﴿فلا يأمن مكر الله إلا القوم الخاسرون﴾."],"nb":"القادر والقدير والمقتدر ثلاثة أسماء من أصل واحد: القادر يدل على أصل القدرة، والقدير على كثرتها ودوامها، والمقتدر على تمامها وكمال التمكّن."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%82%D8%A7%D8%AF%D8%B1.html","verse":{"html":"أَلَيۡسَ ذَٰلِكَ <mark>بِقَٰدِرٍ</mark> عَلَىٰٓ أَن يُحۡـِۧيَ ٱلۡمَوۡتَىٰ","text":"أَلَيۡسَ ذَٰلِكَ بِقَٰدِرٍ عَلَىٰٓ أَن يُحۡـِۧيَ ٱلۡمَوۡتَىٰ","ref":"سورة القيامة · الآية ٤٠"}},{"id":69,"n":"المقتدر","v":"المُقْتَدِر","c":"qudra","s":"تامّ القدرة، لا يمتنع عليه شيء","m":"البالغ في القدرة غايتها، الذي ينفذ أمره ولا يمتنع عليه شيء؛ يأخذ الظالمين أخذ عزيز مقتدر، ويكرم المتقين في مقعد صدق عنده. وصيغته تدل على المبالغة في القدرة والتمكّن.","f":"الآية تضرب مثلًا للدنيا: ماء نزل من السماء فاخضرّت به الأرض ثم صارت هشيمًا تذروه الرياح، والمقتدر وحده باقٍ. فلا تتعلق بما يزول، واستعن بمن لا تزول قدرته.","d":"يا مقتدر، اكفني ما أهمّني، وقدّر لي الخير حيث كان","dl":"","sh":{"lg":"على وزن «مُفتعِل» من القدرة، وزيادة المبنى تدل على زيادة المعنى؛ فهو أبلغ في الدلالة على القدرة.","x":["التام القدرة، الذي لا يمتنع عليه شيء، ولا يعارضه أحد.","ينفذ ما يريد على أكمل وجه وفي الوقت الذي يريد."],"a":["أخذ الأمم المكذبة ﴿أخذ عزيز مقتدر﴾.","وضرب للدنيا مثلًا بالنبات يخضرّ ثم يصير هشيمًا، ليعلم الناس أن المقتدر وحده الباقي."],"nb":"جاء «المقتدر» في القرآن مع ذكر الإهلاك ومع ذكر النعيم: «أخذ عزيز مقتدر» و«عند مليك مقتدر»؛ فقدرته نافذة في العقوبة والإكرام."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D9%82%D8%AA%D8%AF%D8%B1.html","verse":{"html":"وَكَانَ ٱللَّهُ عَلَىٰ كُلِّ شَيۡءࣲ <mark>مُّقۡتَدِرًا</mark>","text":"وَكَانَ ٱللَّهُ عَلَىٰ كُلِّ شَيۡءࣲ مُّقۡتَدِرًا","ref":"سورة الكهف · من الآية ٤٥"}},{"id":70,"n":"فاطر السموات والأرض","v":"فَاطِرُ السَّمَاوَاتِ وَالأَرْض","c":"khalq","s":"ابتدأ خلقهما على غير مثال سابق","m":"الذي ابتدأ خلق السماوات والأرض وأوجدهما من العدم على غير مثال سابق. ومن هذا الأصل «الفطرة»: فقد فطر الناس على معرفته والإقرار بتوحيده.","f":"في داخلك فطرة تعرف ربها، وكل ضلال إنما هو غبار على هذه الفطرة. وتأمّل دعاء يوسف عليه السلام بعد أن تمّت عليه النعم: لم يطلب إلا أن يتوفاه الله مسلمًا ويلحقه بالصالحين، فحسن الخاتمة أعظم النعم.","d":"يا فاطر السماوات والأرض، ثبّتني على الفطرة، واختم لي بالإسلام","dl":"","sh":{"lg":"الفَطْر في اللغة: الشق والابتداء والاختراع؛ قال ابن عباس رضي الله عنهما: كنت لا أدري ما «فاطر السماوات» حتى أتاني أعرابيان يختصمان في بئر، فقال أحدهما: أنا فطرتها، أي ابتدأتها.","x":["الذي ابتدأ خلق السماوات والأرض على غير مثال سبق، وشقّها وأظهرها.","والذي فطر الناس على معرفته وتوحيده، فالفطرة السليمة تعرف ربها."],"a":["قال ﷺ: «كل مولود يولد على الفطرة»؛ فالتوحيد أصل في النفس، والانحراف طارئ عليها.","ومن فطره أن جعل الأرض تتشقق عن النبات: ﴿والأرض ذات الصدع﴾."],"nb":"سُمّيت سورة كاملة باسم «فاطر»، وافتُتحت بحمد الله فاطر السماوات والأرض جاعل الملائكة رسلًا."},"url":"https://surahquran.com/Names-of-Allah-%D9%81%D8%A7%D8%B7%D8%B1+%D8%A7%D9%84%D8%B3%D9%85%D9%88%D8%A7%D8%AA+%D9%88%D8%A7%D9%84%D8%A3%D8%B1%D8%B6.html","verse":{"html":"<mark>فَاطِرَ</mark> <mark>ٱلسَّمَٰوَٰتِ</mark> <mark>وَٱلۡأَرۡضِ</mark> أَنتَ وَلِيِّۦ فِي ٱلدُّنۡيَا وَٱلۡأٓخِرَةِۖ تَوَفَّنِي مُسۡلِمࣰا وَأَلۡحِقۡنِي بِٱلصَّـٰلِحِينَ","text":"فَاطِرَ ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضِ أَنتَ وَلِيِّۦ فِي ٱلدُّنۡيَا وَٱلۡأٓخِرَةِۖ تَوَفَّنِي مُسۡلِمࣰا وَأَلۡحِقۡنِي بِٱلصَّـٰلِحِينَ","ref":"سورة يوسف · من الآية ١٠١"}},{"id":71,"n":"عالم الغيب والشهادة","v":"عَالِمُ الغَيْبِ وَالشَّهَادَة","c":"ilm","s":"يعلم ما غاب وما حضر","m":"الذي يعلم ما غاب عن الخلق وما شاهدوه، ما خفي وما ظهر؛ فلا فرق في علمه بين سر وعلانية، ولا بين ماضٍ ومستقبل. وكثيرًا ما يُذكر هذا الاسم مع الحكم بين العباد والجزاء.","f":"الناس يحكمون عليك بما يشاهدون، والله يعلم الغيب والشهادة؛ فلا تحزن إن أساؤوا فهمك. واطلب منه الهداية فيما اختلف فيه الناس، فهو يعلم الحق كما هو.","d":"اللهم ربَّ جبرائيل وميكائيل وإسرافيل، فاطر السماوات والأرض، عالم الغيب والشهادة، أنت تحكم بين عبادك فيما كانوا فيه يختلفون، اهدني لما اختُلف فيه من الحق بإذنك، إنك تهدي من تشاء إلى صراط مستقيم","dl":"دعاء نبوي","sh":{"lg":"الغيب: ما غاب عن الحس والإدراك، والشهادة: ما حضر وشوهد.","x":["يعلم ما غاب عن الخلق وما حضر، ما مضى وما سيأتي، ما خفي وما ظهر.","علمه بالغيب كعلمه بالشهادة سواء، لا يتفاوت ولا يتجدد بعد جهل."],"a":["يأتي هذا الاسم كثيرًا في سياق الحساب والجزاء: ﴿ثم تردون إلى عالم الغيب والشهادة فينبئكم بما كنتم تعملون﴾.","وكان النبي ﷺ يفتتح به قيام الليل، سائلًا الهداية فيما اختلف فيه الناس."],"nb":"جمع بين العلمين ليطمئن المؤمن: ما ظهر من عمله وما خفي محفوظ عند ربه، فلا يضيع منه شيء."},"url":"https://surahquran.com/Names-of-Allah-%D8%B9%D8%A7%D9%84%D9%85+%D8%A7%D9%84%D8%BA%D9%8A%D8%A8+%D9%88%D8%A7%D9%84%D8%B4%D9%87%D8%A7%D8%AF%D8%A9.html","verse":{"html":"هُوَ ٱللَّهُ ٱلَّذِي لَآ إِلَٰهَ إِلَّا هُوَۖ <mark>عَٰلِمُ</mark> <mark>ٱلۡغَيۡبِ</mark> <mark>وَٱلشَّهَٰدَةِۖ</mark> هُوَ ٱلرَّحۡمَٰنُ ٱلرَّحِيمُ","text":"هُوَ ٱللَّهُ ٱلَّذِي لَآ إِلَٰهَ إِلَّا هُوَۖ عَٰلِمُ ٱلۡغَيۡبِ وَٱلشَّهَٰدَةِۖ هُوَ ٱلرَّحۡمَٰنُ ٱلرَّحِيمُ","ref":"سورة الحشر · الآية ٢٢"}},{"id":72,"n":"بديع السموات والأرض","v":"بَدِيعُ السَّمَاوَاتِ وَالأَرْض","c":"khalq","s":"أبدعهما في أحسن صورة بلا مثال","m":"الذي أبدع السماوات والأرض وأنشأهما على غير مثال سبق، في غاية الإتقان والإحكام والجمال. إذا قضى أمرًا فإنما يقول له: كن فيكون.","f":"تأمّل السماء في ليلة صافية، ونظام الأفلاك الدقيق، وجمال الأرض؛ كلها من إبداع البديع. ومن أبدع هذا الكون كله لا يعجزه أن يُحدث لك فرجًا لا يخطر ببالك.","d":"يا بديع السماوات والأرض، اجعل لي من كل همّ فرجًا، ومن كل ضيق مخرجًا","dl":"","sh":{"lg":"من الإبداع، وهو إنشاء الشيء على غير مثال سابق؛ و«بديع» على وزن «فعيل» بمعنى «مُبدِع».","x":["أنشأ السماوات والأرض على غير مثال سبق، في غاية الإتقان والجمال.","إذا قضى أمرًا فإنما يقول له كن فيكون، بلا تعب ولا آلة ولا معين."],"a":["احتج به على من نسب إليه الولد: ﴿بديع السماوات والأرض أنى يكون له ولد ولم تكن له صاحبة﴾.","ومن إبداعه التنوع العجيب في خلقه، فلا يتكرر شيء على صورة واحدة."],"nb":"ورد «بديع السماوات والأرض» في موضعين من القرآن: في البقرة والأنعام، وكلاهما في سياق الرد على من نسب لله الولد."},"url":"https://surahquran.com/Names-of-Allah-%D8%A8%D8%AF%D9%8A%D8%B9+%D8%A7%D9%84%D8%B3%D9%85%D9%88%D8%A7%D8%AA+%D9%88%D8%A7%D9%84%D8%A3%D8%B1%D8%B6.html","verse":{"html":"<mark>بَدِيعُ</mark> <mark>ٱلسَّمَٰوَٰتِ</mark> <mark>وَٱلۡأَرۡضِۖ</mark> وَإِذَا قَضَىٰٓ أَمۡرࣰا فَإِنَّمَا يَقُولُ لَهُۥ كُن فَيَكُونُ","text":"بَدِيعُ ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضِۖ وَإِذَا قَضَىٰٓ أَمۡرࣰا فَإِنَّمَا يَقُولُ لَهُۥ كُن فَيَكُونُ","ref":"سورة البقرة · الآية ١١٧"}},{"id":73,"n":"نور السماوات والأرض","v":"نُورُ السَّمَاوَاتِ وَالأَرْض","c":"azama","s":"منوّر الكون والقلوب","m":"الله سبحانه نور، وحجابه النور، وبنوره استنارت السماوات والأرض. وهو الذي ينوّر قلوب المؤمنين بالإيمان والهداية، وكتابه نور، وشرعه نور يُهتدى به.","f":"إذا أظلم قلبك بالذنوب أو الحيرة فلا تبحث عن النور عند غير الله. اقرأ القرآن فهو نور، وأكثر من سؤال الله أن يجعل في قلبك نورًا؛ فمن لم يجعل الله له نورًا فلن يجده في مكان آخر.","d":"اللهم اجعل في قلبي نورًا، وفي بصري نورًا، وفي سمعي نورًا","dl":"دعاء نبوي","sh":{"lg":"النور: ما تنكشف به الأشياء وتظهر، وهو ضد الظلمة.","x":["الله سبحانه نور، وحجابه النور، لو كشفه لأحرقت سبحات وجهه ما انتهى إليه بصره من خلقه.","وهو منوّر السماوات والأرض، وهادي أهلهما بنوره."],"a":["جعل كتابه نورًا، ونبيه ﷺ سراجًا منيرًا، والإيمان نورًا في قلوب المؤمنين.","ويوم القيامة ﴿يسعى نورهم بين أيديهم وبأيمانهم﴾."],"nb":"ضرب الله في آية النور مثلًا لنور الإيمان في قلب المؤمن بالمصباح في الزجاجة في المشكاة: ﴿نور على نور﴾."},"url":"https://surahquran.com/Names-of-Allah-%D9%86%D9%88%D8%B1+%D8%A7%D9%84%D8%B3%D9%85%D8%A7%D9%88%D8%A7%D8%AA+%D9%88%D8%A7%D9%84%D8%A3%D8%B1%D8%B6.html","verse":{"html":"ٱللَّهُ <mark>نُورُ</mark> <mark>ٱلسَّمَٰوَٰتِ</mark> <mark>وَٱلۡأَرۡضِۚ</mark> مَثَلُ نُورِهِۦ كَمِشۡكَوٰةࣲ فِيهَا مِصۡبَاحٌ","text":"ٱللَّهُ نُورُ ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضِۚ مَثَلُ نُورِهِۦ كَمِشۡكَوٰةࣲ فِيهَا مِصۡبَاحٌ","ref":"سورة النور · من الآية ٣٥"}},{"id":74,"n":"الواحد","v":"الوَاحِد","c":"tawheed","s":"المتفرّد في ذاته وصفاته وأفعاله","m":"المتفرّد بالربوبية والألوهية والأسماء والصفات؛ لا شريك له في ملكه، ولا شبيه له في صفاته، ولا ندّ له في عبادته. وكل ما سواه متعدد محتاج.","f":"سأل يوسف عليه السلام صاحبيه في السجن: أأرباب متفرقون خير أم الله الواحد القهار؟ القلب الذي تتنازعه آلهة كثيرة — المال والناس والهوى — قلبٌ ممزّق؛ فاجعل وجهتك واحدة تجد الراحة.","d":"اللهم اجمع قلبي عليك، ولا تجعل فيه شريكًا لك","dl":"","sh":{"lg":"من الوَحدة، وهي الانفراد وعدم التعدد.","x":["المتفرد بذاته فلا شبيه له، وبصفاته فلا مثيل له، وبأفعاله فلا شريك له.","المتفرد بالألوهية، فلا معبود بحق سواه."],"a":["بعث الرسل كلهم بدعوة واحدة: ﴿اعبدوا الله ما لكم من إله غيره﴾.","وانتظام الكون دليل على وحدانية مدبّره: ﴿لو كان فيهما آلهة إلا الله لفسدتا﴾."],"nb":"يأتي «الواحد» مقرونًا بـ«القهار» في القرآن غالبًا؛ لأن من قهر كل شيء لا يكون له شريك."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%88%D8%A7%D8%AD%D8%AF.html","verse":{"html":"يَٰصَٰحِبَيِ ٱلسِّجۡنِ ءَأَرۡبَابࣱ مُّتَفَرِّقُونَ خَيۡرٌ أَمِ ٱللَّهُ <mark>ٱلۡوَٰحِدُ</mark> ٱلۡقَهَّارُ","text":"يَٰصَٰحِبَيِ ٱلسِّجۡنِ ءَأَرۡبَابࣱ مُّتَفَرِّقُونَ خَيۡرٌ أَمِ ٱللَّهُ ٱلۡوَٰحِدُ ٱلۡقَهَّارُ","ref":"سورة يوسف · الآية ٣٩"}},{"id":75,"n":"الأحد","v":"الأَحَد","c":"tawheed","s":"المتوحّد بالكمال، لا نظير له","m":"المنفرد بكل كمال، الذي لا نظير له ولا مثيل، ولا يتجزأ ولا ينقسم. وسورة الإخلاص التي تبدأ بهذا الاسم تعدل ثلث القرآن، لأنها خالصة في وصف الله.","f":"كان بلال رضي الله عنه يُعذَّب على الرمال الحارقة فلا يقول إلا: «أحد، أحد». اجعل هذه الكلمة ثباتًا لك حين يضغط عليك الناس لترضيهم بما يُغضب الله.","d":"اللهم إني أسألك بأني أشهد أنك أنت الله لا إله إلا أنت، الأحد الصمد، الذي لم يلد ولم يولد، ولم يكن له كفوًا أحد","dl":"دعاء نبوي","sh":{"lg":"من الوحدة أيضًا، وأصله «وَحَد»، قُلبت الواو همزة.","x":["المتوحد بجميع صفات الكمال، الذي لا نظير له ولا كفؤ.","لا يتجزأ ولا ينقسم، ولا يشاركه أحد في شيء من خصائصه."],"a":["قال ﷺ عن سورة الإخلاص: «إنها لتعدل ثلث القرآن».","وأحبّ رجلٌ هذه السورة لأنها صفة الرحمن، فقال ﷺ: «أخبروه أن الله يحبه»."],"nb":"«الأحد» أبلغ من «الواحد» في نفي المثيل والشريك، ولا يوصف به في الإثبات غير الله؛ فلا يقال: رجل أحد، ويقال: رجل واحد."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%A3%D8%AD%D8%AF.html","verse":{"html":"قُلۡ هُوَ ٱللَّهُ <mark>أَحَدٌ</mark>","text":"قُلۡ هُوَ ٱللَّهُ أَحَدٌ","ref":"سورة الإخلاص · الآية ١"}},{"id":76,"n":"الصمد","v":"الصَّمَد","c":"tawheed","s":"السيد الذي تقصده الخلائق في حوائجها","m":"السيد الكامل في سؤدده، الذي تصمد إليه الخلائق كلها وتقصده في حوائجها، وهو الغني عنها كلها. لم يلد ولم يولد، وليس له كفؤ ولا مثيل.","f":"كل مخلوق تقصده بحاجة هو نفسه محتاج، أما الصمد فهو المقصود الذي لا يحتاج. فابدأ بطرق بابه قبل أبواب الناس، واجعل حوائجك الكبرى والصغرى معلّقة به.","d":"يا صمد، إليك قصدت بحاجتي، فلا تكلني إلى غيرك","dl":"","sh":{"lg":"من الصَّمْد، وهو القصد؛ يقال: صمدتُ إليه أي قصدته.","x":["السيد الذي كمل في سؤدده، الذي تصمد إليه الخلائق في حوائجها.","الغني عن كل أحد، فلا يحتاج إلى طعام ولا شراب، ولم يلد ولم يولد."],"a":["كل مخلوق يلجأ إليه في الشدة، حتى المشرك إذا ركب البحر وهاج به الموج دعاه مخلصًا.","ولهذا جاء بعده في السورة: ﴿لم يلد ولم يولد ولم يكن له كفوا أحد﴾."],"nb":"لم يرد «الصمد» في القرآن إلا في سورة الإخلاص، وفسّره الصحابة والتابعون بمعانٍ متعددة تجتمع كلها في كمال الغنى وكمال السؤدد."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B5%D9%85%D8%AF.html","verse":{"html":"ٱللَّهُ <mark>ٱلصَّمَدُ</mark> <span class=\"an\">٢</span> لَمۡ يَلِدۡ وَلَمۡ يُولَدۡ <span class=\"an\">٣</span> وَلَمۡ يَكُن لَّهُۥ كُفُوًا أَحَدُۢ <span class=\"an\">٤</span>","text":"ٱللَّهُ ٱلصَّمَدُ (٢) لَمۡ يَلِدۡ وَلَمۡ يُولَدۡ (٣) وَلَمۡ يَكُن لَّهُۥ كُفُوًا أَحَدُۢ (٤)","ref":"سورة الإخلاص · الآيات ٢–٤"}},{"id":77,"n":"القاهر","v":"القَاهِر","c":"qudra","s":"الغالب فوق عباده، يخضع له كل شيء","m":"الذي قهر جميع المخلوقات وذلّت له، فلا يخرج شيء عن إرادته وسلطانه، وهو فوق عباده بذاته وقهره. وكل جبار عنيد مقهور تحت قدرته.","f":"إذا خفت من متسلّط أو ظالم فتذكّر أن الله القاهر فوق عباده، وأن ذلك المتسلّط عبد مقهور مثلك. فلا تبع دينك خوفًا من مقهور، ولا تخشَ إلا القاهر سبحانه.","d":"يا قاهر، اكفني شر كل ذي شر، واكفني شر نفسي","dl":"","sh":{"lg":"من القهر، وهو الغلبة والأخذ من فوق؛ والقاهر: الغالب لجميع الخلق.","x":["قهر جميع الخلق فخضعوا له وذلّوا لعظمته، فلا يتحرك شيء إلا بإذنه.","وهو فوق عباده: فوقية ذات، وفوقية قهر وسلطان."],"a":["قهر الخلق بالموت، فلا ينجو منه ملك ولا مملوك.","قال: ﴿وهو القاهر فوق عباده ويرسل عليكم حفظة حتى إذا جاء أحدكم الموت توفته رسلنا وهم لا يفرطون﴾."],"nb":"ورد «القاهر» في القرآن مرتين، كلتاهما في سورة الأنعام بلفظ: «وهو القاهر فوق عباده»."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%82%D8%A7%D9%87%D8%B1.html","verse":{"html":"وَهُوَ <mark>ٱلۡقَاهِرُ</mark> فَوۡقَ عِبَادِهِۦۚ وَهُوَ ٱلۡحَكِيمُ ٱلۡخَبِيرُ","text":"وَهُوَ ٱلۡقَاهِرُ فَوۡقَ عِبَادِهِۦۚ وَهُوَ ٱلۡحَكِيمُ ٱلۡخَبِيرُ","ref":"سورة الأنعام · الآية ١٨"}},{"id":78,"n":"القهار","v":"القَهَّار","c":"qudra","s":"عظيم القهر، يذلّ له كل جبار","m":"صيغة مبالغة من القاهر، تدل على كثرة قهره وتمامه: قهر الخلق بالموت، وأذلّ الجبابرة، وخضعت له الرقاب. ويوم القيامة يُعلَن أن الملك كله لله الواحد القهار.","f":"كل من تكبّر في الأرض سيقف ذليلًا أمام القهار؛ فإذا رأيت ظالمًا يتجبّر فلا ينخدع قلبك بقوته. وإذا غلبتك شهوتك فاستعن بالقهار يقهرها لك.","d":"يا واحد يا قهار، اقهر هواي، وارزقني الاستقامة","dl":"","sh":{"lg":"صيغة مبالغة من القهر، تدل على كثرة قهره وتمامه.","x":["قهر كل شيء، فدانت له الخلائق، وذلّت له الجبابرة، وخضعت لعظمته الرقاب.","لا يغلبه شيء، ولا يخرج عن قهره شيء."],"a":["يوم القيامة يبرز الخلائق كلهم بين يديه: ﴿وبرزوا لله الواحد القهار﴾.","وبيّن يوسف عليه السلام لصاحبيه في السجن بطلان الأرباب المتفرقة أمام الله الواحد القهار."],"nb":"لم يأتِ «القهار» في القرآن إلا مقرونًا بـ«الواحد»؛ فالتفرد بالقهر دليل التفرد بالألوهية."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%82%D9%87%D8%A7%D8%B1.html","verse":{"html":"لِّمَنِ ٱلۡمُلۡكُ ٱلۡيَوۡمَۖ لِلَّهِ ٱلۡوَٰحِدِ <mark>ٱلۡقَهَّارِ</mark>","text":"لِّمَنِ ٱلۡمُلۡكُ ٱلۡيَوۡمَۖ لِلَّهِ ٱلۡوَٰحِدِ ٱلۡقَهَّارِ","ref":"سورة غافر · من الآية ١٦"}},{"id":79,"n":"العالم","v":"العَالِم","c":"ilm","s":"يعلم الغيب ولا يُطلع عليه إلا من ارتضى","m":"الذي يعلم كل شيء، ومن ذلك الغيب الذي استأثر به، فلا يُطلع على غيبه أحدًا إلا من ارتضى من رسله بما يشاء. وكل من ادّعى علم الغيب فهو كاذب.","f":"لا تصدّق من يدّعي معرفة المستقبل من عرّاف أو منجّم أو قارئ كف؛ فعلم الغيب لله وحده. واجعل قلبك مطمئنًا بأن ما سيأتي في علم ربك الرحيم الحكيم.","d":"اللهم بعلمك الغيب، اكتب لي الخير، واصرف عني الشر","dl":"","sh":{"lg":"اسم فاعل من العلم.","x":["العالم بكل شيء: بالغيب والشهادة، والسر والعلن.","تفرّد بعلم الغيب المطلق، فلا يُطلع عليه إلا من ارتضى من رسله، بالقدر الذي يشاء."],"a":["أطلع رسله على بعض الغيب آيةً على صدقهم، كما كان عيسى عليه السلام يخبر قومه بما يأكلون وما يدّخرون في بيوتهم.","وكل من ادّعى علم الغيب من كاهن أو عرّاف فقد كذب، وفي الحديث: «من أتى كاهنًا أو عرّافًا فصدّقه بما يقول فقد كفر بما أُنزل على محمد ﷺ»."],"nb":"جاء «عالم الغيب» في القرآن في مواضع أكثرها مقرونًا بـ«الشهادة»، وجاء منفردًا في سورة الجن ليبيّن اختصاصه بعلم الغيب."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85.html","verse":{"html":"<mark>عَٰلِمُ</mark> ٱلۡغَيۡبِ فَلَا يُظۡهِرُ عَلَىٰ غَيۡبِهِۦٓ أَحَدًا","text":"عَٰلِمُ ٱلۡغَيۡبِ فَلَا يُظۡهِرُ عَلَىٰ غَيۡبِهِۦٓ أَحَدًا","ref":"سورة الجن · الآية ٢٦"}},{"id":80,"n":"الحكم","v":"الحَكَم","c":"tawheed","s":"يحكم بين عباده بالعدل","m":"الذي له الحكم في الدنيا والآخرة: يحكم في خلقه بقدره، وفي شرعه بأمره ونهيه، ويوم القيامة بالجزاء والعدل. لا معقّب لحكمه، ولا يظلم أحدًا مثقال ذرة.","f":"إذا اختلفت مع الناس فارجعوا إلى حكم الله في كتابه وسنة نبيه ﷺ، فهو خير الحاكمين. وإن ظُلمت في محاكم الدنيا فلا تيأس، فالقضية الكبرى عند الحَكَم العدل.","d":"اللهم احكم بيني وبين من ظلمني بالحق، وأنت خير الحاكمين","dl":"","sh":{"lg":"من الحُكم، وهو القضاء والفصل بين المتخاصمين؛ والحَكَم: من يُتحاكم إليه.","x":["الحاكم بين عباده في الدنيا بشرعه، وفي الآخرة بجزائه، لا معقّب لحكمه.","يحكم بالعدل فلا يظلم مثقال ذرة، ﴿وإن تك حسنة يضاعفها﴾."],"a":["تكنّى رجل بأبي الحكم، فقال له النبي ﷺ: «إن الله هو الحكم، وإليه الحكم»، وكنّاه بأبي شريح.","وأمر بالتحاكم إلى شرعه: ﴿فلا وربك لا يؤمنون حتى يحكموك فيما شجر بينهم﴾."],"nb":"الحكم نوعان: حكم قدري لا يخرج عنه أحد، وحكم شرعي يُطاع فيه الله؛ والمؤمن يرضى بالأول ويسلّم للثاني."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%AD%D9%83%D9%85.html","verse":{"html":"أَفَغَيۡرَ ٱللَّهِ أَبۡتَغِي <mark>حَكَمࣰا</mark> وَهُوَ ٱلَّذِيٓ أَنزَلَ إِلَيۡكُمُ ٱلۡكِتَٰبَ مُفَصَّلࣰا","text":"أَفَغَيۡرَ ٱللَّهِ أَبۡتَغِي حَكَمࣰا وَهُوَ ٱلَّذِيٓ أَنزَلَ إِلَيۡكُمُ ٱلۡكِتَٰبَ مُفَصَّلࣰا","ref":"سورة الأنعام · من الآية ١١٤"}},{"id":81,"n":"الإله","v":"الإِلٰه","c":"tawheed","s":"المعبود بحق وحده","m":"المألوه الذي تألهه القلوب وتعبده حبًّا وذلًّا وخوفًا ورجاءً، ولا يستحق العبادة سواه. وهذا معنى «لا إله إلا الله»: لا معبود بحق إلا الله.","f":"كل ما أحببته حبًّا يقدّمه قلبك على طاعة الله فقد أخذ من قلبك ما لا يستحقه. فجدّد التوحيد كل يوم، وردّد دعاء يونس عليه السلام الذي نجّاه الله به من الظلمات.","d":"لا إله إلا أنت سبحانك إني كنت من الظالمين","dl":"دعاء قرآني","sh":{"lg":"على وزن «فِعال» بمعنى «مفعول»، أي المألوه؛ من أَلِه يأْلَه إذا عبد بمحبة وتعظيم.","x":["المعبود بحق، المستحق للعبادة وحده لكمال أسمائه وصفاته.","والتأله محبة القلب وذله وخضوعه، فلا يكون إلا لله."],"a":["هذا معنى كلمة التوحيد: «لا إله إلا الله»؛ أي لا معبود بحق إلا الله.","وكل الرسل جاؤوا بهذه الكلمة، وهي أول ما يُدعى إليه الناس، وآخر ما يُلقَّن المحتضر."],"nb":"الألوهية تتضمن الربوبية؛ فمن أقرّ بأن الله وحده الخالق الرازق المدبّر لزمه أن يُفرده بالعبادة."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%A5%D9%84%D9%87.html","verse":{"html":"<mark>وَإِلَٰهُكُمۡ</mark> <mark>إِلَٰهࣱ</mark> وَٰحِدࣱۖ لَّآ <mark>إِلَٰهَ</mark> إِلَّا هُوَ ٱلرَّحۡمَٰنُ ٱلرَّحِيمُ","text":"وَإِلَٰهُكُمۡ إِلَٰهࣱ وَٰحِدࣱۖ لَّآ إِلَٰهَ إِلَّا هُوَ ٱلرَّحۡمَٰنُ ٱلرَّحِيمُ","ref":"سورة البقرة · الآية ١٦٣"}},{"id":82,"n":"الحفي","v":"الحَفِيّ","c":"rahma","s":"البارّ اللطيف المعتني بعبده","m":"البارّ اللطيف بعبده، الكثير العناية به، الذي يكرمه ويجيب دعاءه ويتعهّده بالإحسان. قال إبراهيم عليه السلام عن ربه: إنه كان بي حفيًّا، أي برًّا لطيفًا مجيبًا.","f":"تأمّل رِقّة العبارة: «كان بي حفيًّا». ربك يعتني بتفاصيل حياتك الصغيرة: دعوة همست بها، وأمنية لم تخبر بها أحدًا. فحدّثه بكل شيء، فهو حفيّ بك.","d":"يا حفيّ، كن بي حفيًّا، ولا تكلني إلى أحد سواك","dl":"","sh":{"lg":"من الحفاوة، وهي المبالغة في الإكرام والعناية والسؤال عن الحال.","x":["البارّ اللطيف بعبده، الكثير العناية به، المكرم له.","يعلم دقائق حاله، ويجيب دعاءه، ويتعهده بلطفه."],"a":["قالها إبراهيم عليه السلام لأبيه مع شدة ما لقي منه: ﴿سأستغفر لك ربي إنه كان بي حفيا﴾.","ومن حفاوته بأوليائه أن يكرمهم في الدنيا بالهداية، وفي الآخرة بالرضوان."],"nb":"لم يرد هذا الاسم في القرآن إلا مرة واحدة، على لسان إبراهيم عليه السلام؛ وفيه صورة لصلة خاصة بين الخليل وربه."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%AD%D9%81%D9%8A.html","verse":{"html":"قَالَ سَلَٰمٌ عَلَيۡكَۖ سَأَسۡتَغۡفِرُ لَكَ رَبِّيٓۖ إِنَّهُۥ كَانَ بِي <mark>حَفِيࣰّا</mark>","text":"قَالَ سَلَٰمٌ عَلَيۡكَۖ سَأَسۡتَغۡفِرُ لَكَ رَبِّيٓۖ إِنَّهُۥ كَانَ بِي حَفِيࣰّا","ref":"سورة مريم · الآية ٤٧"}},{"id":83,"n":"الودود","v":"الوَدُود","c":"rahma","s":"يحب عباده الصالحين ويحبونه","m":"الذي يحب أنبياءه وأولياءه وعباده الصالحين، ويتودّد إليهم بالنعم والمغفرة، وهو المحبوب الذي تحبه قلوبهم. وجاء مقرونًا بالرحيم والغفور ليدل على أن مغفرته عن محبة.","f":"تخيّل أن ربك يحبك إذا تبت ورجعت، بل يتودّد إليك بنعمه وأنت مقصّر. فتودّد إليه بالنوافل والذكر، فلا يزال العبد يتقرب إليه بالنوافل حتى يحبه.","d":"اللهم إني أسألك حبك، وحب من يحبك، والعمل الذي يبلّغني حبك","dl":"دعاء نبوي","sh":{"lg":"من الوُدّ، وهو خالص المحبة؛ و«ودود» على وزن «فعول» بمعنى «فاعل» و«مفعول».","x":["الوادّ لأنبيائه وأوليائه وعباده المؤمنين، المحب لهم.","والمودود الذي يحبه عباده المؤمنون أعظم من كل محبوب."],"a":["قال ﷺ: «إذا أحب الله العبد نادى جبريل: إن الله يحب فلانًا فأحببه، فيحبه جبريل»، ثم ينادي في أهل السماء فيحبونه، ثم يوضع له القبول في الأرض.","ويحب التوابين والمتطهرين، والمحسنين والمتقين والصابرين."],"nb":"اقترن «الودود» بـ«الغفور» و«الرحيم»؛ فهو يغفر الذنب ثم يحب التائب، وهذا فوق مجرد العفو."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%88%D8%AF%D9%88%D8%AF.html","verse":{"html":"وَٱسۡتَغۡفِرُواْ رَبَّكُمۡ ثُمَّ تُوبُوٓاْ إِلَيۡهِۚ إِنَّ رَبِّي رَحِيمࣱ <mark>وَدُودࣱ</mark>","text":"وَٱسۡتَغۡفِرُواْ رَبَّكُمۡ ثُمَّ تُوبُوٓاْ إِلَيۡهِۚ إِنَّ رَبِّي رَحِيمࣱ وَدُودࣱ","ref":"سورة هود · الآية ٩٠"}},{"id":84,"n":"الحافظ","v":"الحَافِظ","c":"kifaya","s":"يحفظ عباده وما استودعوه عنده","m":"الذي يحفظ عباده من المهالك، ويحفظ عليهم أعمالهم، ويحفظ دينه وكتابه من التحريف. وهو خير الحافظين؛ فمن استودعه شيئًا لم يضيّعه.","f":"قالها يعقوب عليه السلام وهو يودّع ابنه: «فالله خير حافظًا». فاستودع الله أولادك ومن تحب حين يغيبون عن عينك، فإن الحافظ لا يغفل ولا ينام.","d":"اللهم احفظني بالإسلام قائمًا، واحفظني بالإسلام قاعدًا، واحفظني بالإسلام راقدًا","dl":"","sh":{"lg":"من الحفظ، وهو الصون من الضياع والتلف.","x":["الحافظ لعباده من المهالك والشرور، والحافظ لأعمالهم.","وحفظه نوعان: حفظ عام لجميع الخلق، وحفظ خاص لأوليائه في دينهم وأنفسهم."],"a":["تكفّل بحفظ كتابه: ﴿إنا نحن نزلنا الذكر وإنا له لحافظون﴾.","وجعل على كل نفس حافظًا من الملائكة: ﴿إن كل نفس لما عليها حافظ﴾."],"nb":"كان النبي ﷺ يودّع المسافر بقوله: «أستودع الله دينك وأمانتك وخواتيم عملك»؛ فما استودعته الله فهو في أحفظ مكان."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%AD%D8%A7%D9%81%D8%B8.html","verse":{"html":"فَٱللَّهُ خَيۡرٌ <mark>حَٰفِظࣰاۖ</mark> وَهُوَ أَرۡحَمُ ٱلرَّـٰحِمِينَ","text":"فَٱللَّهُ خَيۡرٌ حَٰفِظࣰاۖ وَهُوَ أَرۡحَمُ ٱلرَّـٰحِمِينَ","ref":"سورة يوسف · من الآية ٦٤"}},{"id":85,"n":"الحفيظ","v":"الحَفِيظ","c":"kifaya","s":"حفظه شامل لكل شيء","m":"صيغة مبالغة من الحافظ، تدل على عموم حفظه ودوامه: يمسك السماوات والأرض أن تزولا، ويحفظ أعمال العباد ليجازيهم، ويحفظ أولياءه من الذنوب والشيطان والأعداء.","f":"«احفظ الله يحفظك»: وصية النبي ﷺ لابن عباس رضي الله عنهما. احفظ حدوده وأوامره، يحفظك في نفسك وأهلك ودينك، فاجعلها شعارًا لك.","d":"اللهم احفظني من بين يديّ ومن خلفي، وعن يميني وعن شمالي، ومن فوقي، وأعوذ بعظمتك أن أُغتال من تحتي","dl":"دعاء نبوي","sh":{"lg":"على وزن «فعيل» من الحفظ، صيغة مبالغة تدل على عموم الحفظ وكماله.","x":["يحفظ السماوات والأرض أن تزولا، ويحفظ نظام الكون من الاختلال.","ويحفظ على العباد أعمالهم، ويحفظ أولياءه من الذنوب والشياطين والأعداء."],"a":["قال ﷺ لابن عباس: «احفظ الله يحفظك، احفظ الله تجده تجاهك».","وأخبر أن من قرأ آية الكرسي عند نومه لم يزل عليه من الله حافظ، ولا يقربه شيطان حتى يصبح."],"nb":"الحافظ والحفيظ من أصل واحد، و«الحفيظ» أبلغ؛ ويدل مع الحفظ على الإحصاء والمراقبة للأعمال."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%AD%D9%81%D9%8A%D8%B8.html","verse":{"html":"إِنَّ رَبِّي عَلَىٰ كُلِّ شَيۡءٍ <mark>حَفِيظࣱ</mark>","text":"إِنَّ رَبِّي عَلَىٰ كُلِّ شَيۡءٍ حَفِيظࣱ","ref":"سورة هود · من الآية ٥٧"}},{"id":86,"n":"الغالب","v":"الغَالِب","c":"qudra","s":"أمره نافذ لا يردّه أحد","m":"الذي لا يُغلب، وأمره نافذ لا محالة، يدبّر الأمور كما يريد وإن كاد الكائدون. أراد إخوة يوسف أمرًا، وأراد الله أمرًا، فكان ما أراده الله.","f":"حين يخطط الناس ضدك وتشعر أن الأبواب سُدّت، تذكّر أن الله غالب على أمره. ما قدّره لك سيكون، ولو اجتمع أهل الأرض على منعه.","d":"يا غالبًا على أمره، اقضِ لي بالخير، واكفني كيد الكائدين","dl":"","sh":{"lg":"من الغلبة، وهي القهر والاستيلاء على الشيء.","x":["الذي لا يُغلب، وأمره نافذ لا يردّه شيء.","يدبّر الأمور على ما يريد، وإن خالف ذلك تدبير الخلق وكيدهم."],"a":["أراد إخوة يوسف أن يُبعدوه، فكان ذلك سببًا في تمكينه في الأرض.","وكتب الله لرسله العاقبة: ﴿كتب الله لأغلبن أنا ورسلي﴾."],"nb":"لم يرد هذا الاسم في القرآن إلا في قوله: «والله غالب على أمره» في سورة يوسف، وهي قصة كاملة لغلبة أمر الله على كيد البشر."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%BA%D8%A7%D9%84%D8%A8.html","verse":{"html":"وَٱللَّهُ <mark>غَالِبٌ</mark> عَلَىٰٓ أَمۡرِهِۦ وَلَٰكِنَّ أَكۡثَرَ ٱلنَّاسِ لَا يَعۡلَمُونَ","text":"وَٱللَّهُ غَالِبٌ عَلَىٰٓ أَمۡرِهِۦ وَلَٰكِنَّ أَكۡثَرَ ٱلنَّاسِ لَا يَعۡلَمُونَ","ref":"سورة يوسف · من الآية ٢١"}},{"id":87,"n":"الكافي","v":"الكَافِي","c":"kifaya","s":"يكفي عبده كل ما أهمّه","m":"الذي يكفي عباده جميع ما يحتاجون إليه، ويكفي من توكّل عليه كل ما أهمّه من أمر دنياه وآخرته، ويكفيه شر من أراده بسوء.","f":"تأمّل سؤال الآية: أليس الله بكافٍ عبده؟ بلى والله. وكلما زادت عبوديتك لله زادت كفايته لك؛ فالكفاية على قدر العبودية.","d":"اللهم اكفني بحلالك عن حرامك، وأغنني بفضلك عمّن سواك","dl":"دعاء نبوي","sh":{"lg":"من الكفاية، وهي سدّ الحاجة والإغناء عن الغير.","x":["يكفي عباده جميع ما يحتاجون إليه، ويدفع عنهم ما يضرهم.","وكفايته للعبد على قدر عبوديته وتوكله عليه."],"a":["كفى نبيه ﷺ أذى المستهزئين: ﴿إنا كفيناك المستهزئين﴾.","ومن قال إذا خرج من بيته: «بسم الله، توكلت على الله، ولا حول ولا قوة إلا بالله»، يقال له: هُديت وكُفيت ووُقيت."],"nb":"جاء في القرآن بصيغة السؤال: «أليس الله بكاف عبده؟»؛ ليستخرج من قلب المؤمن جواب اليقين: بلى."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%83%D8%A7%D9%81%D9%8A.html","verse":{"html":"أَلَيۡسَ ٱللَّهُ <mark>بِكَافٍ</mark> عَبۡدَهُۥ","text":"أَلَيۡسَ ٱللَّهُ بِكَافٍ عَبۡدَهُۥ","ref":"سورة الزمر · من الآية ٣٦"}},{"id":88,"n":"المنّان","v":"المَنَّان","c":"rahma","s":"كثير العطاء والإنعام","m":"عظيم المواهب كثير العطايا، الذي يمنّ على عباده بالنعم ابتداءً قبل أن يستحقوها، وأعظم منّته الهداية إلى الإيمان. والمنّة منه وحده كمال، فهو المنعم الحقيقي.","f":"كل طاعة تؤديها فهي منّة من الله عليك، لا منّة منك عليه؛ فلا تُعجب بعملك، بل قل: الحمد لله الذي هداني لهذا. ولا تمنّ على أحد بمعروف، فالمنّ كمالٌ لله وحده.","d":"اللهم إني أسألك بأن لك الحمد، لا إله إلا أنت المنّان، بديع السماوات والأرض، يا ذا الجلال والإكرام، يا حي يا قيوم","dl":"دعاء نبوي","sh":{"lg":"صيغة مبالغة من المَنّ، وهو العطاء والإنعام ابتداءً.","x":["كثير العطاء، عظيم المواهب، يبتدئ بالنعمة قبل السؤال.","وأعظم منّته الهداية إلى الإيمان، وبعثة الرسول ﷺ."],"a":["قال: ﴿لقد من الله على المؤمنين إذ بعث فيهم رسولا من أنفسهم﴾.","ومنّ على بني إسرائيل بالنجاة من فرعون: ﴿ولقد مننا على موسى وهارون﴾."],"nb":"المنّ من الله كمال لأنه المنعم حقًّا، ومن العبد مذموم لأنه يمنّ بما ليس له؛ ولذلك قال: ﴿لا تبطلوا صدقاتكم بالمن والأذى﴾."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D9%86%D9%91%D8%A7%D9%86.html","verse":{"html":"بَلِ ٱللَّهُ <mark>يَمُنُّ</mark> عَلَيۡكُمۡ أَنۡ هَدَىٰكُمۡ لِلۡإِيمَٰنِ إِن كُنتُمۡ صَٰدِقِينَ","text":"بَلِ ٱللَّهُ يَمُنُّ عَلَيۡكُمۡ أَنۡ هَدَىٰكُمۡ لِلۡإِيمَٰنِ إِن كُنتُمۡ صَٰدِقِينَ","ref":"سورة الحجرات · من الآية ١٧"}},{"id":89,"n":"المستعان","v":"المُسْتَعَان","c":"kifaya","s":"يُطلب منه العون في كل شيء","m":"الذي يستعين به عباده في أمورهم كلها فيعينهم، ولا يُستعان بأحد كما يُستعان به. ولذلك نقول في كل صلاة: إياك نعبد وإياك نستعين.","f":"قالها يعقوب عليه السلام وقلبه مفطور على يوسف: «فصبر جميل والله المستعان». فإذا نزلت بك مصيبة فاجمع بين الصبر والاستعانة، فلا صبر إلا بعون الله.","d":"ربِّ أعنّي ولا تُعِن عليّ، وانصرني ولا تنصر عليّ","dl":"دعاء نبوي","sh":{"lg":"اسم مفعول من الاستعانة، وهي طلب العون.","x":["الذي يُطلب منه العون في كل أمر، فيعين من استعان به.","ولا يستغني العبد عن عونه طرفة عين، في أمر الدين ولا الدنيا."],"a":["نقرأ في كل ركعة: ﴿إياك نعبد وإياك نستعين﴾؛ فالعبادة لا تقوم إلا بعون الله.","وقال يعقوب عليه السلام حين فقد يوسف: ﴿فصبر جميل والله المستعان﴾، فكانت العاقبة أن جمعه الله بأبنائه."],"nb":"أوصى النبي ﷺ معاذًا ألا يدع في دبر كل صلاة أن يقول: «اللهم أعني على ذكرك وشكرك وحسن عبادتك»؛ فحتى العبادة تحتاج إلى عون الله."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%85%D8%B3%D8%AA%D8%B9%D8%A7%D9%86.html","verse":{"html":"فَصَبۡرࣱ جَمِيلࣱۖ وَٱللَّهُ <mark>ٱلۡمُسۡتَعَانُ</mark> عَلَىٰ مَا تَصِفُونَ","text":"فَصَبۡرࣱ جَمِيلࣱۖ وَٱللَّهُ ٱلۡمُسۡتَعَانُ عَلَىٰ مَا تَصِفُونَ","ref":"سورة يوسف · من الآية ١٨"}},{"id":90,"n":"الوارث","v":"الوَارِث","c":"azama","s":"الباقي بعد فناء الخلق","m":"الباقي بعد فناء الخلق، الذي يرث الأرض ومن عليها، فيعود إليه كل ما ملّكه لعباده. فكل ما في الأيدي عارية، والوارث الحقيقي هو الله.","f":"ما تجمعه في حياتك سيرثه غيرك، إلا ما قدّمته لله فهو باقٍ لك. فأنفق مما تحب قبل أن يرثه غيرك، واجعل لك من مالك نصيبًا يسبقك إلى الآخرة.","d":"ربِّ لا تذرني فردًا وأنت خير الوارثين","dl":"دعاء قرآني","sh":{"lg":"من الإرث، وهو انتقال الشيء من سابق إلى لاحق.","x":["الباقي بعد فناء الخلق، الذي يرث الأرض ومن عليها.","وكل ما ملّكه لعباده يعود إليه، فهو المالك الحقيقي في البدء والمنتهى."],"a":["قال: ﴿إنا نحن نرث الأرض ومن عليها وإلينا يرجعون﴾.","ويورث عباده المتقين الجنة: ﴿تلك الجنة التي نورث من عبادنا من كان تقيا﴾."],"nb":"علّمنا القرآن التوسل بهذا الاسم في طلب الولد بدعاء زكريا عليه السلام: ﴿رب لا تذرني فردا وأنت خير الوارثين﴾."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%88%D8%A7%D8%B1%D8%AB.html","verse":{"html":"وَإِنَّا لَنَحۡنُ نُحۡيِۦ وَنُمِيتُ وَنَحۡنُ <mark>ٱلۡوَٰرِثُونَ</mark>","text":"وَإِنَّا لَنَحۡنُ نُحۡيِۦ وَنُمِيتُ وَنَحۡنُ ٱلۡوَٰرِثُونَ","ref":"سورة الحجر · الآية ٢٣"}},{"id":91,"n":"الكفيل","v":"الكَفِيل","c":"kifaya","s":"الضامن لعباده، الشاهد على العهود","m":"الذي تكفّل بأرزاق الخلق وقام بمصالحهم، والشاهد الرقيب على العهود والمواثيق؛ فمن عاهد غيره وجعل الله كفيلًا عليه فقد التزم أمام الله.","f":"إذا وعدت أو عاهدت فتذكّر أن الله كفيل على عهدك فلا تنقضه. وفي صحيح البخاري قصة رجل أقرض ألف دينار قائلًا: «كفى بالله كفيلًا»، فأوصلها الله إليه عبر البحر.","d":"اللهم أنت الكفيل بأرزاقنا، فاقضِ عني ديني، واكفني همّي","dl":"","sh":{"lg":"من الكفالة، وهي الضمان والقيام بأمر الغير.","x":["الكفيل بأرزاق الخلق، المتكفّل بمصالحهم وحوائجهم.","والشاهد الرقيب على العهود والمواثيق، الضامن للوفاء بها."],"a":["في قصة الرجل من بني إسرائيل: طلب منه صاحبه كفيلًا، فقال: «كفى بالله كفيلًا»، فرضي به، فأدّى الله عنه.","وتكفّل الله لمن خرج مجاهدًا في سبيله أن يدخله الجنة، أو يرجعه بما نال من أجر أو غنيمة."],"nb":"لم يرد «الكفيل» في القرآن إلا مرة واحدة، في سياق الوفاء بالعهد؛ فمن جعل الله كفيلًا على عهده فقد جعله شاهدًا عليه."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%83%D9%81%D9%8A%D9%84.html","verse":{"html":"وَقَدۡ جَعَلۡتُمُ ٱللَّهَ عَلَيۡكُمۡ <mark>كَفِيلًاۚ</mark> إِنَّ ٱللَّهَ يَعۡلَمُ مَا تَفۡعَلُونَ","text":"وَقَدۡ جَعَلۡتُمُ ٱللَّهَ عَلَيۡكُمۡ كَفِيلًاۚ إِنَّ ٱللَّهَ يَعۡلَمُ مَا تَفۡعَلُونَ","ref":"سورة النحل · من الآية ٩١"}},{"id":92,"n":"الوكيل","v":"الوَكِيل","c":"kifaya","s":"من توكّل عليه كفاه","m":"الذي تكفّل بأمور خلقه وتدبيرها، والمتولي أمر من توكّل عليه، فيكفيه ويقوم بمصالحه. ونِعم الوكيل هو، لأنه عليم بما يصلحك، قدير على تحقيقه، رحيم بك.","f":"قالها النبي ﷺ وأصحابه حين خوّفهم الناس من جموع الأعداء، فزادتهم إيمانًا. والتوكل أن تبذل الأسباب ثم تسلّم قلبك لله، فلا تقلق على نتيجةٍ وكيلُها الله.","d":"حسبنا الله ونعم الوكيل","dl":"ذكر نبوي","sh":{"lg":"من التوكيل، وهو التفويض والاعتماد؛ والوكيل: من يُفوَّض إليه الأمر.","x":["المتكفّل بأرزاق العباد ومصالحهم، القائم على كل شيء بالتدبير.","ووكيل المؤمنين: يتولى من توكل عليه، فيكفيه ما أهمّه."],"a":["لما قالها النبي ﷺ وأصحابه بعد أحد كانت العاقبة: ﴿فانقلبوا بنعمة من الله وفضل لم يمسسهم سوء﴾.","وأمر نبيه ﷺ: ﴿وتوكل على الله وكفى بالله وكيلا﴾."],"nb":"التوكل لا ينافي الأخذ بالأسباب؛ قال ﷺ: «اعقلها وتوكل»؛ فالقلب يعتمد على الله، والجوارح تعمل بالأسباب."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%88%D9%83%D9%8A%D9%84.html","verse":{"html":"ٱلَّذِينَ قَالَ لَهُمُ ٱلنَّاسُ إِنَّ ٱلنَّاسَ قَدۡ جَمَعُواْ لَكُمۡ فَٱخۡشَوۡهُمۡ فَزَادَهُمۡ إِيمَٰنࣰا وَقَالُواْ حَسۡبُنَا ٱللَّهُ وَنِعۡمَ <mark>ٱلۡوَكِيلُ</mark>","text":"ٱلَّذِينَ قَالَ لَهُمُ ٱلنَّاسُ إِنَّ ٱلنَّاسَ قَدۡ جَمَعُواْ لَكُمۡ فَٱخۡشَوۡهُمۡ فَزَادَهُمۡ إِيمَٰنࣰا وَقَالُواْ حَسۡبُنَا ٱللَّهُ وَنِعۡمَ ٱلۡوَكِيلُ","ref":"سورة آل عمران · الآية ١٧٣"}},{"id":93,"n":"الغفار","v":"الغَفَّار","c":"rahma","s":"يغفر الذنوب مرة بعد مرة","m":"صيغة مبالغة تدل على كثرة مغفرته وتكررها؛ فكلما أذنب العبد واستغفر غفر له، مهما تكرر ذنبه. ومع المغفرة يفتح للمستغفرين أبواب الخير في الدنيا.","f":"في الآيات وعدٌ عجيب: الاستغفار يجلب المطر والمال والولد والجنات والأنهار. فإذا ضاقت بك الحياة فأكثر من «أستغفر الله»، فهي مفتاح للمغفرة وللرزق معًا.","d":"اللهم اغفر لي ذنبي كله، دِقّه وجِلّه، وأوله وآخره، وعلانيته وسرّه","dl":"دعاء نبوي","sh":{"lg":"صيغة مبالغة من الغَفْر وهو الستر، تدل على كثرة المغفرة وتكرارها.","x":["يغفر الذنب مرة بعد مرة، كلما تاب العبد واستغفر.","ويستر عيوب عباده في الدنيا، ويتجاوز عنها في الآخرة."],"a":["قال تعالى في الحديث القدسي: «أذنب عبدي ذنبًا، فعلم أن له ربًّا يغفر الذنب ويأخذ بالذنب»، ثم غفر له كلما عاد واستغفر.","ووعد نوح عليه السلام قومه على الاستغفار بالمطر والأموال والبنين والجنات والأنهار."],"nb":"كان النبي ﷺ يستغفر الله ويتوب إليه في اليوم أكثر من سبعين مرة، وهو الذي غُفر له ما تقدم من ذنبه وما تأخر."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%BA%D9%81%D8%A7%D8%B1.html","verse":{"html":"فَقُلۡتُ ٱسۡتَغۡفِرُواْ رَبَّكُمۡ إِنَّهُۥ كَانَ <mark>غَفَّارࣰا</mark> <span class=\"an\">١٠</span> يُرۡسِلِ ٱلسَّمَآءَ عَلَيۡكُم مِّدۡرَارࣰا <span class=\"an\">١١</span> وَيُمۡدِدۡكُم بِأَمۡوَٰلࣲ وَبَنِينَ وَيَجۡعَل لَّكُمۡ جَنَّـٰتࣲ وَيَجۡعَل لَّكُمۡ أَنۡهَٰرࣰا <span class=\"an\">١٢</span>","text":"فَقُلۡتُ ٱسۡتَغۡفِرُواْ رَبَّكُمۡ إِنَّهُۥ كَانَ غَفَّارࣰا (١٠) يُرۡسِلِ ٱلسَّمَآءَ عَلَيۡكُم مِّدۡرَارࣰا (١١) وَيُمۡدِدۡكُم بِأَمۡوَٰلࣲ وَبَنِينَ وَيَجۡعَل لَّكُمۡ جَنَّـٰتࣲ وَيَجۡعَل لَّكُمۡ أَنۡهَٰرࣰا (١٢)","ref":"سورة نوح · الآيات ١٠–١٢"}},{"id":94,"n":"الكريم","v":"الكَرِيم","c":"rahma","s":"كثير الخير، يعطي بلا حساب","m":"الكثير الخير والعطاء، الذي يعطي بلا سبب ولا حساب، ويعفو عن الزلل، ويستر العيب، ويجازي على القليل بالكثير. ومن كرمه أنه يستحيي أن يردّ يدي عبده إذا رفعهما إليه صفرًا.","f":"الآية تسألك سؤالًا رقيقًا: ما الذي غرّك بربك الكريم؟ فكرمه يستحق الشكر لا الجرأة على معصيته. وارفع يديك إليه بكل حاجة، فالكريم لا يردّ من سأله.","d":"يا كريم، عاملني بكرمك لا بعدلك، ولا تحرمني خير ما عندك بشرّ ما عندي","dl":"","sh":{"lg":"من الكرم، وهو كثرة الخير والنفع، والشرف والنفاسة.","x":["الكثير الخير، الدائم العطاء، الذي يعطي بلا سبب ولا حساب.","يعفو عن الزلل، ويستر العيب، ويجازي على القليل بالكثير، ولا يردّ سائلًا."],"a":["قال ﷺ: «إن ربكم حيي كريم، يستحيي من عبده إذا رفع يديه إليه أن يردهما صفرًا».","وأعدّ لعباده الصالحين ما لا عين رأت، ولا أذن سمعت، ولا خطر على قلب بشر."],"nb":"وصف الله كتابه بالكريم: ﴿إنه لقرآن كريم﴾، وعرشه بالكريم: ﴿رب العرش الكريم﴾؛ وكلها من آثار كرمه سبحانه."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D9%85.html","verse":{"html":"يَـٰٓأَيُّهَا ٱلۡإِنسَٰنُ مَا غَرَّكَ بِرَبِّكَ <mark>ٱلۡكَرِيمِ</mark>","text":"يَـٰٓأَيُّهَا ٱلۡإِنسَٰنُ مَا غَرَّكَ بِرَبِّكَ ٱلۡكَرِيمِ","ref":"سورة الانفطار · الآية ٦"}},{"id":95,"n":"الشكور","v":"الشَّكُور","c":"rahma","s":"يقبل اليسير ويضاعف الأجر","m":"الذي يشكر عباده على العمل القليل فيثيبهم عليه الثواب الجزيل، ويغفر الكثير من الزلل. وصيغة «شكور» أبلغ من «شاكر»؛ فشكره دائم كثير، لا يضيع عنده مثقال ذرة.","f":"شكر الله لرجل سقى كلبًا عطشانًا فغفر له؛ فلا تستهن بعمل صغير. وكن شكورًا لله: بلسانك حمدًا، وبقلبك اعترافًا، وبجوارحك طاعة.","d":"اللهم أعنّي على ذكرك، وشكرك، وحسن عبادتك","dl":"دعاء نبوي","sh":{"lg":"صيغة مبالغة من الشكر، تدل على كثرة شكره ودوامه.","x":["يقبل اليسير من العمل ويثيب عليه الكثير، ويغفر الكثير من الزلل.","يشكر عبده بأن يثني عليه، ويضاعف له الأجر، ويزيده من فضله."],"a":["قالها أهل الجنة حين دخلوها: ﴿الحمد لله الذي أذهب عنا الحزن إن ربنا لغفور شكور﴾.","وشكر الله لرجل أزاح غصن شوك عن طريق الناس، فغفر له."],"nb":"يقترن «الشكور» بـ«الغفور» و«الحليم»؛ فهو يغفر الكثير من السيئات، ويشكر القليل من الحسنات."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%B4%D9%83%D9%88%D8%B1.html","verse":{"html":"لِيُوَفِّيَهُمۡ أُجُورَهُمۡ وَيَزِيدَهُم مِّن فَضۡلِهِۦٓۚ إِنَّهُۥ غَفُورࣱ <mark>شَكُورࣱ</mark>","text":"لِيُوَفِّيَهُمۡ أُجُورَهُمۡ وَيَزِيدَهُم مِّن فَضۡلِهِۦٓۚ إِنَّهُۥ غَفُورࣱ شَكُورࣱ","ref":"سورة فاطر · الآية ٣٠"}},{"id":96,"n":"الأعلى","v":"الأَعْلَى","c":"azama","s":"فوق كل شيء، المنزّه عن كل نقص","m":"الذي له العلو المطلق فوق جميع خلقه: علو ذات، وعلو قدر، وعلو قهر، المنزّه عن كل نقص. وأمرنا أن نسبّح اسمه الأعلى، فنقول في سجودنا: سبحان ربي الأعلى.","f":"تأمّل هذه المفارقة الجميلة: في أخفض حالاتك — ساجدًا وجبهتك على الأرض — تقول: سبحان ربي الأعلى. فكلما تواضعت لله ارتفعت، وأقرب ما يكون العبد من ربه وهو ساجد.","d":"سبحان ربي الأعلى","dl":"ذكر نبوي","sh":{"lg":"أفعل تفضيل من العلو، يدل على أن له أعلى العلو وأكمله.","x":["الأعلى ذاتًا فوق جميع خلقه، والأعلى قدرًا فلا يساميه شيء، والأعلى قهرًا فكل شيء تحت سلطانه.","﴿وله المثل الأعلى في السماوات والأرض﴾؛ أي الوصف الأكمل في كل كمال."],"a":["كان النبي ﷺ يقرأ سورة الأعلى في صلاة الجمعة والعيدين.","ويقول المصلي في سجوده: «سبحان ربي الأعلى»، فيجمع بين غاية الذل لله وغاية التنزيه له."],"nb":"لم يرد «الأعلى» اسمًا لله في القرآن إلا في موضعين: في سورة الأعلى، وفي سورة الليل: ﴿إلا ابتغاء وجه ربه الأعلى﴾."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%A3%D8%B9%D9%84%D9%89.html","verse":{"html":"سَبِّحِ ٱسۡمَ رَبِّكَ <mark>ٱلۡأَعۡلَى</mark>","text":"سَبِّحِ ٱسۡمَ رَبِّكَ ٱلۡأَعۡلَى","ref":"سورة الأعلى · الآية ١"}},{"id":97,"n":"الأكرم","v":"الأَكْرَم","c":"rahma","s":"الذي لا يدانيه أحد في كرمه","m":"الذي بلغ الغاية في الكرم، فلا أحد أكرم منه، ومن أعظم كرمه أنه علّم الإنسان ما لم يعلم، وعلّم بالقلم. وقد جاء هذا الاسم في أول ما نزل من القرآن.","f":"أول ما نزل من الوحي ربط القراءة والعلم بكرم الله: «اقرأ وربك الأكرم». فكل علم تتعلمه هدية من الأكرم، فاشكره عليه، واجعله طريقًا إليه.","d":"يا أكرم الأكرمين، علّمني ما ينفعني، وأكرمني بطاعتك","dl":"","sh":{"lg":"أفعل تفضيل من الكرم، يدل على أن كرمه فوق كل كرم.","x":["الذي لا يوازيه أحد في كرمه، ولا يدانيه أحد في عطائه.","يعطي العظيم على القليل، ويعطي من لم يسأله، ويعفو عمن أساء إليه."],"a":["قرن كرمه بالتعليم في أول ما نزل من القرآن، فجعل العلم من أعظم آثار كرمه.","ومن كرمه أنه علّم بالقلم، فحفظ به العلوم ونقلها بين الأجيال."],"nb":"لم يرد «الأكرم» في القرآن إلا مرة واحدة، في سورة العلق، في أول ما نزل من الوحي على النبي ﷺ."},"url":"https://surahquran.com/Names-of-Allah-%D8%A7%D9%84%D8%A3%D9%83%D8%B1%D9%85.html","verse":{"html":"ٱقۡرَأۡ وَرَبُّكَ <mark>ٱلۡأَكۡرَمُ</mark> <span class=\"an\">٣</span> ٱلَّذِي عَلَّمَ بِٱلۡقَلَمِ <span class=\"an\">٤</span> عَلَّمَ ٱلۡإِنسَٰنَ مَا لَمۡ يَعۡلَمۡ <span class=\"an\">٥</span>","text":"ٱقۡرَأۡ وَرَبُّكَ ٱلۡأَكۡرَمُ (٣) ٱلَّذِي عَلَّمَ بِٱلۡقَلَمِ (٤) عَلَّمَ ٱلۡإِنسَٰنَ مَا لَمۡ يَعۡلَمۡ (٥)","ref":"سورة العلق · الآيات ٣–٥"}},{"id":98,"n":"مالك الملك","v":"مَالِكُ المُلْك","c":"azama","s":"يؤتي الملك من يشاء وينزعه ممن يشاء","m":"المالك لكل الملك، المتصرف فيه كيف يشاء: يعطي الملك من يشاء، وينزعه ممن يشاء، ويعزّ ويذلّ، بيده الخير كله، وهو على كل شيء قدير.","f":"حين ترى تقلّب الدول والمناصب والثروات فتذكّر من بيده ذلك كله. لا تحسد أحدًا على ما آتاه الله، ولا تيأس من رفعة بعد ذلة؛ فالخير كله بيده، فاطلبه منه.","d":"اللهم مالك الملك، بيدك الخير كله، فاكتب لي الخير حيث كان، ثم رضّني به","dl":"","sh":{"lg":"«مالك» من المِلك، و«المُلك» السلطان والتصرف؛ فمالك الملك: المالك لكل ملك وسلطان.","x":["المالك لجميع أنواع الملك، يتصرف فيه كيف يشاء، فيؤتيه من يشاء وينزعه ممن يشاء.","يُعز من يشاء ويذل من يشاء، بيده الخير كله، وهو على كل شيء قدير."],"a":["تتقلّب الدول والممالك بأمره: يؤتي الملك قومًا، ثم ينزعه منهم ويورثه آخرين.","وكل من ملك شيئًا في الدنيا فإنما ملكه عارية من مالك الملك، يُسأل عنها يوم القيامة."],"nb":"جاء هذا الاسم بصيغة الدعاء: «قل اللهم مالك الملك»؛ ليتعلم المؤمن أن يطلب الخير والعزة ممن بيده الملك كله."},"url":"https://surahquran.com/Names-of-Allah-%D9%85%D8%A7%D9%84%D9%83+%D8%A7%D9%84%D9%85%D9%84%D9%83.html","verse":{"html":"قُلِ ٱللَّهُمَّ <mark>مَٰلِكَ</mark> <mark>ٱلۡمُلۡكِ</mark> تُؤۡتِي ٱلۡمُلۡكَ مَن تَشَآءُ وَتَنزِعُ ٱلۡمُلۡكَ مِمَّن تَشَآءُ وَتُعِزُّ مَن تَشَآءُ وَتُذِلُّ مَن تَشَآءُۖ بِيَدِكَ ٱلۡخَيۡرُۖ إِنَّكَ عَلَىٰ كُلِّ شَيۡءࣲ قَدِيرࣱ","text":"قُلِ ٱللَّهُمَّ مَٰلِكَ ٱلۡمُلۡكِ تُؤۡتِي ٱلۡمُلۡكَ مَن تَشَآءُ وَتَنزِعُ ٱلۡمُلۡكَ مِمَّن تَشَآءُ وَتُعِزُّ مَن تَشَآءُ وَتُذِلُّ مَن تَشَآءُۖ بِيَدِكَ ٱلۡخَيۡرُۖ إِنَّكَ عَلَىٰ كُلِّ شَيۡءࣲ قَدِيرࣱ","ref":"سورة آل عمران · الآية ٢٦"}},{"id":99,"n":"ذو الجلال والإكرام","v":"ذُو الجَلَالِ وَالإِكْرَام","c":"azama","s":"صاحب العظمة والإنعام","m":"صاحب العظمة والكبرياء الذي يستحق أن يُجَلّ ويُعظَّم، وصاحب الإكرام الذي يكرم أولياءه بأنواع الكرامة. اجتمع فيه الجلال الذي يورث الهيبة، والإكرام الذي يورث المحبة.","f":"كل من على الأرض فانٍ، ويبقى وجه ربك ذو الجلال والإكرام. وقد أوصى النبي ﷺ بالإلحاح بهذا النداء فقال: «ألِظّوا بيا ذا الجلال والإكرام»، فاجعله في دعائك دائمًا.","d":"يا ذا الجلال والإكرام، أسألك لذة النظر إلى وجهك الكريم، والشوق إلى لقائك","dl":"","sh":{"lg":"«ذو» بمعنى صاحب، و«الجلال» العظمة والكبرياء، و«الإكرام» الإنعام والإحسان والتكريم.","x":["المستحق أن يُجلّ ويُعظّم ويُهاب، لكمال صفاته وعظمته.","والمستحق أن يُحمد ويُشكر ويُحب، لما يكرم به أولياءه من النعم."],"a":["ختم الله سورة الرحمن بعد أن عدّد نعمه بقوله: ﴿تبارك اسم ربك ذي الجلال والإكرام﴾.","وكان النبي ﷺ يقول بعد السلام من الصلاة: «اللهم أنت السلام ومنك السلام، تباركت يا ذا الجلال والإكرام»."],"nb":"جمع هذا الاسم بين الهيبة والمحبة: فالجلال يملأ القلب تعظيمًا، والإكرام يملؤه حبًّا ورجاءً، وبهما يستقيم سير العبد إلى ربه."},"url":"https://surahquran.com/Names-of-Allah-%D8%B0%D9%88+%D8%A7%D9%84%D8%AC%D9%84%D8%A7%D9%84+%D9%88%D8%A7%D9%84%D8%A5%D9%83%D8%B1%D8%A7%D9%85.html","verse":{"html":"كُلُّ مَنۡ عَلَيۡهَا فَانࣲ <span class=\"an\">٢٦</span> وَيَبۡقَىٰ وَجۡهُ رَبِّكَ <mark>ذُو</mark> <mark>ٱلۡجَلَٰلِ</mark> <mark>وَٱلۡإِكۡرَامِ</mark> <span class=\"an\">٢٧</span>","text":"كُلُّ مَنۡ عَلَيۡهَا فَانࣲ (٢٦) وَيَبۡقَىٰ وَجۡهُ رَبِّكَ ذُو ٱلۡجَلَٰلِ وَٱلۡإِكۡرَامِ (٢٧)","ref":"سورة الرحمن · الآيات ٢٦–٢٧"}}]}</script>
 <script>
 (function(){
 'use strict';
@@ -911,6 +1174,7 @@ const ICONS = {
   sliders:'<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
   mosque:'<path d="M5 20v-8a7 7 0 0 1 14 0v8"/><path d="M12 2.5V5M2.5 20.5h19"/><path d="M10 20.5V17a2 2 0 0 1 4 0v3.5"/>',
   clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  khatam:'<path d="M12 1.55 15.06 4.61h4.33v4.33L22.45 12l-3.06 3.06v4.33h-4.33L12 22.45l-3.06-3.06H4.61v-4.33L1.55 12l3.06-3.06V4.61h4.33z"/><circle cx="12" cy="12" r="3.2"/>',
   book:'<path d="M12 6.5C10.5 5 8 4.5 3.5 4.5v14c4.5 0 7 .5 8.5 2 1.5-1.5 4-2 8.5-2v-14c-4.5 0-7 .5-8.5 2z"/><path d="M12 6.5v14"/>'
 };
 function icon(name, cls){
@@ -948,6 +1212,7 @@ function sampleState(){
     days:{},
     stats:{lifetime:0, best:0, archivedDone:0, maxDone:0, perItem:{}},
     badges:{},
+    asma:{done:[]},
     material:'wood',
     settings:{haptics:true, strength:'medium', sound:true, soundStyle:'beads', wake:true, digits:'arab', dayStart:3, city:'riyadh'}
   };
@@ -991,6 +1256,7 @@ function normalize(s){
     days: (s.days && typeof s.days === 'object') ? cloneJSON(s.days) : {},
     stats: Object.assign({lifetime:0, best:0, archivedDone:0, maxDone:0, qada:0}, s.stats || {}),
     badges: Object.assign({}, s.badges || {}),
+    asma: cleanAsma(s.asma),
     material: MATERIALS.some(m => m.id === s.material) ? s.material : 'wood',
     settings: Object.assign({}, base.settings, s.settings || {})
   };
@@ -999,6 +1265,11 @@ function normalize(s){
   if(!CITIES.some(c => c.id === out.settings.city)) out.settings.city = 'riyadh';
   if(!SOUNDS.some(x => x.id === out.settings.soundStyle)) out.settings.soundStyle = 'beads';
   return out;
+}
+/* the names the person marked as reflected on, in the names tab */
+function cleanAsma(a){
+  const ids = a && Array.isArray(a.done) ? a.done.map(Number).filter(i => Number.isInteger(i) && i >= 1 && i <= 99) : [];
+  return {done: Array.from(new Set(ids)).sort((x, y) => x - y)};
 }
 function loadLocal(){
   try{ const raw = localStorage.getItem(STORE_KEY); if(raw) return normalize(JSON.parse(raw)); }catch(e){}
@@ -1347,6 +1618,7 @@ function mergeStates(a, b){
   for(const f of ['lifetime', 'best', 'maxDone', 'archivedDone']) out.stats[f] = Math.max(a.stats[f] || 0, b.stats[f] || 0);
   for(const src of [a.stats.perItem || {}, b.stats.perItem || {}]) for(const [k, v] of Object.entries(src)) out.stats.perItem[k] = Math.max(out.stats.perItem[k] || 0, v);
   out.badges = Object.assign({}, older.badges, newer.badges);
+  out.asma = cleanAsma({done: [].concat((a.asma || {}).done || [], (b.asma || {}).done || [])});
   out.updatedAt = Math.max(A, B);
   return out;
 }
@@ -1384,6 +1656,8 @@ function setSaveStatus(s){
 /* ---------- views ---------- */
 let tab = 'today';
 function setTab(t){
+  /* leaving the names tab with a name open (a reminder's «ابدأ», say): close it properly so the page can scroll again */
+  if(t !== 'names' && AZ && AZ.isOpen()) AZ.close();
   tab = t;
   $$('.view').forEach(v => { v.hidden = v.dataset.view !== t; });
   $$('.tab').forEach(b => b.setAttribute('aria-current', b.dataset.tab === t ? 'page' : 'false'));
@@ -1394,7 +1668,7 @@ function renderTab(){
   if(tab === 'today') renderToday();
   else {
     stopFeatAnim(); flagMissed();
-    if(tab === 'missed') renderMissedPage(); else if(tab === 'progress') renderProgress(); else renderSettings();
+    if(tab === 'missed') renderMissedPage(); else if(tab === 'progress') renderProgress(); else if(tab === 'names') renderNames(); else renderSettings();
   }
   renderBadge();
 }
@@ -2528,6 +2802,619 @@ function renderPush(){
   $('#pushTest').disabled = $('#pushOff').disabled = pushBusy;
 }
 
+/* ---------- أسماء الله الحسنى: the centre tab ----------
+   The page itself (azModule) is brought in from the names page by asma_build.py. The site's explanations
+   (surahquran.com) are not part of the app: they appear only when the person imports their own copy on the phone. */
+const AZ_SITE_KEY = 'subha.asmaSite.v1';
+let AZ = null, azSiteCount = 0;
+/* numbers in this tab are written like the names page (١٢٣) */
+function azAr(x){ return String(x).replace(/[0-9]/g, d => AR_DIGITS[+d]); }
+/* a link straight to a name (…/Subha/#n12): open it, then take the mark off the address so a reload doesn't reopen it */
+function azFromHash(){
+  const h = (location.hash || '').replace('#', ''), m = /^n(\d{1,2})$/.exec(h);
+  if(!m || +m[1] < 1 || +m[1] > 99) return false;
+  if(tab !== 'names') setTab('names');
+  if(AZ) AZ.open(+m[1]);
+  try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
+  return true;
+}
+function azValidSite(d){
+  if(!d || typeof d !== 'object' || !d.names || typeof d.names !== 'object') return false;
+  /* same as the names page: a name may have only some sections, or only the short meaning */
+  const rows = Object.values(d.names);
+  return rows.length > 0 && rows.every(r => r && typeof r === 'object')
+    && rows.some(r => r.short || (r.sections && typeof r.sections === 'object'));
+}
+function azLoadSite(){
+  let d = null;
+  try{ const raw = localStorage.getItem(AZ_SITE_KEY); d = raw ? JSON.parse(raw) : null; }catch(e){ d = null; }
+  if(!azValidSite(d)) d = null;
+  azSiteCount = d ? Object.keys(d.names).length : 0;
+  return d;
+}
+function renderNames(){
+  if(!AZ) AZ = azModule(); else AZ.resync();
+  renderAzSite();
+}
+function renderAzSite(){
+  const has = azSiteCount > 0, st = $('#az-site-state');
+  st.hidden = !has; st.textContent = has ? 'مضافة ✓ ' + azAr(azSiteCount) + ' اسمًا' : '';
+  $('#az-site-remove').hidden = !has;
+  $('#az-site-pick').textContent = has ? 'استبدال الملف' : 'اختر الملف';
+}
+/* accepts the person's merged page (asma-husna-new.html) or the scraper's asma-site.json */
+function azImportFile(file){
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    const txt = String(reader.result || '');
+    const m = /<script[^>]*id=["']site-data["'][^>]*>([\s\S]*?)<\/script>/i.exec(txt);
+    let d = null;
+    try{ d = JSON.parse((m ? m[1] : txt).trim()); }catch(e){ d = null; }
+    if(!azValidSite(d)){
+      toast(m && m[1].trim() === 'null' ? 'هذي نسخة بدون شروح الموقع. اختر نسختك اللي فيها الشروح «asma-husna-new.html»' : 'هذا الملف ما فيه شروح الموقع. اختر نسختك «asma-husna-new.html»', 5200);
+      return;
+    }
+    let kept = true;
+    try{ localStorage.setItem(AZ_SITE_KEY, JSON.stringify(d)); }catch(e){ kept = false; }
+    azSiteCount = Object.keys(d.names).length;
+    if(AZ) AZ.site(d);
+    renderAzSite();
+    /* if this browser won't keep it, the explanations still show now; they just need choosing again next time */
+    toast(kept ? 'أُضيفت شروح الموقع لـ ' + azAr(azSiteCount) + ' اسمًا ✓ تلقاها داخل كل اسم'
+               : 'تظهر الشروح الآن، لكن هذا المتصفح ما يحفظها، فبتحتاج تختار الملف مرة ثانية إذا قفلت', 5200);
+  };
+  reader.onerror = () => toast('تعذّرت قراءة الملف');
+  reader.readAsText(file, 'utf-8');
+}
+function azRemoveSite(){
+  try{ localStorage.removeItem(AZ_SITE_KEY); }catch(e){}
+  azSiteCount = 0;
+  if(AZ) AZ.site(null);
+  renderAzSite();
+  toast('حُذفت شروح الموقع من هذا الجوال');
+}
+
+/* ---------- أسماء الله الحسنى: the names page, brought in from its own page (see asma_build.py) ---------- */
+function azModule(){
+
+  "use strict";
+  var $ = function(s){ return document.querySelector(s); };
+  var DATA = JSON.parse(document.getElementById("az-data").textContent);
+  var NAMES = DATA.names;
+  var byId = {};
+  NAMES.forEach(function(n){ byId[n.id] = n; });
+  var DIG = "٠١٢٣٤٥٦٧٨٩";
+  function ar(x){ return String(x).replace(/[0-9]/g, function(c){ return DIG[+c]; }); }
+  function norm(s){
+    return String(s)
+      .replace(/[ً-ٰٟۖ-ۭـ]/g, "")
+      .replace(/[إأآٱ]/g, "ا").replace(/ى/g, "ي").replace(/ة/g, "ه")
+      .replace(/ؤ/g, "و").replace(/ئ/g, "ي")
+      .replace(/[٠-٩]/g, function(c){ return String(DIG.indexOf(c)); })
+      .replace(/\s+/g, " ").trim();
+  }
+  /* site explanations: filled into #site-data by merge_site.py on the owner's own copy; null otherwise */
+  var SITE = null;
+  SITE = azLoadSite();
+  var SITE_KEYS = ["sharh", "tajalliyat", "thamarat", "fawaid", "extra"];
+  function siteFor(id){ return SITE && SITE.names && SITE.names[String(id)] ? SITE.names[String(id)] : null; }
+  function siteText(r){
+    if (!r) return [];
+    var out = [r.short || ""];
+    SITE_KEYS.forEach(function(k){
+      var s = r.sections && r.sections[k]; if (!s) return;
+      out.push(s.title || "");
+      (s.blocks || []).forEach(function(b){ out.push((b.title || "") + " " + (b.text || "")); });
+    });
+    return out;
+  }
+  /* text with {…} or ﴿…﴾ verses styled; built with text nodes only */
+  function richText(el, s){
+    var re = /(\{[^}]+\}|﴿[^﴾]+﴾)/g, last = 0, m;
+    s = String(s || "");
+    while ((m = re.exec(s))) {
+      if (m.index > last) el.appendChild(document.createTextNode(s.slice(last, m.index)));
+      var q = document.createElement("span"); q.className = "az-qt"; q.textContent = m[0];
+      el.appendChild(q); last = re.lastIndex;
+    }
+    if (last < s.length) el.appendChild(document.createTextNode(s.slice(last)));
+    return el;
+  }
+  function el(tag, cls){ var e = document.createElement(tag); if (cls) e.className = cls; return e; }
+  function renderSite(r){
+    var box = $("#az-sh-site"), body = $("#az-sh-site-body");
+    body.textContent = "";
+    if (!r) { box.hidden = true; return false; }
+    $("#az-sh-site-short").textContent = "";
+    richText($("#az-sh-site-short"), r.short || "");
+    $("#az-sh-site-link").href = r.url || "https://surahquran.com/99-Names-of-Allah-with-Meaning.html";
+    SITE_KEYS.forEach(function(k){
+      var s = r.sections && r.sections[k]; if (!s) return;
+      var part = el("div", "az-site-part");
+      var h = el("h4"); h.textContent = s.title; part.appendChild(h);
+      var list = null;
+      (s.blocks || []).forEach(function(b){
+        if (b.type === "point" || b.type === "item") {
+          if (!list) { list = el("ul"); part.appendChild(list); }
+          var li = el("li", b.n ? "az-num" : "");
+          if (b.n) { var k2 = el("span", "az-k"); k2.textContent = b.n + "-"; li.appendChild(k2); }
+          if (b.type === "point") { var t = el("b"); t.textContent = b.title; li.appendChild(t); li.appendChild(document.createTextNode(": ")); }
+          richText(li, b.text || "");
+          list.appendChild(li);
+        } else {
+          list = null;
+          if (b.type === "sub") {
+            var sb = el("p", "az-sub"); if (b.n) sb.textContent = b.n + "- "; sb.appendChild(document.createTextNode(b.title)); part.appendChild(sb);
+          } else {
+            part.appendChild(richText(el("p"), b.text || ""));
+          }
+        }
+      });
+      body.appendChild(part);
+    });
+    box.hidden = false;
+    return true;
+  }
+
+  /* search skeleton: no diacritics, no alef/hamza seats, so الرحمان = الرحمن and الرءوف = الرؤوف */
+  function skel(s){
+    return norm(s).replace(/ء/g, "").replace(/ا/g, "")
+      .replace(/[^ء-ي0-9 ]/g, " ")
+      .replace(/و+/g, "و").replace(/ي+/g, "ي")
+      .replace(/\s+/g, " ").trim();
+  }
+  function sk0(s){ return skel(s).replace(/ /g, ""); }
+  NAMES.forEach(function(n){
+    n._k = sk0(n.n);
+    n._kc = n._k.replace(/^ل/, "");
+    n._ts = " " + skel(n.s + " " + n.m) + " ";
+    n.site = siteFor(n.id);
+    n._tx = " " + skel([n.f, n.d, n.sh.lg, n.sh.nb].concat(n.sh.x, n.sh.a, siteText(n.site)).join(" ")) + " ";
+    n._long = n.n.indexOf(" ") > -1;
+  });
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]; }); }
+  function rich(s){ return esc(s).replace(/﴿([^﴾]+)﴾/g, '<span class="az-q"><span class="br">﴿</span>$1<span class="br">﴾</span></span>'); }
+  function lis(arr){ return arr.map(function(t){ return "<li>" + rich(t) + "</li>"; }).join(""); }
+
+  var CATS = [
+    ["all","الكل"],["rahma","الرحمة والمغفرة"],["kifaya","الولاية والكفاية"],["azama","العظمة والجلال"],
+    ["ilm","العلم والإحاطة"],["qudra","القوة والقهر"],["khalq","الخلق والتدبير"],["tawheed","التوحيد"]
+  ];
+  var CAT_NAME = {}; CATS.forEach(function(c){ CAT_NAME[c[0]] = c[1]; });
+  var MOODS = [
+    {k:"sin", t:"أذنبتُ وأخاف", line:"أسماء تفتح لك باب الرجاء مهما كان ذنبك", ids:[45,46,93,29,47,3,2,94,30,83,24,28]},
+    {k:"fear", t:"قلقٌ وخوف", line:"أسماء تسكن بها نفسك ويهدأ بها قلبك", ids:[7,6,85,84,92,87,31,60,51,25,48,77]},
+    {k:"sad", t:"حزنٌ وانكسار", line:"أسماء تجبر القلب المكسور", ids:[10,56,30,83,48,82,28,3,22,23,89,66]},
+    {k:"need", t:"عندي حاجة", line:"أسماء تدعو بها في حاجتك، ومنها «المستعان» الذي يُطلب منه العون", ids:[49,48,22,89,58,94,97,35,64,87,92,37,24,88]},
+    {k:"rizq", t:"ضيقٌ في الرزق", line:"أسماء تتعلّق بها حين تطلب الرزق", ids:[59,58,64,37,94,97,24,63,88,87,43,92]},
+    {k:"ill", t:"مرضٌ وألم", line:"أسماء تتعلّق بها في طلب الشفاء، ومن أسمائه «الشافي» الثابت في السنة", ids:[10,56,3,30,35,68,48,49,82,89]},
+    {k:"wronged", t:"وقع عليّ ظلم", line:"أسماء تطمئنك أن الحق لا يضيع عند الله", ids:[80,36,44,60,86,42,77,78,9,62,40,64]},
+    {k:"lost", t:"حائر في قرار", line:"أسماء تستهدي بها حين تحتار", ids:[21,66,65,26,57,73,64,56,71,41]},
+    {k:"grateful", t:"ممتنٌّ وشاكر", line:"أسماء تعمّق شكرك", ids:[95,27,88,38,28,97,2,94,58,39]},
+    {k:"alone", t:"أشعر بالوحدة", line:"أسماء تؤنسك في وحدتك", ids:[48,31,83,82,32,50,23,22,62,61]},
+    {k:"weak", t:"ضعفٌ وعجز", line:"أسماء تستمد منها القوة", ids:[42,89,68,35,9,43,36,51,69,10]}
+  ];
+  var MOOD_BY = {}; MOODS.forEach(function(m){ MOOD_BY[m.k] = m; });
+
+  /* names outside this list, and everyday words, mapped to the closest names in it */
+  var OUTSIDE = [
+    {l:"المعين", k:["المعين","معين","عون","العون","مساعدة","المساعدة"], ids:[89,36,31,87,92,49,35],
+     note:"«المعين» ليس ضمن قائمة الأسماء هنا، ومعنى العون حاضر في اسم «المستعان»؛ وهذه أسماء قريبة منه:"},
+    {l:"الشافي", s:1, k:["الشافي","شافي","شفاء","الشفاء"], ids:[10,56,3,30,35,68,48,49,82,89],
+     note:"«الشافي» ورد في السنة، لكنه ليس ضمن قائمة الأسماء هنا؛ وهذه أسماء تتعلّق بها في طلب الشفاء:"},
+    {l:"العدل", k:["العدل","عدل","العادل","عادل","المقسط","مقسط","عدالة"], ids:[80,40,66,60,62,44]},
+    {l:"الصبور", k:["الصبور","صبور"], ids:[47,45,46,94]},
+    {l:"الرشيد", k:["الرشيد","رشيد"], ids:[21,66,57,65]},
+    {l:"الباقي", k:["الباقي","باقي"], ids:[16,90,50,51]},
+    {l:"النافع", k:["النافع","نافع"], ids:[35,87,59,58,85]},
+    {l:"الضار", k:["الضار","ضار"], ids:[35,77,42,85]},
+    {l:"المحيي", k:["المحيي","محيي","المحي"], ids:[50,68,12,34,67]},
+    {l:"المميت", k:["المميت","مميت"], ids:[50,68,90,16]},
+    {l:"الباسط", k:["الباسط","باسط"], ids:[59,24,58,63,37]},
+    {l:"القابض", k:["القابض","قابض"], ids:[59,66,98,4]},
+    {l:"الرافع", k:["الرافع","رافع"], ids:[98,9,52,96]},
+    {l:"الخافض", k:["الخافض","خافض"], ids:[98,77,78]},
+    {l:"المعز", k:["المعز","معز"], ids:[98,9,31]},
+    {l:"المذل", k:["المذل","مذل"], ids:[98,77,78,44]},
+    {l:"الباعث", k:["الباعث","باعث"], ids:[67,68,34]},
+    {l:"المحصي", k:["المحصي","محصي"], ids:[65,61,60,25]},
+    {l:"المبدئ", k:["المبدئ","مبدئ","المبدي"], ids:[12,34,70,72]},
+    {l:"المعيد", k:["المعيد","معيد"], ids:[34,68,67,12]},
+    {l:"الواجد", k:["الواجد","واجد"], ids:[37,24,94]},
+    {l:"الماجد", k:["الماجد","ماجد"], ids:[39,94,97]},
+    {l:"المقدم", k:["المقدم","مقدم"], ids:[15,66,4]},
+    {l:"المؤخر", k:["المؤخر","مؤخر"], ids:[16,66,47]},
+    {l:"المغني", k:["المغني","مغني"], ids:[37,59,87,58]},
+    {l:"المعطي", k:["المعطي","معطي"], ids:[58,94,97,88]},
+    {l:"المانع", k:["المانع","مانع"], ids:[85,84,87,66]},
+    {l:"الجليل", k:["الجليل","جليل"], ids:[99,53,54]},
+    {l:"الستّير", s:1, k:["الستير","ستير","الستار","ستار","الساتر","ساتر"], ids:[46,93,45,28]},
+    {l:"الرفيق", s:1, k:["الرفيق","رفيق"], ids:[56,30,3,47]},
+    {l:"الطيب", s:1, k:["الطيب","طيب"], ids:[5,6,38]},
+    {l:"الجميل", s:1, k:["الجميل","جميل"], ids:[14,72,99,73]},
+    {l:"السبّوح", s:1, k:["السبوح","سبوح"], ids:[5,6,55]},
+    {l:"الوتر", s:1, k:["الوتر","وتر"], ids:[74,75,76]},
+    {l:"السيد", s:1, k:["السيد","سيد"], ids:[76,33,32]},
+    {l:"المحسن", k:["المحسن","محسن"], ids:[28,94,58,88]},
+    {l:"المنعم", k:["المنعم","منعم"], ids:[88,94,58,28]},
+    {l:"الشديد", k:["الشديد","شديد"], ids:[42,43,77]},
+    {l:"المجير", k:["المجير","مجير"], ids:[7,85,84,31]},
+    {l:"الحنّان", k:["الحنان","حنان"], ids:[30,3,83,2]}
+  ];
+  var WORDS = [
+    {m:"sin", k:["ذنب","ذنوب","ذنبي","معصية","معاصي","توبة","مغفرة","استغفار","خطيئة","خطايا"]},
+    {m:"fear", k:["خوف","خائف","خايف","قلق","توتر","هلع","رعب","فزع","طمأنينة","سكينة"]},
+    {m:"sad", k:["حزن","حزين","هم","هموم","غم","كرب","ضيق","اكتئاب","انكسار","مكسور","بكاء","زعلان"]},
+    {m:"need", k:["حاجة","حاجتي","دعاء","طلب","أمنية","أمنيات"]},
+    {m:"rizq", k:["رزق","مال","فلوس","فقر","ديون","قرض","سداد","وظيفة","تجارة","راتب","غنى"]},
+    {m:"ill", k:["مرض","مريض","وجع","علاج","عملية","ألم","سقم"]},
+    {m:"wronged", k:["ظلم","مظلوم","ظالم","مقهور","قهر","حقي","انتقام"]},
+    {m:"lost", k:["حيرة","حيران","محتار","قرار","استخارة","اختيار","تردد","هداية","ضياع"]},
+    {m:"grateful", k:["شكر","امتنان","نعمة","فرح","سعادة","حمد"]},
+    {m:"alone", k:["وحدة","وحيد","وحدي","غربة","عزلة"]},
+    {m:"weak", k:["ضعف","ضعيف","عجز","عاجز","تعب","تعبان","إرهاق"]},
+    {note:"أسماء تتعلّق بها في طلب الذرية وصلاحها", k:["ذرية","ذريتي","ولد","أولاد","حمل","إنجاب","أطفال","عيال"], ids:[58,90,14,49,22,82,84,21]},
+    {note:"أسماء تتعلّق بها في طلب الزواج والتوفيق فيه", k:["زواج","زوج","زوجة","خطبة","نصيب"], ids:[58,56,64,49,83,66]},
+    {note:"أسماء تتعلّق بها في السفر", k:["سفر","مسافر","رحلة"], ids:[84,85,6,7,92,31]},
+    {note:"أسماء تتعلّق بها في طلب العلم والتوفيق", k:["امتحان","اختبار","دراسة","مذاكرة","فهم","نجاح"], ids:[65,64,21,97,57,26,89]},
+    {note:"أسماء تتحصّن بها من الشر والكيد", k:["عدو","أعداء","حسد","عين","سحر","شر","حاسد","كيد"], ids:[85,84,87,7,36,77,92,86]},
+    {note:"أسماء تتعزّى بها عند الفقد", k:["موت","وفاة","فقد","فراق","عزاء","ميت"], ids:[50,90,16,67,89,3,82,10]},
+    {note:"أسماء تسكن بها عند النوم والأرق", k:["نوم","أرق","سهر"], ids:[51,50,6,85,7]},
+    {note:"أسماء تعينك على الحلم وكظم الغيظ", k:["غضب","عصبية"], ids:[47,45,6,46]},
+    {note:"أسماء الرحمة واللطف", k:["رحمة","رحمه","لطف","حنان الله"], ids:[2,3,30,83,56,28]},
+    {note:"أسماء تتعلّق بها في طلب محبة الله", k:["حب","محبة","ود"], ids:[83,31,28,3,82]},
+    {note:"أسماء تعينك على التوكل", k:["توكل","تفويض","اعتماد"], ids:[92,87,60,91,31]},
+    {note:"أسماء تعينك على الصبر", k:["صبر","صابر","تحمل"], ids:[89,47,10,56,66]}
+  ];
+  var KEYMAP = {};
+  OUTSIDE.forEach(function(o){
+    o.type = "outside";
+    if (!o.note) o.note = "«" + o.l + "»" + (o.s ? " ورد في السنة، لكنه" : "") + " ليس ضمن قائمة الأسماء هنا؛ وهذه أسماء قريبة منه في المعنى:";
+    o.k.forEach(function(k){ KEYMAP[sk0(k)] = o; });
+  });
+  WORDS.forEach(function(w){
+    w.type = "word";
+    if (w.m) { w.note = MOOD_BY[w.m].line + ":"; w.ids = MOOD_BY[w.m].ids; } else { w.note += ":"; }
+    w.k.forEach(function(k){ KEYMAP[sk0(k)] = w; });
+  });
+  function relatedHit(raw){
+    var whole = sk0(raw);
+    var cands = [whole].concat(skel(raw).split(" "));
+    for (var i = 0; i < cands.length; i++) {
+      var w = cands[i]; if (!w || w.length < 2) continue;
+      var r = KEYMAP[w] || (w.charAt(0) === "ل" && w.length > 2 ? KEYMAP[w.slice(1)] : null);
+      if (r) return r;
+    }
+    return null;
+  }
+  function lev(a, b){
+    var m = a.length, n = b.length, prev = [], cur, i, j;
+    for (j = 0; j <= n; j++) prev[j] = j;
+    for (i = 1; i <= m; i++) {
+      cur = [i];
+      for (j = 1; j <= n; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a.charAt(i - 1) === b.charAt(j - 1) ? 0 : 1));
+      prev = cur;
+    }
+    return prev[n];
+  }
+  /* returns {list, note}: names first (exact, start, inside), then related names, then mentions in explanations */
+  function search(raw){
+    var out = { list: [], note: "" };
+    var digits = norm(raw).replace(/\s/g, "");
+    if (/^\d{1,3}$/.test(digits)) { if (byId[+digits]) out.list = [byId[+digits]]; return out; }
+    var qk = sk0(raw); if (!qk) return out;
+    var qkc = qk.length > 2 ? qk.replace(/^ل/, "") : qk;
+    var exact = [], pre = [], inside = [];
+    var qkl = qkc.replace(/[وي]/g, "");
+    NAMES.forEach(function(n){
+      if (n._k === qk || n._k === "ل" + qk || n._kc === qkc) exact.push(n);
+      else if (n._k.indexOf(qk) === 0 || n._kc.indexOf(qkc) === 0) pre.push(n);
+      else if (qk.length >= 2 && n._k.indexOf(qk) > -1) inside.push(n);
+      else if (qkl.length >= 3 && n._k.replace(/[وي]/g, "").indexOf(qkl) > -1) inside.push(n);
+    });
+    var named = exact.concat(pre, inside);
+    var rel = relatedHit(raw);
+    if (rel && rel.type === "outside" && exact.length) rel = null;
+    var list = named.slice();
+    function add(n){ if (n && list.indexOf(n) < 0) list.push(n); }
+    if (rel) { rel.ids.forEach(function(i){ add(byId[i]); }); out.note = (named.length && rel.type === "word") ? "وأسماء قريبة: " + rel.note.replace(/:$/, "") : rel.note; }
+    if (!named.length && !rel) {
+      var qs = skel(raw);
+      if (qs.replace(/ /g, "").length >= 3) {
+        var hits = [];
+        NAMES.forEach(function(n){
+          var sc = n._ts.indexOf(qs) > -1 ? 2 : (n._tx.indexOf(qs) > -1 ? 1 : 0);
+          if (sc) hits.push({ n: n, sc: sc });
+        });
+        hits.sort(function(a, b){ return b.sc - a.sc || a.n.id - b.n.id; });
+        hits.forEach(function(h){ add(h.n); });
+        if (hits.length && !rel) out.note = "لا يوجد اسم بهذا اللفظ، وهذه أسماء ورد معناه في شرحها:";
+      }
+    }
+    if (!list.length) {
+      var L = qkc.length, max = L <= 2 ? 0 : L <= 5 ? 1 : 2;
+      var near = NAMES.map(function(n){ return { n: n, d: Math.min(lev(qk, n._k), lev(qkc, n._kc)) }; })
+        .filter(function(x){ return x.d <= max; })
+        .sort(function(a, b){ return a.d - b.d || a.n.id - b.n.id; }).slice(0, 4);
+      near.forEach(function(x){ add(x.n); });
+      if (near.length) out.note = "لا يوجد اسم بهذا اللفظ بالضبط، ولعلك تقصد:";
+    }
+    out.list = list;
+    return out;
+  }
+
+  /* reflected names: per-viewer convenience only */
+  /* reflected names live in the app's saved data, so backups, copies and updates keep them */
+  var done = {};
+  function loadDone(){ done = {}; ((state.asma && state.asma.done) || []).forEach(function(i){ done[i] = true; }); }
+  loadDone();
+  function save(){ state.asma = { done: Object.keys(done).map(Number).sort(function(a, b){ return a - b; }) }; markDirty(); }
+  function doneCount(){ return Object.keys(done).length; }
+
+  var flt = { q: "", cat: "all", mood: null };
+  var current = [];
+
+  /* masthead progress */
+  function renderProgress(){
+    var c = doneCount();
+    var txt = $("#az-progress-txt");
+    if (c >= 99) { txt.innerHTML = "أتممت التأمّل في الأسماء كلها، <b>ما شاء الله</b>"; }
+    else { txt.innerHTML = "تأمّلت <b>" + ar(c) + "</b> من ٩٩"; }
+    $("#az-meter").style.width = (c / 99 * 100).toFixed(1) + "%";
+    $("#az-resume").textContent = c === 0 ? "ابدأ من الاسم الأول" : (c >= 99 ? "راجِع من الاسم الأول" : "تابِع التأمّل");
+  }
+
+  /* name of the day */
+  var todayId = 1;
+  function renderTodayName(){
+    var now = new Date();
+    var day0 = new Date(2026, 0, 1);
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var dayIdx = Math.round((today - day0) / 86400000);
+    todayId = ((dayIdx % 99) + 99) % 99 + 1;
+    var n = byId[todayId];
+    var el = $("#az-today-name");
+    el.textContent = n.v;
+    el.classList.toggle("az-long", n._long);
+    $("#az-today-s").textContent = n.s;
+    var cut = n.m.search(/[.؛]\s/);
+    $("#az-today-m").textContent = cut > -1 ? n.m.slice(0, cut + 1) : n.m;
+    var h = "";
+    try { h = new Intl.DateTimeFormat("ar-SA-u-ca-islamic-umalqura-nu-arab", {weekday:"long", day:"numeric", month:"long", year:"numeric"}).format(now); }
+    catch (e) { try { h = now.toLocaleDateString("ar", {weekday:"long", day:"numeric", month:"long"}); } catch (e2) { h = ""; } }
+    $("#az-hijri").textContent = h;
+  }
+  renderTodayName();
+
+  /* chips */
+  function chip(label, pressed, extra){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "az-chip";
+    b.setAttribute("aria-pressed", pressed ? "true" : "false");
+    b.textContent = label;
+    if (extra) { var s = document.createElement("small"); s.textContent = extra; b.appendChild(s); }
+    return b;
+  }
+  function renderMoods(){
+    var box = $("#az-moods"); box.textContent = "";
+    MOODS.forEach(function(m){
+      var b = chip(m.t, flt.mood === m.k);
+      b.addEventListener("click", function(){
+        flt.mood = flt.mood === m.k ? null : m.k;
+        if (flt.mood) { flt.q = ""; $("#az-q").value = ""; if (flt.cat !== "all") { flt.cat = "all"; renderCats(); } }
+        renderMoods(); renderGrid();
+        if (flt.mood) { document.getElementById("az-browse-h").scrollIntoView({behavior: reduce() ? "auto" : "smooth", block: "start"}); }
+      });
+      box.appendChild(b);
+    });
+    var line = $("#az-mood-line");
+    var mood = MOODS.filter(function(m){ return m.k === flt.mood; })[0];
+    if (mood) { line.textContent = mood.line; line.hidden = false; } else { line.hidden = true; }
+  }
+  function renderCats(){
+    var box = $("#az-cats"); box.textContent = "";
+    CATS.forEach(function(c){
+      var count = c[0] === "all" ? 99 : NAMES.filter(function(n){ return n.c === c[0]; }).length;
+      var b = chip(c[1], flt.cat === c[0], ar(count));
+      b.addEventListener("click", function(){
+        flt.cat = c[0];
+        if (flt.q) { flt.q = ""; $("#az-q").value = ""; }
+        if (flt.mood) { flt.mood = null; renderMoods(); }
+        renderCats(); renderGrid();
+      });
+      box.appendChild(b);
+    });
+  }
+
+  function filtered(){
+    var mood = MOOD_BY[flt.mood];
+    var list = mood ? mood.ids.map(function(i){ return byId[i]; }) : NAMES.slice();
+    if (flt.cat !== "all") list = list.filter(function(n){ return n.c === flt.cat; });
+    return list;
+  }
+
+  function tile(n){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "az-tile" + (done[n.id] ? " az-done" : "");
+    b.dataset.id = n.id;
+    b.setAttribute("aria-label", n.n + "، الاسم رقم " + ar(n.id) + (done[n.id] ? "، تأمّلته" : ""));
+    b.innerHTML =
+      '<span class="az-tile-top"><span class="az-star"><svg aria-hidden="true"><use href="#khatam"/></svg><b>' + ar(n.id) + '</b></span>' +
+      '<svg class="az-tick" aria-hidden="true"><use href="#i-check"/></svg></span>' +
+      '<span class="az-tile-name' + (n._long ? " az-long" : "") + '"></span><span class="az-tile-s"></span>';
+    b.querySelector(".az-tile-name").textContent = n.v;
+    b.querySelector(".az-tile-s").textContent = n.s;
+    return b;
+  }
+  function countLabel(c){
+    if (!c) return "لا نتائج";
+    return c === 1 ? "اسم واحد" : c === 2 ? "اسمان" : ar(c) + (c < 11 ? " أسماء" : " اسمًا");
+  }
+  function renderGrid(){
+    var res = flt.q.trim() ? search(flt.q) : null;
+    current = res ? res.list : filtered();
+    var grid = $("#az-grid"); grid.textContent = "";
+    var frag = document.createDocumentFragment();
+    current.forEach(function(n){ frag.appendChild(tile(n)); });
+    grid.appendChild(frag);
+    var all = !res && flt.cat === "all" && !flt.mood;
+    $("#az-count").textContent = all ? "٩٩ اسمًا" : countLabel(current.length);
+    $("#az-reset").hidden = all;
+    $("#az-empty").hidden = current.length > 0;
+    var note = $("#az-search-note");
+    if (res && res.note) { note.textContent = res.note; note.hidden = false; } else { note.hidden = true; }
+  }
+
+  $("#az-grid").addEventListener("click", function(e){
+    var t = e.target.closest(".az-tile"); if (!t) return;
+    openSheet(+t.dataset.id, current.map(function(n){ return n.id; }), t);
+  });
+  $("#az-q").addEventListener("input", function(e){
+    flt.q = e.target.value;
+    if (flt.q.trim() && (flt.mood || flt.cat !== "all")) { flt.mood = null; flt.cat = "all"; renderMoods(); renderCats(); }
+    renderGrid();
+  });
+  $("#az-reset").addEventListener("click", function(){
+    flt.q = ""; flt.cat = "all"; flt.mood = null; $("#az-q").value = "";
+    renderMoods(); renderCats(); renderGrid();
+  });
+
+  /* the leaf */
+  var sheet = $("#az-sheet");
+  var nav = [], navIdx = 0, lastFocus = null;
+  function reduce(){ try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } }
+  function canonical(){ return NAMES.map(function(n){ return n.id; }); }
+  function fill(){
+    var n = byId[nav[navIdx]];
+    var nm = $("#az-sh-name");
+    nm.textContent = n.v; nm.classList.toggle("az-long", n._long);
+    $("#az-sh-num").textContent = ar(n.id);
+    $("#az-sh-s").textContent = n.s;
+    $("#az-sh-cat").textContent = CAT_NAME[n.c];
+    $("#az-sh-m").textContent = n.m;
+    $("#az-sh-aya").innerHTML = '<span class="br">﴿</span>' + n.verse.html + '<span class="br">﴾</span>';
+    $("#az-sh-ref").textContent = n.verse.ref;
+    $("#az-sh-more").hidden = renderSite(n.site);
+    $("#az-sh-lg").innerHTML = rich(n.sh.lg);
+    $("#az-sh-x").innerHTML = lis(n.sh.x);
+    $("#az-sh-a").innerHTML = lis(n.sh.a);
+    $("#az-sh-nb").innerHTML = rich(n.sh.nb);
+    $("#az-sh-f").textContent = n.f;
+    $("#az-sh-d").textContent = n.d;
+    $("#az-sh-dl").textContent = n.dl;
+    $("#az-sh-dl").hidden = !n.dl;
+    $("#az-sh-more").href = n.url;
+    $("#az-sh-more").setAttribute("aria-label", "الشرح المفصّل لاسم " + n.n + " في موقع سورة قرآن");
+    $("#az-sh-pos").textContent = nav.length === 99 ? ("الاسم " + ar(n.id) + " من ٩٩") : (ar(navIdx + 1) + " من " + ar(nav.length));
+    var isDone = !!done[n.id];
+    $("#az-sh-done").setAttribute("aria-pressed", isDone ? "true" : "false");
+    $("#az-sh-done-t").textContent = isDone ? "تأمّلته، الحمد لله" : "تأمّلته";
+    $("#az-sh-prev").disabled = nav.length < 2; $("#az-sh-next").disabled = nav.length < 2;
+    $("#az-sh-scroll").scrollTop = 0;
+    var leaf = $("#az-leaf");
+    leaf.classList.remove("az-enter"); void leaf.offsetWidth; leaf.classList.add("az-enter");
+  }
+  function openSheet(id, list, from){
+    nav = list && list.length ? list : canonical();
+    navIdx = Math.max(0, nav.indexOf(id));
+    if (nav.indexOf(id) < 0) { nav = canonical(); navIdx = id - 1; }
+    lastFocus = from || document.activeElement;
+    fill();
+    sheet.hidden = false;
+    document.documentElement.style.overflow = "hidden";
+    $("#az-sh-close").focus({preventScroll: true});
+  }
+  function closeSheet(){
+    sheet.hidden = true;
+    document.documentElement.style.overflow = "";
+    var target = lastFocus;
+    if (lastFocus && lastFocus.classList && lastFocus.classList.contains("az-tile")) {
+      target = document.querySelector('.az-tile[data-id="' + nav[navIdx] + '"]') || null;
+    }
+    if (target && document.body.contains(target)) { try { target.focus({preventScroll: false}); } catch (e) {} }
+  }
+  function step(d){
+    if (nav.length < 2) return;
+    navIdx = (navIdx + d + nav.length) % nav.length;
+    fill();
+  }
+  $("#az-sh-close").addEventListener("click", closeSheet);
+  $("#az-sh-prev").addEventListener("click", function(){ step(-1); });
+  $("#az-sh-next").addEventListener("click", function(){ step(1); });
+  $("#az-sh-done").addEventListener("click", function(){
+    var id = nav[navIdx];
+    if (done[id]) { delete done[id]; } else { done[id] = true; toast(doneCount() >= 99 ? "أتممت الأسماء كلها، ما شاء الله" : "بارك الله فيك · " + ar(doneCount()) + " من ٩٩"); }
+    save(); fill(); renderProgress(); renderGrid();
+  });
+  document.addEventListener("keydown", function(e){
+    if (sheet.hidden) return;
+    if (e.key === "Escape") { closeSheet(); }
+    else if (e.key === "ArrowLeft") { step(1); }
+    else if (e.key === "ArrowRight") { step(-1); }
+    else if (e.key === "Tab") {
+      var f = sheet.querySelectorAll("button:not([disabled]), a[href]");
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+  /* swipe like turning a page in an Arabic book: drag right for the next name */
+  var sx = 0, sy = 0, st = 0;
+  var scroller = $("#az-sh-scroll");
+  scroller.addEventListener("touchstart", function(e){ var t = e.changedTouches[0]; sx = t.clientX; sy = t.clientY; st = Date.now(); }, {passive: true});
+  scroller.addEventListener("touchend", function(e){
+    var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+    if (Date.now() - st < 700 && Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.6) { step(dx > 0 ? 1 : -1); }
+  }, {passive: true});
+
+  /* copy */
+  function plainVerse(n){ return n.verse.text; }
+  $("#az-sh-copy").addEventListener("click", function(){
+    var n = byId[nav[navIdx]];
+    var sh = n.sh;
+    var text = n.n + " — " + n.s + "\n\nالمعنى: " + n.m + "\n\n﴿" + plainVerse(n) + "﴾ [" + n.verse.ref + "]" +
+      "\n\nشرح الاسم:\n• " + sh.lg + "\n• " + sh.x.join("\n• ") + "\n• " + sh.a.join("\n• ") + "\n• فائدة: " + sh.nb +
+      "\n\nاستشعِره: " + n.f + "\n\nادعُ به: " + n.d;
+    function fallback(){
+      try {
+        var ta = document.createElement("textarea");
+        ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+        document.body.appendChild(ta); ta.select();
+        var ok = document.execCommand("copy"); document.body.removeChild(ta);
+        toast(ok ? "نُسخ الاسم وشرحه" : "تعذّر النسخ من هذه الصفحة");
+      } catch (e) { toast("تعذّر النسخ من هذه الصفحة"); }
+    }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function(){ toast("نُسخ الاسم وشرحه"); }, fallback);
+      } else { fallback(); }
+    } catch (e) { fallback(); }
+  });
+
+
+  $("#az-today-open").addEventListener("click", function(e){ openSheet(todayId, canonical(), e.currentTarget); });
+  $("#az-resume").addEventListener("click", function(e){
+    var next = 1;
+    for (var i = 1; i <= 99; i++) { if (!done[i]) { next = i; break; } }
+    openSheet(next, canonical(), e.currentTarget);
+  });
+
+  renderProgress(); renderMoods(); renderCats(); renderGrid();
+  return {
+    open: function(id){ if (byId[id]) openSheet(id, canonical(), null); },
+    isOpen: function(){ return !sheet.hidden; },
+    close: function(){ if (!sheet.hidden) closeSheet(); },
+    resync: function(){ loadDone(); renderTodayName(); renderProgress(); renderCats(); renderGrid(); },
+    site: function(data){
+      SITE = data;
+      NAMES.forEach(function(n){ n.site = siteFor(n.id); n._tx = " " + skel([n.f, n.d, n.sh.lg, n.sh.nb].concat(n.sh.x, n.sh.a, siteText(n.site)).join(" ")) + " "; });
+      renderGrid(); if (!sheet.hidden) fill();
+    }
+  };
+}
+
 /* ---------- wiring ---------- */
 function wire(){
   document.addEventListener('click', e => {
@@ -2596,7 +3483,7 @@ function wire(){
   $('#cHaptic').addEventListener('click', () => { state.settings.haptics = !state.settings.haptics; markDirty(); renderCounter(); if(state.settings.haptics){ feedback('tick'); if(isIOS) iosHaptic(); } });
   document.addEventListener('selectstart', e => {
     const el = e.target && e.target.nodeType === 3 ? e.target.parentElement : e.target;
-    if(!el || !el.closest || !el.closest('input, textarea, select')) e.preventDefault();
+    if(!el || !el.closest || !el.closest('input, textarea, select, .az-text')) e.preventDefault();
   });
   document.addEventListener('touchend', () => ensureAudioSoft(), {passive:true});
   document.addEventListener('keydown', e => {
@@ -2680,6 +3567,9 @@ function wire(){
     else if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text + '\n' + url).then(() => toast('نُسخ الرابط، أرسله لمن تحب'), () => toast(url, 6000));
     else toast(url, 6000);
   });
+  /* the names tab: the site's explanations from the person's own copy */
+  $('#az-site-file').addEventListener('change', e => { const f = e.target.files && e.target.files[0]; azImportFile(f); e.target.value = ''; });
+  $('#az-site-remove').addEventListener('click', e => armed(e.currentTarget, 'تأكيد الحذف', azRemoveSite));
   /* notifications on the phone */
   $('#pushServer').addEventListener('input', e => { $('#pushErr').hidden = true; pushCustom = true; pushCheck = ''; pushCheckServer(e.target.value); });
   $('#pushOn').addEventListener('click', pushEnable);
@@ -2710,7 +3600,7 @@ function wire(){
     });
   });
   $('#resetAll').addEventListener('click', e => armed(e.currentTarget, 'تأكيد المسح', () => {
-    const keep = state.settings; state = sampleState(); state.settings = keep;
+    const keep = state.settings, keepAsma = state.asma; state = sampleState(); state.settings = keep; state.asma = keepAsma;
     fired = {}; try{ localStorage.removeItem(FIRED_KEY); }catch(err){}
     markDirty(); renderAll(); toast('بدأت من جديد بالورد المقترح');
   }));
@@ -2764,7 +3654,8 @@ function init(){
   prune();
   wire();
   const h = (location.hash || '').replace('#', '');
-  setTab(['today', 'missed', 'progress', 'settings'].indexOf(h) >= 0 ? h : 'today');
+  if(!azFromHash()) setTab(['today', 'missed', 'names', 'progress', 'settings'].indexOf(h) >= 0 ? h : 'today');
+  window.addEventListener('hashchange', () => { if(!C.open) azFromHash(); });
   setSaveStatus('local');
   connectRemote();
   setTimeout(reminderTick, 1200);
@@ -2818,7 +3709,7 @@ init();
   /* not while counting, editing, typing, or with a reminder on screen */
   function quiet(){
     if(document.hidden) return false;
-    var ids = ['counter', 'editor', 'remind', 'dayDone'];
+    var ids = ['counter', 'editor', 'remind', 'dayDone', 'az-sheet'];
     for(var i = 0; i < ids.length; i++){ var el = document.getElementById(ids[i]); if(el && !el.hidden) return false; }
     var a = document.activeElement;
     return !(a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName));
