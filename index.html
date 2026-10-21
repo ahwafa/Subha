@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>سُبحة</title>
-<meta name="subha-version" content="20261021161309">
+<meta name="subha-version" content="20261021165618">
 <meta name="description" content="ورد يومي للتسبيح بأعداد وأوقات ومواقيت الأذان">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#0C1618">
@@ -13,6 +13,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="سُبحة">
 <meta name="format-detection" content="telephone=no">
+<script>try{var t=localStorage.getItem("subha.theme");if(t==="dark"||t==="light"){document.documentElement.setAttribute("data-theme",t);window.__subhaTheme=t;}}catch(e){}</script>
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -494,10 +495,12 @@ textarea.field.plain{font-family:var(--font-ui);font-size:15px;min-height:64px}
 /* ---------- أسماء الله الحسنى ----------
    The names page in the app's colours: gold-leaf rules and the eight-pointed khatam star from the original page,
    a dark cartouche for the name, and each name opening as a full-height leaf. */
-.az{--az-line:#C6A55A;--az-paper:#FBF7EC;--az-star:#F4EBD3;--az-band:#15242A;--az-band-ink:#F3DFA4;
-  --az-quran:"Amiri Quran","Amiri","Noto Naskh Arabic",serif;display:flex;flex-direction:column;gap:24px}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .az{--az-line:#8F7536;--az-paper:#15282B;--az-star:#1D3034;--az-band:#1F3539;--az-band-ink:#EACB7F}}
-:root[data-theme="dark"] .az{--az-line:#8F7536;--az-paper:#15282B;--az-star:#1D3034;--az-band:#1F3539;--az-band-ink:#EACB7F}
+/* .azt carries the same colours for names pieces shown elsewhere (the star field on the achievements page) */
+.az,.azt{--az-line:#C6A55A;--az-paper:#FBF7EC;--az-star:#F4EBD3;--az-band:#15242A;--az-band-ink:#F3DFA4;
+  --az-quran:"Amiri Quran","Amiri","Noto Naskh Arabic",serif}
+.az{display:flex;flex-direction:column;gap:24px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .az,:root:not([data-theme="light"]) .azt{--az-line:#8F7536;--az-paper:#15282B;--az-star:#1D3034;--az-band:#1F3539;--az-band-ink:#EACB7F}}
+:root[data-theme="dark"] .az,:root[data-theme="dark"] .azt{--az-line:#8F7536;--az-paper:#15282B;--az-star:#1D3034;--az-band:#1F3539;--az-band-ink:#EACB7F}
 .az[hidden]{display:none!important}
 .az .br{color:var(--accent);font-family:var(--az-quran)}
 .az svg{flex:none}
@@ -640,11 +643,45 @@ textarea.field.plain{font-family:var(--font-ui);font-size:15px;min-height:64px}
 .tab-orb{width:50px;height:50px;margin-top:-24px;margin-bottom:1px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--on-accent);box-shadow:0 0 0 5px var(--surface),0 8px 20px var(--glow);transition:transform .18s ease}
 .tab-orb .ico{width:28px;height:28px;color:var(--on-accent);stroke:currentColor;stroke-width:1.5}
 .tab-center[aria-current="page"] .tab-orb{transform:translateY(-2px);box-shadow:0 0 0 5px var(--surface),0 0 0 7px var(--accent),0 10px 24px var(--glow)}
+
+/* home page: the name of the time, a smaller cut of the names-tab card, with today's three names as stars */
+.azh{margin-top:12px;border-radius:22px;padding:12px 14px 14px;gap:8px;align-items:stretch;text-align:center}
+.azh::before{border-radius:16px}
+.azh-top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-inline:4px}
+.azh-stars{display:flex;align-items:center;gap:2px}
+.azh-star{width:32px;height:32px;padding:0;border:0;background:none;display:grid;place-items:center;border-radius:50%;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.azh-star:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.azh-star.is-later{cursor:default;opacity:.4}
+.azs{position:relative;display:block;width:20px;height:20px;background:var(--az-line);clip-path:polygon(50% 0%,64.6% 14.6%,85.4% 14.6%,85.4% 35.4%,100% 50%,85.4% 64.6%,85.4% 85.4%,64.6% 85.4%,50% 100%,35.4% 85.4%,14.6% 85.4%,14.6% 64.6%,0% 50%,14.6% 35.4%,14.6% 14.6%,35.4% 14.6%)}
+.azs i{position:absolute;inset:2.5px;background:var(--az-paper);clip-path:polygon(50% 0%,64.6% 14.6%,85.4% 14.6%,85.4% 35.4%,100% 50%,85.4% 64.6%,85.4% 85.4%,64.6% 85.4%,50% 100%,35.4% 85.4%,14.6% 85.4%,14.6% 64.6%,0% 50%,14.6% 35.4%,14.6% 14.6%,35.4% 14.6%)}
+.azh-star.is-seen .azs i{display:none}
+.azh-star.is-now:not(.is-seen) .azs{background:var(--accent)}
+.azh-cart{align-self:center;--cut:18px}
+.azh .az-cart-in{padding:0 calc(var(--cut) + 18px) 4px;min-width:min(62vw,240px)}
+.azh .az-cart-name{font-size:clamp(30px,9vw,38px);line-height:1.6}
+.azh .az-cart-name.az-long{font-size:clamp(22px,6.4vw,27px);line-height:1.8}
+.azh-s{margin:0;font-size:17px;font-weight:600;line-height:1.6;text-wrap:balance}
+.azh-foot{display:flex;align-items:center;justify-content:space-between;gap:8px 12px;flex-wrap:wrap;padding-inline:4px;margin-top:2px}
+.azh-next{font-family:var(--font-display);font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+
+/* achievements page: the 99 as a field of stars, eleven by nine */
+.azm{display:grid;gap:12px}
+.azm p{margin:0;line-height:1.7}
+.azm-grid{display:grid;grid-template-columns:repeat(11,minmax(0,1fr));gap:3px}
+.azm-c{aspect-ratio:1;min-width:0;padding:2px;border:0;background:none;display:grid;place-items:center;border-radius:6px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.azm-c:focus-visible{outline:2px solid var(--accent)}
+.azm-c .azs{width:100%;height:100%;max-width:24px;max-height:24px;background:var(--line)}
+.azm-c .azs i{display:none;inset:3px;background:var(--surface)}
+.azm-c.is-done .azs{background:var(--az-line)}
+.azm-c.is-now .azs{background:var(--accent)}
+.azm-c.is-now .azs i{display:block}
+.azm-c.is-now.is-done .azs i{background:var(--az-line)}
 </style>
 <style>
 /* standalone web app: clear the status bar and home indicator, keep the status bar legible in both themes */
 :root{--statusbar:#16252A;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme: dark){:root{--statusbar:#0C1618}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--statusbar:#0C1618}}
+:root[data-theme="dark"]{--statusbar:#0C1618}
 html{background:var(--bg);-webkit-text-size-adjust:100%}
 body{margin:0}
 img{max-width:100%}
@@ -672,6 +709,9 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
         <div class="daybar-txt"><b>ورد اليوم</b><span id="heroSub"></span></div>
         <div class="week" id="week" aria-label="آخر سبعة أيام"></div>
       </div>
+
+      <!-- أسماء الله الحسنى: اسم الوقت، يتغيّر كل ٨ ساعات -->
+      <section class="az az-today azh" id="azHome" aria-label="اسم الوقت من أسماء الله الحسنى" hidden></section>
 
       <div class="note install" id="installHint" hidden>
         <p><b>ثبّت سُبحة على الشاشة الرئيسية:</b> اضغط زر المشاركة في سفاري ثم «إضافة إلى الشاشة الرئيسية»، فيفتح كتطبيق مستقل ويعمل بدون إنترنت.</p>
@@ -778,6 +818,10 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
       <div class="sec">
         <h3>العرض</h3>
         <div class="rows">
+          <div class="row">
+            <div><b>المظهر</b><div class="muted small">«تلقائي» يتبع مظهر جوالك</div></div>
+            <div class="seg" id="setTheme"><button data-v="auto">تلقائي</button><button data-v="light">فاتح</button><button data-v="dark">داكن</button></div>
+          </div>
           <div class="row">
             <b>الأرقام</b>
             <div class="seg" id="setDigits"><button data-v="arab">٣٣</button><button data-v="latn">33</button></div>
@@ -1212,9 +1256,9 @@ function sampleState(){
     days:{},
     stats:{lifetime:0, best:0, archivedDone:0, maxDone:0, perItem:{}},
     badges:{},
-    asma:{done:[]},
+    asma:{done:[], seen:{}},
     material:'wood',
-    settings:{haptics:true, strength:'medium', sound:true, soundStyle:'beads', wake:true, digits:'arab', dayStart:3, city:'riyadh'}
+    settings:{haptics:true, strength:'medium', sound:true, soundStyle:'beads', wake:true, digits:'arab', dayStart:3, city:'riyadh', theme:'auto'}
   };
 }
 
@@ -1264,18 +1308,34 @@ function normalize(s){
   out.settings.dayStart = clampInt(out.settings.dayStart, 0, 6, 3);
   if(!CITIES.some(c => c.id === out.settings.city)) out.settings.city = 'riyadh';
   if(!SOUNDS.some(x => x.id === out.settings.soundStyle)) out.settings.soundStyle = 'beads';
+  if(['auto', 'light', 'dark'].indexOf(out.settings.theme) < 0) out.settings.theme = 'auto';
   return out;
 }
-/* the names the person marked as reflected on, in the names tab */
+/* the names: those marked «تأمّلته» (done), and which of each day's three names were opened that day (seen) */
 function cleanAsma(a){
-  const ids = a && Array.isArray(a.done) ? a.done.map(Number).filter(i => Number.isInteger(i) && i >= 1 && i <= 99) : [];
-  return {done: Array.from(new Set(ids)).sort((x, y) => x - y)};
+  const ok = i => Number.isInteger(i) && i >= 1 && i <= 99;
+  const list = v => Array.from(new Set((Array.isArray(v) ? v : []).map(Number).filter(ok))).sort((x, y) => x - y);
+  const seen = {};
+  if(a && a.seen && typeof a.seen === 'object') for(const k of Object.keys(a.seen)){
+    const l = list(a.seen[k]); if(/^\d{4}-\d{2}-\d{2}$/.test(k) && l.length) seen[k] = l;
+  }
+  return {done: list(a && a.done), seen};
 }
 function loadLocal(){
   try{ const raw = localStorage.getItem(STORE_KEY); if(raw) return normalize(JSON.parse(raw)); }catch(e){}
   return null;
 }
 let state = loadLocal() || sampleState();
+/* المظهر: «تلقائي» follows the phone; «فاتح» and «داكن» fix it. The choice is also kept on its own (subha.theme) so the page
+   can take it before anything is drawn. «تلقائي» only removes a theme this app set, so a host's own choice stays. */
+let themeSet = false;
+function applyTheme(){
+  const t = state.settings.theme, root = document.documentElement;
+  if(t === 'light' || t === 'dark'){ if(root.getAttribute('data-theme') !== t) root.setAttribute('data-theme', t); themeSet = true; }
+  else if(themeSet || root.getAttribute('data-theme') === (window.__subhaTheme || '')){ if(root.hasAttribute('data-theme')) root.removeAttribute('data-theme'); themeSet = false; }
+  try{ localStorage.setItem('subha.theme', t); }catch(e){}
+}
+applyTheme();
 
 /* ---------- numbers, dates, times ---------- */
 function digits(str){ str = String(str); return state.settings.digits === 'latn' ? str : str.replace(/[0-9]/g, d => AR_DIGITS[+d]); }
@@ -1530,7 +1590,10 @@ const BADGES = [
   {id:'k10',      icon:'star',  name:'عشرة آلاف',    desc:() => n(10000) + ' في المجموع',          test:() => state.stats.lifetime >= 10000},
   {id:'month',    icon:'moon',  name:'شهر مداومة',   desc:() => n(30) + ' يومًا متتاليًا',         test:() => bestStreak() >= 30},
   {id:'k100',     icon:'medal', name:'مئة ألف',      desc:() => n(100000) + ' في المجموع',         test:() => state.stats.lifetime >= 100000},
-  {id:'qada',     icon:'reset', name:'قضاء الفائت',  desc:() => 'قضيت وردًا فاتك',                 test:() => (state.stats.qada || 0) >= 1}
+  {id:'qada',     icon:'reset', name:'قضاء الفائت',  desc:() => 'قضيت وردًا فاتك',                 test:() => (state.stats.qada || 0) >= 1},
+  {id:'asma1',    icon:'khatam', name:'أول اسم',     desc:() => 'تأمّلت أول اسم من الأسماء الحسنى', test:() => state.asma.done.length >= 1},
+  {id:'asmaday',  icon:'sun',   name:'أسماء اليوم',  desc:() => 'قرأت أسماء اليوم الثلاثة',          test:() => azDayDone()},
+  {id:'asma99',   icon:'medal', name:'الأسماء كلها', desc:() => 'تأمّلت الأسماء التسعة والتسعين',     test:() => state.asma.done.length >= 99}
 ];
 
 /* add (or undo) counts for an item, or for the free counter when id is null */
@@ -1570,6 +1633,8 @@ function prune(){
     if(k < snapCut && (d.g || d.m || d.mc)){ delete d.g; delete d.m; delete d.mc; changed = true; }
     if(k < countCut && d.c){ delete d.c; changed = true; }
   }
+  const seenCut = addDays(today, -40), seen = (state.asma && state.asma.seen) || {};
+  for(const k of Object.keys(seen)) if(k < seenCut){ delete seen[k]; changed = true; }
   if(changed) markDirty();
 }
 
@@ -1618,7 +1683,9 @@ function mergeStates(a, b){
   for(const f of ['lifetime', 'best', 'maxDone', 'archivedDone']) out.stats[f] = Math.max(a.stats[f] || 0, b.stats[f] || 0);
   for(const src of [a.stats.perItem || {}, b.stats.perItem || {}]) for(const [k, v] of Object.entries(src)) out.stats.perItem[k] = Math.max(out.stats.perItem[k] || 0, v);
   out.badges = Object.assign({}, older.badges, newer.badges);
-  out.asma = cleanAsma({done: [].concat((a.asma || {}).done || [], (b.asma || {}).done || [])});
+  const sa = (a.asma || {}).seen || {}, sb = (b.asma || {}).seen || {}, seen = {};
+  for(const k of new Set(Object.keys(sa).concat(Object.keys(sb)))) seen[k] = [].concat(sa[k] || [], sb[k] || []);
+  out.asma = cleanAsma({done: [].concat((a.asma || {}).done || [], (b.asma || {}).done || []), seen});
   out.updatedAt = Math.max(A, B);
   return out;
 }
@@ -1673,6 +1740,7 @@ function renderTab(){
   renderBadge();
 }
 function renderAll(){
+  applyTheme();
   renderTab();
   if(C.open) renderCounter();
 }
@@ -1681,7 +1749,7 @@ function heatLevel(d){ if(!d) return 0; if(d.d) return 3; const p = d.p || 0; re
 function todaySig(){
   const f = featured(); const now = normMin(nowMin()); const rec = state.days[todayKey()];
   return [todayKey(), state.settings.city, f.kind, f.entry ? f.entry.key : '',
-    entries().map(e => stateOf(e, rec, now)[0]).join(''), missedList().map(x => x.done ? 1 : 0).join('')].join('|');
+    entries().map(e => stateOf(e, rec, now)[0]).join(''), missedList().map(x => x.done ? 1 : 0).join(''), azNow().idx].join('|');
 }
 let lastSig = '';
 
@@ -1698,6 +1766,7 @@ function renderToday(){
   $('#heroSub').textContent = state.items.length ? (n(pr.got) + ' من ' + n(pr.goal) + ' ' + tasbihWord(pr.goal)) : 'لا أذكار بعد';
   drawHeroRing(pr);
   renderWeek();
+  renderAzHome();
   $('#sampleNote').hidden = !state.sample;
   renderList(rec);
   lastSig = todaySig();
@@ -1909,6 +1978,7 @@ function renderProgress(){
   }
   h.push('<div class="sec"><h3>آخر ' + n(12) + ' أسبوعًا</h3><div class="card"><div class="heat-wrap"><div class="heat">' + cells.join('') + '</div></div>'
     + '<div class="legend"><span>لا شيء</span><i class="l0"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><span>أتممت الورد</span></div></div></div>');
+  h.push(azMosaicHtml());
   h.push('<div class="sec"><h3>الأوسمة <span class="muted small">' + n(Object.keys(state.badges).length) + ' من ' + n(BADGES.length) + '</span></h3><div class="badges">'
     + BADGES.map(b => { const got = !!state.badges[b.id];
       return '<div class="badge' + (got ? '' : ' locked') + '"><span class="em">' + icon(got ? b.icon : 'lock') + '</span><div><b>' + b.name + '</b><span>' + b.desc() + '</span></div></div>';
@@ -1927,6 +1997,7 @@ function renderSettings(){
   $('#setSoundStyle').innerHTML = SOUNDS.map(x => '<button type="button" role="radio" data-v="' + x.id + '" aria-checked="' + (x.id === s.soundStyle) + '">'
     + '<span class="snd-ic">' + icon(x.id === s.soundStyle ? 'check' : 'vol', 'ico ico-sm') + '</span><span class="snd-t"><b>' + x.name + '</b><span>' + x.desc + '</span></span></button>').join('');
   setSeg('#setDigits', s.digits);
+  setSeg('#setTheme', s.theme);
   $('#setDayStart').value = String(s.dayStart);
   $('#hapticStatus').textContent = ('vibrate' in navigator) ? 'مدعوم على هذا الجهاز'
     : (isIOS ? 'الآيفون يقيّد الاهتزاز في صفحات الويب، ونجرّب بديلًا خفيفًا قد لا يعمل في كل إصدار' : 'قد لا يدعم هذا الجهاز الاهتزاز');
@@ -2875,6 +2946,86 @@ function azRemoveSite(){
   toast('حُذفت شروح الموقع من هذا الجوال');
 }
 
+/* ---------- اسم الوقت: three names a day, each for 8 hours from the start of the day (settings.dayStart) ----------
+   The names go in order, so all 99 come round every 33 days. The same name shows on the home page and at the top
+   of the names tab. */
+const AZ_DAY0 = '2026-01-01', AZ_SLOT = 8 * 3600e3;
+let AZ_DATA = null;
+function azData(){
+  if(!AZ_DATA){ try{ AZ_DATA = JSON.parse(document.getElementById('az-data').textContent).names; }catch(e){ AZ_DATA = []; } }
+  return AZ_DATA;
+}
+function azDayIndex(k){ return Math.round((keyToDate(k) - keyToDate(AZ_DAY0)) / 864e5); }
+function azSlotIds(k){ const b = azDayIndex(k) * 3; return [0, 1, 2].map(s => ((b + s) % 99 + 99) % 99 + 1); }
+function azNow(){
+  const now = new Date(), k = dayKeyOf(now), start = keyToDate(k);
+  start.setHours(state.settings.dayStart, 0, 0, 0);
+  const slot = Math.max(0, Math.min(2, Math.floor((now - start) / AZ_SLOT)));
+  const ids = azSlotIds(k);
+  return {k, slot, ids, id: ids[slot], idx: azDayIndex(k) * 3 + slot, start};
+}
+/* when slot i of the day starts, e.g. «8:00 م» (i = 3 is the next day's first) */
+function azAt(t, i){ const d = new Date(t.start.getTime() + i * AZ_SLOT); return fmtTime(hm(d.getHours() * 60 + d.getMinutes())); }
+/* opening one of today's three names lights its star on the home page */
+function azSeen(id){
+  const t = azNow(); if(t.ids.indexOf(id) < 0) return;
+  const seen = state.asma.seen || (state.asma.seen = {}), list = seen[t.k] || (seen[t.k] = []);
+  if(list.indexOf(id) >= 0) return;
+  list.push(id); list.sort((a, b) => a - b); markDirty();
+  if(t.ids.every(i => list.indexOf(i) >= 0)) toast('قرأت أسماء اليوم الثلاثة، بارك الله فيك', 3600);
+  azBadges();
+}
+function azDayDone(){
+  const seen = (state.asma && state.asma.seen) || {};
+  return Object.keys(seen).some(k => azSlotIds(k).every(i => seen[k].indexOf(i) >= 0));
+}
+function azBadges(){ checkUnlocks().badges.forEach(b => toast('وسام جديد: ' + b.name)); }
+
+/* opening a name from the home page or the achievements page, and going back there when it closes */
+let azReturn = null;
+function azOpen(id){
+  id = +id; if(!(id >= 1 && id <= 99)) return;
+  azReturn = tab !== 'names' ? {tab, y: window.scrollY} : null;
+  if(tab !== 'names') setTab('names');
+  if(AZ) AZ.open(id);
+}
+function azAfterClose(){
+  const r = azReturn; azReturn = null;
+  if(r && tab === 'names'){ setTab(r.tab); window.scrollTo(0, r.y); }
+}
+
+const AZ_STAR = '<i class="azs" aria-hidden="true"><i></i></i>';
+function renderAzHome(){
+  const host = $('#azHome'); if(!host) return;
+  const t = azNow(), names = azData(), nm = names[t.id - 1];
+  if(!nm){ host.hidden = true; return; }
+  const seen = (state.asma.seen || {})[t.k] || [], ord = ['الأول', 'الثاني', 'الثالث'];
+  const stars = t.ids.map((id, i) => {
+    const x = names[id - 1], got = seen.indexOf(id) >= 0, lbl = 'الاسم ' + ord[i] + ' اليوم';
+    if(i > t.slot) return '<span class="azh-star is-later" role="img" aria-label="' + lbl + '، يظهر ' + azAt(t, i) + '">' + AZ_STAR + '</span>';
+    return '<button type="button" class="azh-star' + (got ? ' is-seen' : '') + (i === t.slot ? ' is-now' : '') + '" data-az-open="' + id + '" aria-label="'
+      + lbl + ': ' + escapeHtml(x.n) + (got ? '، قرأته' : '') + '">' + AZ_STAR + '</button>';
+  }).join('');
+  const again = seen.indexOf(t.id) >= 0;
+  host.innerHTML = '<div class="azh-top"><span class="az-eyebrow">اسم الوقت</span><span class="azh-stars" role="group" aria-label="أسماء اليوم الثلاثة">' + stars + '</span></div>'
+    + '<div class="az-cart azh-cart"><div class="az-cart-in"><p class="az-cart-name' + (nm.n.indexOf(' ') > -1 ? ' az-long' : '') + '">' + escapeHtml(nm.v) + '</p></div></div>'
+    + '<p class="azh-s">' + escapeHtml(nm.s) + '</p>'
+    + '<div class="azh-foot"><button type="button" class="btn ' + (again ? 'btn-soft' : 'btn-primary') + ' btn-sm" data-az-open="' + t.id + '">'
+    + (again ? 'اقرأه مرة ثانية' : 'تأمّل هذا الاسم') + '</button><span class="azh-next">الاسم التالي ' + azAt(t, t.slot + 1) + '</span></div>';
+  host.hidden = false;
+}
+
+/* achievements page: the 99 as a field of stars that fill as names are marked «تأمّلته» */
+function azMosaicHtml(){
+  const names = azData(), done = new Set(state.asma.done), cur = azNow().id;
+  if(!names.length) return '';
+  return '<div class="sec"><h3>الأسماء الحسنى <span class="muted small">' + n(done.size) + ' من ' + n(99) + '</span></h3><div class="card azm azt">'
+    + '<div class="azm-grid" role="group" aria-label="الأسماء التسعة والتسعون">'
+    + names.map(x => '<button type="button" class="azm-c' + (done.has(x.id) ? ' is-done' : '') + (x.id === cur ? ' is-now' : '') + '" data-az-open="' + x.id
+      + '" aria-label="' + escapeHtml(x.n) + (done.has(x.id) ? '، تأمّلته' : '') + '">' + AZ_STAR + '</button>').join('')
+    + '</div><p class="muted small">كل نجمة اسم، وتضيء إذا ضغطت «تأمّلته» في صفحته. المحاطة بلون مختلف اسم الوقت.</p></div></div>';
+}
+
 /* ---------- أسماء الله الحسنى: the names page, brought in from its own page (see asma_build.py) ---------- */
 function azModule(){
 
@@ -3149,7 +3300,10 @@ function azModule(){
   var done = {};
   function loadDone(){ done = {}; ((state.asma && state.asma.done) || []).forEach(function(i){ done[i] = true; }); }
   loadDone();
-  function save(){ state.asma = { done: Object.keys(done).map(Number).sort(function(a, b){ return a - b; }) }; markDirty(); }
+  function save(){
+    state.asma = { done: Object.keys(done).map(Number).sort(function(a, b){ return a - b; }), seen: (state.asma && state.asma.seen) || {} };
+    markDirty(); azBadges();
+  }
   function doneCount(){ return Object.keys(done).length; }
 
   var flt = { q: "", cat: "all", mood: null };
@@ -3169,10 +3323,8 @@ function azModule(){
   var todayId = 1;
   function renderTodayName(){
     var now = new Date();
-    var day0 = new Date(2026, 0, 1);
-    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    var dayIdx = Math.round((today - day0) / 86400000);
-    todayId = ((dayIdx % 99) + 99) % 99 + 1;
+    todayId = azNow().id;
+    $("#az-today-label").textContent = "اسم الوقت";
     var n = byId[todayId];
     var el = $("#az-today-name");
     el.textContent = n.v;
@@ -3287,6 +3439,7 @@ function azModule(){
   function canonical(){ return NAMES.map(function(n){ return n.id; }); }
   function fill(){
     var n = byId[nav[navIdx]];
+    azSeen(n.id);
     var nm = $("#az-sh-name");
     nm.textContent = n.v; nm.classList.toggle("az-long", n._long);
     $("#az-sh-num").textContent = ar(n.id);
@@ -3333,6 +3486,7 @@ function azModule(){
       target = document.querySelector('.az-tile[data-id="' + nav[navIdx] + '"]') || null;
     }
     if (target && document.body.contains(target)) { try { target.focus({preventScroll: false}); } catch (e) {} }
+    azAfterClose();
   }
   function step(d){
     if (nav.length < 2) return;
@@ -3418,10 +3572,11 @@ function azModule(){
 /* ---------- wiring ---------- */
 function wire(){
   document.addEventListener('click', e => {
-    const t = e.target.closest('[data-open],[data-edit],[data-act],[data-mat],[data-tab],[data-qt],[data-qc]');
+    const t = e.target.closest('[data-open],[data-edit],[data-act],[data-mat],[data-tab],[data-qt],[data-qc],[data-az-open]');
     if(!t) return;
     const d = t.dataset;
-    if(d.open){ ensureAudio(); openCounter(d.open, false, d.day); }
+    if(d.azOpen){ azOpen(d.azOpen); }
+    else if(d.open){ ensureAudio(); openCounter(d.open, false, d.day); }
     else if(d.edit){ openEditor(d.edit); }
     else if(d.tab){ setTab(d.tab); }
     else if(d.mat){
@@ -3538,6 +3693,7 @@ function wire(){
   $('#setWake').addEventListener('change', e => { state.settings.wake = e.target.checked; markDirty(); });
   $('#setStrength').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.settings.strength = b.dataset.v; markDirty(); setSeg('#setStrength', b.dataset.v); feedback('sep'); if(isIOS) iosHaptic(); });
   $('#setDigits').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.settings.digits = b.dataset.v; markDirty(); renderSettings(); });
+  $('#setTheme').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.settings.theme = b.dataset.v; markDirty(); applyTheme(); renderSettings(); });
   $('#setCity').addEventListener('change', e => {
     if(!CITIES.some(c => c.id === e.target.value)) return;
     state.settings.city = e.target.value; markDirty(); renderPrayerTimes(); renderRemRows();
