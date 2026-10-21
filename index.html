@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>سُبحة</title>
-<meta name="subha-version" content="20261021165618">
+<meta name="subha-version" content="20261021174642">
 <meta name="description" content="ورد يومي للتسبيح بأعداد وأوقات ومواقيت الأذان">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#0C1618">
@@ -676,6 +676,56 @@ textarea.field.plain{font-family:var(--font-ui);font-size:15px;min-height:64px}
 .azm-c.is-now .azs{background:var(--accent)}
 .azm-c.is-now .azs i{display:block}
 .azm-c.is-now.is-done .azs i{background:var(--az-line)}
+
+/* ---------- المداومة: the chip opens a sheet; the chip fills once today counts ---------- */
+.streak{cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .2s ease,color .2s ease}
+.streak:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.streak.is-on{background:var(--accent);color:var(--on-accent)}
+.streak.is-on .ico{color:var(--on-accent)}
+.st-card{position:relative;gap:10px;padding:26px 20px 20px}
+.st-close{position:absolute;top:12px;inset-inline-start:12px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--surface-2);color:var(--ink-2)}
+.st-close .ico{width:18px;height:18px}
+.st-num{font-family:var(--font-display);font-size:56px;font-weight:600;line-height:1.05;color:var(--accent);font-variant-numeric:tabular-nums}
+.st-card h2{font-family:var(--font-display);font-size:20px;margin:0}
+.st-best{margin:0}
+.st-week{display:flex;gap:8px;justify-content:center;margin-top:6px}
+.st-day{display:grid;justify-items:center;gap:5px}
+.st-day i{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;color:var(--on-accent)}
+.st-day i .ico{width:16px;height:16px}
+.st-day.is-on i{background:var(--accent);border-color:var(--accent)}
+.st-day.is-today i{box-shadow:0 0 0 2px var(--surface),0 0 0 3.5px var(--accent)}
+.st-day b{font-size:12px;font-weight:600;color:var(--ink-2)}
+.st-today{margin:4px 0 0;font-size:15px;font-weight:600;color:var(--ink);text-wrap:balance;line-height:1.6}
+.st-today.is-ok{color:var(--done)}
+.st-rule{display:grid;gap:8px;justify-items:center;width:100%;padding-top:14px;border-top:1px solid var(--line);margin-top:6px}
+.st-rule b{font-size:14px}
+.st-rule .seg{background:var(--surface-2)}
+.st-hadith{margin:2px 0 4px;font-size:14px}
+.st-link{display:inline-block;margin-top:8px;font-size:13px;font-weight:600;color:var(--accent);padding:0 0 1px;border-bottom:1px solid currentColor}
+
+/* ---------- finished adhkar fold into one line; a prayer dhikr waiting for its next adhan shrinks ---------- */
+.fold{display:flex;align-items:flex-start;gap:8px;width:100%;min-height:48px;padding:10px 16px;border-radius:18px;background:var(--done-soft);color:var(--ink);font-size:14px;font-weight:600;text-align:start}
+.fold .ico{color:var(--done);margin-top:4px}
+.fold-t{margin-top:2px}
+.fold-l{flex:1;min-width:0;line-height:1.7;text-wrap:pretty}
+.fold-t{display:inline-flex;align-items:center;gap:4px;color:var(--ink-2);font-size:13px;font-weight:500}
+.fold-t .ico{color:var(--ink-2);transition:transform .2s ease}
+.fold[aria-expanded="true"] .fold-t .ico{transform:rotate(180deg)}
+.fold-list{display:grid;gap:10px}
+.pr-item.is-slim{grid-template-columns:minmax(0,1fr)}
+.pr-slim{display:flex;align-items:center;gap:10px;width:100%;min-height:52px;padding:10px 16px;text-align:start}
+.slim-t{flex:1;min-width:0;font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slim-dots{display:flex;gap:4px;flex:none}
+.sd{width:8px;height:8px;border-radius:50%;border:1.5px solid var(--line)}
+.sd--done{background:var(--done);border-color:var(--done)}
+.sd--missed{background:var(--miss);border-color:var(--miss)}
+.slim-next{flex:none;display:inline-flex;align-items:center;gap:4px;font-size:12.5px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+
+/* ---------- النسخة الاحتياطية ---------- */
+#backupRow .row-actions{flex-wrap:wrap}
+.backup-last{margin-top:8px}
+.backup-text{margin-top:8px}
+.err.is-info{color:var(--ink-2)}
 </style>
 <style>
 /* standalone web app: clear the status bar and home indicator, keep the status bar legible in both themes */
@@ -698,7 +748,7 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
           <h1>سُبحة</h1>
           <div class="date" id="date"></div>
         </div>
-        <span class="chip streak" id="streakChip"><i data-ico="chain"></i><span>مداومة</span><b id="streakNum">٠</b></span>
+        <button type="button" class="chip streak" id="streakChip" data-act="streak"><i data-ico="chain"></i><span>مداومة</span><b id="streakNum">٠</b></button>
       </header>
 
       <!-- الذكر الذي عليك الآن -->
@@ -727,6 +777,14 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
       </div>
 
       <div id="list"></div>
+
+      <div class="note backup-note" id="backupNote" hidden>
+        <p><b>احفظ نسخة من بياناتك:</b> <span id="backupNoteTxt">أذكارك وسجلك محفوظة على هذا الجوال فقط</span></p>
+        <div class="note-actions">
+          <button class="btn btn-soft btn-sm" data-act="backup-save"><i data-ico="save"></i>احفظ نسخة</button>
+          <button class="btn btn-line btn-sm" data-act="backup-later">لاحقًا</button>
+        </div>
+      </div>
 
       <div class="actions">
         <button class="btn btn-line" data-act="add"><i data-ico="plus"></i>إضافة ذكر</button>
@@ -853,8 +911,10 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
         <div class="rows">
           <div class="row"><div><b>الحفظ</b><div class="muted small" id="saveStatus"></div></div></div>
           <div class="row row-col" id="backupRow">
-            <div><b>نقل بياناتك</b><div class="muted small">انسخ أذكارك وسجلك لتنقلها إلى سُبحة على جهاز آخر أو على الشاشة الرئيسية، ثم الصقها هناك</div></div>
-            <div class="row-actions"><button class="btn btn-soft btn-sm" id="exportData"><i data-ico="copy"></i>نسخ بياناتي</button><button class="btn btn-line btn-sm" id="importOpen">استيراد بيانات</button></div>
+            <div><b>النسخة الاحتياطية</b><div class="muted small">احفظ أذكارك وسجلك في ملف على جوالك أو في iCloud، وارجع لها متى احتجت، حتى على جوال آخر</div></div>
+            <div class="row-actions"><button class="btn btn-soft btn-sm" id="backupSave" type="button"><i data-ico="save"></i>حفظ نسخة في الملفات</button><label class="btn btn-line btn-sm" for="backupFile"><i data-ico="up"></i>استرجاع من ملف</label><input class="az-file" type="file" id="backupFile" accept=".json,application/json,text/plain"></div>
+            <div class="muted small backup-last" id="backupLast"></div>
+            <div class="row-actions backup-text"><button class="btn btn-line btn-sm" id="exportData" type="button"><i data-ico="copy"></i>نسخ البيانات نصًا</button><button class="btn btn-line btn-sm" id="importOpen" type="button">لصق بيانات منسوخة</button></div>
             <textarea class="copybox" id="backupBox" hidden aria-label="بياناتك" placeholder="الصق هنا البيانات التي نسختها"></textarea>
             <p class="err" id="importErr" hidden></p>
             <div class="row-actions" id="importActions" hidden><button class="btn btn-primary btn-sm" id="importDo">استيراد واستبدال</button><button class="btn btn-soft btn-sm" id="importCancel">إلغاء</button></div>
@@ -1085,6 +1145,23 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
   </div>
 
   <!-- اكتمال الورد -->
+  <!-- المداومة -->
+  <div class="dayDone st-sheet" id="streakSheet" hidden>
+    <div class="dd-card st-card" role="dialog" aria-modal="true" aria-labelledby="stTitle">
+      <button class="st-close" id="stClose" type="button" aria-label="إغلاق"><i data-ico="x"></i></button>
+      <div class="st-num" id="stNum">٠</div>
+      <h2 id="stTitle">أيام المداومة المتتالية</h2>
+      <p class="muted small st-best" id="stBest"></p>
+      <div class="st-week" id="stWeek" aria-label="آخر سبعة أيام"></div>
+      <p class="st-today" id="stToday"></p>
+      <div class="st-rule"><b>متى يُحسب اليوم؟</b>
+        <div class="seg" id="stRule"><button type="button" data-v="any">أي ذكر</button><button type="button" data-v="half">نصف الورد</button><button type="button" data-v="full">الورد كامل</button></div>
+      </div>
+      <p class="hadith st-hadith">«أحب الأعمال إلى الله أدومها وإن قل»<cite>متفق عليه</cite></p>
+      <button class="btn btn-soft btn-block" id="stMore" type="button">إنجازاتي</button>
+    </div>
+  </div>
+
   <div class="dayDone" id="dayDone" hidden>
     <div class="dd-card" role="dialog" aria-modal="true" aria-labelledby="ddTitle">
       <canvas id="ddRing" aria-hidden="true"></canvas>
@@ -1219,6 +1296,9 @@ const ICONS = {
   mosque:'<path d="M5 20v-8a7 7 0 0 1 14 0v8"/><path d="M12 2.5V5M2.5 20.5h19"/><path d="M10 20.5V17a2 2 0 0 1 4 0v3.5"/>',
   clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
   khatam:'<path d="M12 1.55 15.06 4.61h4.33v4.33L22.45 12l-3.06 3.06v4.33h-4.33L12 22.45l-3.06-3.06H4.61v-4.33L1.55 12l3.06-3.06V4.61h4.33z"/><circle cx="12" cy="12" r="3.2"/>',
+  save:'<path d="M12 4v11"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/><path d="M5 19.5h14"/>',
+  up:'<path d="M12 20V9"/><path d="m7.5 13.5 4.5-4.5 4.5 4.5"/><path d="M5 4.5h14"/>',
+  chev:'<path d="m6 9.5 6 6 6-6"/>',
   book:'<path d="M12 6.5C10.5 5 8 4.5 3.5 4.5v14c4.5 0 7 .5 8.5 2 1.5-1.5 4-2 8.5-2v-14c-4.5 0-7 .5-8.5 2z"/><path d="M12 6.5v14"/>'
 };
 function icon(name, cls){
@@ -1258,7 +1338,7 @@ function sampleState(){
     badges:{},
     asma:{done:[], seen:{}},
     material:'wood',
-    settings:{haptics:true, strength:'medium', sound:true, soundStyle:'beads', wake:true, digits:'arab', dayStart:3, city:'riyadh', theme:'auto'}
+    settings:{haptics:true, strength:'medium', sound:true, soundStyle:'beads', wake:true, digits:'arab', dayStart:3, city:'riyadh', theme:'auto', streakMin:'half'}
   };
 }
 
@@ -1309,6 +1389,7 @@ function normalize(s){
   if(!CITIES.some(c => c.id === out.settings.city)) out.settings.city = 'riyadh';
   if(!SOUNDS.some(x => x.id === out.settings.soundStyle)) out.settings.soundStyle = 'beads';
   if(['auto', 'light', 'dark'].indexOf(out.settings.theme) < 0) out.settings.theme = 'auto';
+  if(['any', 'half', 'full'].indexOf(out.settings.streakMin) < 0) out.settings.streakMin = 'half';
   return out;
 }
 /* the names: those marked «تأمّلته» (done), and which of each day's three names were opened that day (seen) */
@@ -1569,11 +1650,27 @@ function refreshDay(k){
   return {wasDone, nowDone: !!rec.d};
 }
 function refreshToday(){ return refreshDay(todayKey()); }
+/* المداومة: a day counts once it reaches the level the person chose: any dhikr, half the wird, or all of it */
+const STREAK_RULES = [{v:'any', name:'أي ذكر'}, {v:'half', name:'نصف الورد'}, {v:'full', name:'الورد كامل'}];
+function dayCounts(d){
+  if(!d) return false;
+  const r = state.settings.streakMin;
+  return r === 'full' ? !!d.d : r === 'any' ? (d.t || 0) > 0 : !!d.d || (d.p || 0) >= 0.5;
+}
 function streakInfo(){
-  const k0 = todayKey(); const todayDone = !!(state.days[k0] && state.days[k0].d);
+  const k0 = todayKey(); const todayDone = dayCounts(state.days[k0]);
   let k = todayDone ? k0 : addDays(k0, -1), s = 0;
-  while(state.days[k] && state.days[k].d){ s++; k = addDays(k, -1); }
+  while(dayCounts(state.days[k])){ s++; k = addDays(k, -1); }
   return {streak:s, todayDone};
+}
+/* what is left today before it counts, in words ('' once it does) */
+function streakNeed(){
+  const r = state.settings.streakMin, rec = state.days[todayKey()];
+  if(dayCounts(rec)) return '';
+  if(r === 'any') return 'سبّح أي ذكر ليُحسب اليوم';
+  if(!state.items.length) return 'أضف أذكارك ليبدأ العدّ';
+  const pr = progressOf(entries(), rec);
+  return 'بقي ' + pct(Math.max(0.01, (r === 'full' ? 1 : 0.5) - pr.ratio)) + ' من ورد اليوم ليُحسب';
 }
 function bestStreak(){ return Math.max(state.stats.best || 0, streakInfo().streak); }
 function doneCount(){ return (state.stats.archivedDone || 0) + Object.values(state.days).filter(d => d && d.d).length; }
@@ -1723,6 +1820,7 @@ function setSaveStatus(s){
 /* ---------- views ---------- */
 let tab = 'today';
 function setTab(t){
+  if(t === 'today' && tab !== 'today') prOpen = {};   /* back on the home page, waiting prayer adhkar shrink again */
   /* leaving the names tab with a name open (a reminder's «ابدأ», say): close it properly so the page can scroll again */
   if(t !== 'names' && AZ && AZ.isOpen()) AZ.close();
   tab = t;
@@ -1760,7 +1858,9 @@ function renderToday(){
   $('#date').textContent = dateLine();
   const st = streakInfo();
   $('#streakNum').textContent = n(st.streak);
-  $('#streakChip').setAttribute('aria-label', 'المداومة: ' + (st.streak ? daysPhrase(st.streak) : 'لم تبدأ بعد'));
+  $('#streakChip').setAttribute('aria-label', 'المداومة: ' + (st.streak ? daysPhrase(st.streak) : 'لم تبدأ بعد') + (st.todayDone ? '، واحتُسب اليوم' : '') + '. اضغط للتفاصيل');
+  $('#streakChip').classList.toggle('is-on', st.todayDone);
+  if(!$('#streakSheet').hidden) renderStreakSheet();
   renderFeat(rec);
   $('#pct').textContent = pr.done ? pct(1) : pct(pr.ratio);
   $('#heroSub').textContent = state.items.length ? (n(pr.got) + ' من ' + n(pr.goal) + ' ' + tasbihWord(pr.goal)) : 'لا أذكار بعد';
@@ -1769,6 +1869,7 @@ function renderToday(){
   renderAzHome();
   $('#sampleNote').hidden = !state.sample;
   renderList(rec);
+  renderBackupNote();
   lastSig = todaySig();
 }
 
@@ -1887,23 +1988,51 @@ function renderBadge(){
 }
 
 /* ---------- the list: after the adhan, at set times, any time ---------- */
+/* finished adhkar fold into one line per section, so the page gets shorter as the day goes on */
+let foldOpen = {}, prOpen = {};
+/* the line names what was finished: its label if it has one, otherwise the start of its words */
+function dhikrName(it){
+  if(it.tag) return it.tag;
+  const t = String(it.text).replace(/\s+/g, ' ').trim();
+  if(t.length <= 28) return t;
+  const cut = t.slice(0, 28), sp = cut.lastIndexOf(' ');
+  return (sp > 12 ? cut.slice(0, sp) : cut) + '…';
+}
+function namesList(names){
+  const q = names.map(x => '«' + escapeHtml(x) + '»');
+  return q.length < 2 ? q.join('') : q.slice(0, -1).join('، ') + ' و' + q[q.length - 1];
+}
+function foldRow(sec, items, cards){
+  if(!cards.length) return '';
+  const open = !!foldOpen[sec];
+  return '<button type="button" class="fold" data-act="fold" data-sec="' + sec + '" aria-expanded="' + open + '">' + icon('check', 'ico ico-sm')
+    + '<span class="fold-l">أتممت ' + namesList(items.map(dhikrName)) + '</span><span class="fold-t">' + (open ? 'إخفاء' : 'عرض') + icon('chev', 'ico ico-xs') + '</span></button>'
+    + (open ? '<div class="fold-list">' + cards.join('') + '</div>' : '');
+}
 function renderList(rec){
   const host = $('#list');
   if(!state.items.length){ host.innerHTML = ''; return; }
   const now = normMin(nowMin()); const all = entries();
   const head = (title, meta, id) => '<section class="slot"' + (id ? ' id="' + id + '"' : '') + '><div class="slot-h"><h3>' + title + '</h3><span class="slot-meta">' + meta + '</span></div><div class="items">';
-  const doneOf = list => list.filter(e => countOf(e.key, rec) >= e.target).length;
+  const isDone = e => countOf(e.key, rec) >= e.target;
+  const doneOf = list => list.filter(isDone).length;
   let h = '';
   const pItems = state.items.filter(it => it.prayers.length);
   if(pItems.length){
-    const pe = all.filter(e => e.prayer);
-    h += head('بعد الأذان', 'حسب توقيت ' + currentCity().name + '، ' + n(doneOf(pe)) + ' من ' + n(pe.length), 'prayerSec')
-      + pItems.map(it => prayerCard(it, all.filter(e => e.item === it), rec, now)).join('') + '</div></section>';
+    const pe = all.filter(e => e.prayer), live = [], fin = [], finIt = [];
+    for(const it of pItems){
+      const es = all.filter(e => e.item === it), card = prayerCard(it, es, rec, now);
+      if(es.every(isDone)){ fin.push(card); finIt.push(it); } else live.push(card);
+    }
+    h += head('بعد الأذان', 'حسب توقيت ' + currentCity().name + '، ' + n(doneOf(pe)) + ' من ' + n(pe.length), 'prayerSec') + live.join('') + foldRow('prayer', finIt, fin) + '</div></section>';
   }
-  const timed = all.filter(e => !e.prayer && e.time).sort((a, b) => timeKey(a) - timeKey(b));
-  if(timed.length) h += head('بوقت محدد', n(doneOf(timed)) + ' من ' + n(timed.length), 'timedSec') + timed.map(e => itemCard(e, rec, now)).join('') + '</div></section>';
-  const free = all.filter(e => !e.time);
-  if(free.length) h += head('في أي وقت خلال اليوم', n(doneOf(free)) + ' من ' + n(free.length), 'freeSec') + free.map(e => itemCard(e, rec, now)).join('') + '</div></section>';
+  const section = (title, list, id, sec) => {
+    if(!list.length) return '';
+    return head(title, n(doneOf(list)) + ' من ' + n(list.length), id) + list.filter(e => !isDone(e)).map(e => itemCard(e, rec, now)).join('')
+      + foldRow(sec, list.filter(isDone).map(e => e.item), list.filter(isDone).map(e => itemCard(e, rec, now))) + '</div></section>';
+  };
+  h += section('بوقت محدد', all.filter(e => !e.prayer && e.time).sort((a, b) => timeKey(a) - timeKey(b)), 'timedSec', 'timed');
+  h += section('في أي وقت خلال اليوم', all.filter(e => !e.time), 'freeSec', 'free');
   host.innerHTML = h;
 }
 function itemCard(e, rec, now){
@@ -1929,6 +2058,14 @@ function prayersPhrase(it){
 function prayerCard(it, es, rec, now){
   const st = e => stateOf(e, rec, now);
   const nowE = es.find(e => st(e) === 'now'); const missN = es.filter(e => st(e) === 'missed').length;
+  const waiting = !nowE && !missN && es.some(e => st(e) !== 'done');
+  if(waiting && !prOpen[it.id]){
+    const next = es.find(e => st(e) === 'up'), doneN0 = es.filter(e => st(e) === 'done').length, name = it.tag || it.text;
+    return '<div class="item pr-item is-slim"><button type="button" class="pr-slim" data-act="pr-open" data-it="' + it.id + '" aria-label="' + escapeHtml(name) + '، ' + n(doneN0) + ' من ' + n(es.length)
+      + (next ? '، التالي بعد أذان ' + next.prayer.name : '') + '"><span class="slim-t">' + escapeHtml(name) + '</span>'
+      + '<span class="slim-dots" aria-hidden="true">' + es.map(e => '<i class="sd sd--' + st(e) + '"></i>').join('') + '</span>'
+      + (next ? '<span class="slim-next">' + icon('mosque', 'ico ico-xs') + next.prayer.name + ' ' + fmtTime(next.time) + '</span>' : '') + '</button></div>';
+  }
   const open = nowE || es.find(e => st(e) === 'missed') || es.find(e => st(e) !== 'done') || es[es.length - 1];
   const doneN = es.filter(e => st(e) === 'done').length;
   const tag = doneN === es.length ? '<span class="tag tag-done">تم</span>' : (nowE ? '<span class="tag tag-due">حان وقته</span>' : (missN ? '<span class="tag tag-miss">فاتك ' + (missN === 1 ? 'مرة' : n(missN)) + '</span>' : ''));
@@ -1952,11 +2089,10 @@ function renderProgress(){
   const prevNeed = MATERIALS.filter(m => m.need <= maxDone).pop().need;
   const h = [];
   h.push('<h2 class="view-h">إنجازاتي</h2>');
-  let sub;
-  if(st.todayDone) sub = 'أتممت ورد اليوم';
-  else if(state.items.length) sub = 'أتمم ورد اليوم ليصبح العدد ' + n(st.streak + 1);
-  else sub = 'أضف أذكارك لتبدأ';
-  h.push('<div class="card"><div class="ach-hero"><div class="big-num">' + n(st.streak) + '</div><div><div class="lbl">أيام المداومة المتتالية</div><div class="muted small">' + sub + '، وأطول سلسلة ' + n(bestStreak()) + '</div></div></div>'
+  const rule = STREAK_RULES.find(r => r.v === state.settings.streakMin) || STREAK_RULES[1];
+  const sub = st.todayDone ? 'احتُسب اليوم' : streakNeed();
+  h.push('<div class="card"><div class="ach-hero"><div class="big-num">' + n(st.streak) + '</div><div><div class="lbl">أيام المداومة المتتالية</div><div class="muted small">' + sub + '، وأطول سلسلة ' + n(bestStreak()) + '</div>'
+    + '<button type="button" class="st-link" data-act="streak">يُحسب اليوم عند: ' + rule.name + '</button></div></div>'
     + '<p class="hadith">«أحب الأعمال إلى الله أدومها وإن قل»<cite>متفق عليه</cite></p></div>');
   h.push('<div class="sec"><div class="stats">'
     + '<div class="stat"><b>' + n(state.stats.lifetime || 0) + '</b><span>مجموع التسبيحات</span></div>'
@@ -1998,6 +2134,7 @@ function renderSettings(){
     + '<span class="snd-ic">' + icon(x.id === s.soundStyle ? 'check' : 'vol', 'ico ico-sm') + '</span><span class="snd-t"><b>' + x.name + '</b><span>' + x.desc + '</span></span></button>').join('');
   setSeg('#setDigits', s.digits);
   setSeg('#setTheme', s.theme);
+  renderBackupLast();
   $('#setDayStart').value = String(s.dayStart);
   $('#hapticStatus').textContent = ('vibrate' in navigator) ? 'مدعوم على هذا الجهاز'
     : (isIOS ? 'الآيفون يقيّد الاهتزاز في صفحات الويب، ونجرّب بديلًا خفيفًا قد لا يعمل في كل إصدار' : 'قد لا يدعم هذا الجهاز الاهتزاز');
@@ -2132,6 +2269,83 @@ function deleteItem(){
   afterItemsChanged(); closeEditor(); toast('حُذف الذكر من وردك');
 }
 function afterItemsChanged(){ refreshToday(); checkUnlocks(); markDirty(); renderAll(); }
+
+/* ---------- المداومة: the sheet behind the chip ---------- */
+function renderStreakSheet(){
+  const st = streakInfo(), k0 = todayKey(), best = bestStreak();
+  $('#stNum').textContent = n(st.streak);
+  $('#stBest').textContent = best ? 'أطول سلسلة: ' + daysPhrase(best) : 'ابدأ سلسلتك اليوم';
+  const cells = [];
+  for(let i = 6; i >= 0; i--){
+    const k = addDays(k0, -i), ok = dayCounts(state.days[k]);
+    cells.push('<span class="st-day' + (ok ? ' is-on' : '') + (i === 0 ? ' is-today' : '') + '"><i>' + (ok ? icon('check', 'ico ico-xs') : '') + '</i><b>' + WD[keyToDate(k).getDay()] + '</b></span>');
+  }
+  $('#stWeek').innerHTML = cells.join('');
+  const t = $('#stToday');
+  t.textContent = st.todayDone ? 'احتُسب اليوم، تقبّل الله منك' : (st.streak ? 'سلسلتك ' + daysPhrase(st.streak) + '. ' : '') + streakNeed();
+  t.classList.toggle('is-ok', st.todayDone);
+  setSeg('#stRule', state.settings.streakMin);
+}
+function openStreak(){
+  renderStreakSheet(); $('#streakSheet').hidden = false; document.body.classList.add('locked');
+  setTimeout(() => { try{ $('#stClose').focus({preventScroll:true}); }catch(e){} }, 40);
+}
+function closeStreak(){ const s = $('#streakSheet'); if(s.hidden) return; s.hidden = true; document.body.classList.remove('locked'); }
+
+/* ---------- النسخة الاحتياطية: a backup file, and a nudge when the last one is old ---------- */
+const BACKUP_KEY = 'subha.backupAt', BACKUP_SNOOZE = 'subha.backupSnooze';
+function lsNum(k){ try{ return +localStorage.getItem(k) || 0; }catch(e){ return 0; } }
+function backupAgo(){
+  const at = lsNum(BACKUP_KEY); if(!at) return '';
+  const d = Math.floor((Date.now() - at) / 864e5);
+  return d < 1 ? 'اليوم' : (d === 1 ? 'أمس' : 'قبل ' + daysPhrase(d));
+}
+function renderBackupNote(){
+  const note = $('#backupNote'); if(!note) return;
+  const at = lsNum(BACKUP_KEY), days = Object.keys(state.days).length;
+  const due = state.items.length && days >= 7 && Date.now() - at > 30 * 864e5 && Date.now() > lsNum(BACKUP_SNOOZE);
+  note.hidden = !due;
+  if(due) $('#backupNoteTxt').textContent = at ? 'آخر نسخة حفظتها ' + backupAgo() + '، وبياناتك على هذا الجوال فقط' : 'أذكارك وسجلك محفوظة على هذا الجوال فقط، احفظ نسخة في ملفاتك';
+}
+function renderBackupLast(){ const el = $('#backupLast'); if(el){ const a = backupAgo(); el.textContent = a ? 'آخر نسخة: ' + a : 'لم تحفظ نسخة بعد'; } }
+function backupDone(){
+  try{ localStorage.setItem(BACKUP_KEY, String(Date.now())); }catch(e){}
+  renderBackupLast(); renderBackupNote();
+}
+function backupSave(){
+  const txt = JSON.stringify({app:'subha', v:3, at:new Date().toISOString(), state});
+  const name = 'subha-backup-' + todayKey() + '.json';
+  let file = null;
+  try{ file = new File([txt], name, {type:'application/json'}); }catch(e){}
+  const download = () => {
+    try{
+      const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([txt], {type:'application/json'})); a.download = name;
+      document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
+      backupDone(); toast('حُفظت النسخة في ملفاتك: ' + name, 3600);
+    }catch(e){ toast('تعذّر حفظ الملف هنا. استخدم «نسخ البيانات نصًا»', 4200); }
+  };
+  if(file && navigator.canShare && navigator.canShare({files:[file]})){
+    navigator.share({files:[file], title:'نسخة سُبحة'}).then(() => { backupDone(); toast('حُفظت النسخة، اخترها من «استرجاع من ملف» متى احتجت', 3600); },
+      err => { if(!(err && err.name === 'AbortError')) download(); });
+  } else download();
+}
+function backupRead(file){
+  if(!file) return;
+  const r = new FileReader();
+  r.onload = () => {
+    let parsed = null; try{ parsed = JSON.parse(String(r.result || '')); }catch(e){}
+    const inc = parsed && (parsed.state || parsed);
+    if(!inc || !Array.isArray(inc.items)){ toast('هذا الملف ليس نسخة من بيانات سُبحة', 4200); return; }
+    openImport(); const box = $('#backupBox'); box.value = String(r.result); box.readOnly = true;
+    const when = parsed.at ? new Date(parsed.at) : null;
+    const err = $('#importErr'); err.hidden = false;
+    err.textContent = 'نسخة ' + (when && !isNaN(when) ? 'بتاريخ ' + digits(ymd(when)) + ' ' : '') + 'فيها ' + dhikrPhrase(inc.items.length) + '. اضغط «استيراد واستبدال» لتأكيدها.';
+    err.classList.add('is-info');
+    setTimeout(() => { const a = $('#importActions'); if(a) a.scrollIntoView({block:'center', behavior:'smooth'}); }, 60);
+  };
+  r.onerror = () => toast('تعذّرت قراءة الملف');
+  r.readAsText(file, 'utf-8');
+}
 
 /* ---------- bead drawing ---------- */
 function themeColors(){
@@ -3586,6 +3800,11 @@ function wire(){
     }
     else if(d.qt !== undefined){ $('#edText').value = d.qt; edSuggest(); renderEdChips(); }
     else if(d.qc !== undefined){ $('#edCount').value = digits(d.qc); renderEdChips(); }
+    else if(d.act === 'streak') openStreak();
+    else if(d.act === 'fold'){ foldOpen[d.sec] = !foldOpen[d.sec]; renderList(state.days[todayKey()]); }
+    else if(d.act === 'pr-open'){ prOpen[d.it] = true; renderList(state.days[todayKey()]); }
+    else if(d.act === 'backup-save') backupSave();
+    else if(d.act === 'backup-later'){ try{ localStorage.setItem(BACKUP_SNOOZE, String(Date.now() + 7 * 864e5)); }catch(err){} renderBackupNote(); }
     else if(d.act === 'add') openEditor(null);
     else if(d.act === 'free'){ ensureAudio(); openCounter(null, true); }
     else if(d.act === 'to-missed') setTab('missed');
@@ -3742,6 +3961,19 @@ function wire(){
     }catch(err){ fallback(); }
   });
   $('#importOpen').addEventListener('click', openImport);
+  $('#backupSave').addEventListener('click', backupSave);
+  $('#backupFile').addEventListener('change', e => { backupRead(e.target.files && e.target.files[0]); e.target.value = ''; });
+  /* the streak sheet */
+  $('#stClose').addEventListener('click', closeStreak);
+  $('#streakSheet').addEventListener('click', e => { if(e.target === e.currentTarget) closeStreak(); });
+  $('#stMore').addEventListener('click', () => { closeStreak(); setTab('progress'); });
+  $('#stRule').addEventListener('click', e => {
+    const b = e.target.closest('button'); if(!b) return;
+    state.settings.streakMin = b.dataset.v; markDirty();
+    checkUnlocks().badges.forEach(x => toast('وسام جديد: ' + x.name));
+    renderStreakSheet(); renderTab();
+  });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape' && !$('#streakSheet').hidden) closeStreak(); });
   $('#importCancel').addEventListener('click', closeImport);
   $('#importDo').addEventListener('click', e => {
     const err = $('#importErr'); err.hidden = true;
@@ -3799,7 +4031,7 @@ function wire(){
 
 function openImport(){
   const box = $('#backupBox'); box.hidden = false; box.readOnly = false; box.value = '';
-  $('#importActions').hidden = false; $('#importErr').hidden = true;
+  $('#importActions').hidden = false; $('#importErr').hidden = true; $('#importErr').classList.remove('is-info');
   try{ box.focus(); }catch(e){}
 }
 function closeImport(){ $('#backupBox').hidden = true; $('#importActions').hidden = true; $('#importErr').hidden = true; }
@@ -3865,7 +4097,7 @@ init();
   /* not while counting, editing, typing, or with a reminder on screen */
   function quiet(){
     if(document.hidden) return false;
-    var ids = ['counter', 'editor', 'remind', 'dayDone', 'az-sheet'];
+    var ids = ['counter', 'editor', 'remind', 'dayDone', 'az-sheet', 'streakSheet'];
     for(var i = 0; i < ids.length; i++){ var el = document.getElementById(ids[i]); if(el && !el.hidden) return false; }
     var a = document.activeElement;
     return !(a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName));
