@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>سُبحة</title>
-<meta name="subha-version" content="20261021204634">
+<meta name="subha-version" content="20261021223938">
 <meta name="description" content="ورد يومي للتسبيح بأعداد وأوقات ومواقيت الأذان">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#0C1618">
@@ -700,6 +700,7 @@ textarea.field.plain{font-family:var(--font-ui);font-size:15px;min-height:64px}
 .st-rule{display:grid;gap:8px;justify-items:center;width:100%;padding-top:14px;border-top:1px solid var(--line);margin-top:6px}
 .st-rule b{font-size:14px}
 .st-rule .seg{background:var(--surface-2)}
+.st-rule-sub{font-size:12.5px;color:var(--ink-2);margin-top:-2px}
 .st-hadith{margin:2px 0 4px;font-size:14px}
 .st-link{display:inline-block;margin-top:8px;font-size:13px;font-weight:600;color:var(--accent);padding:0 0 1px;border-bottom:1px solid currentColor}
 
@@ -783,6 +784,88 @@ textarea.field.plain{font-family:var(--font-ui);font-size:15px;min-height:64px}
 .rd-prev,.rd-next{flex:none;min-height:44px;padding:0 16px;border-radius:14px;font-size:15px;font-weight:600;display:inline-flex;align-items:center;gap:6px}
 .rd-prev:disabled{opacity:.4}
 .rd-next.is-finish{background:var(--done);color:#fff}
+
+/* ---------- يومك: the day as one line, a block for each prayer, then «في أي وقت» ---------- */
+.tl{display:grid}
+.tl-b{position:relative}
+.tl-b:not(:last-child)::before{content:"";position:absolute;inset-inline-start:15px;top:30px;bottom:-30px;width:2px;border-radius:2px;background:var(--line)}
+.tl-b--done:not(:last-child)::before{background:var(--done);opacity:.55}
+.tl-h{position:relative;display:flex;align-items:center;gap:10px;width:100%;min-height:60px;padding:8px 0;text-align:start;-webkit-tap-highlight-color:transparent}
+.tl-dot{position:relative;z-index:1;flex:none;width:32px;height:32px;display:grid;place-items:center}
+.tl-dot i{width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--ink-2);opacity:.55;display:grid;place-items:center;box-sizing:border-box}
+.tl-b--done .tl-dot i{width:22px;height:22px;background:var(--done);border-color:var(--done);color:var(--surface);opacity:1}
+.tl-b--done .tl-dot .ico{width:13px;height:13px;stroke-width:2.6}
+.tl-b--now .tl-dot i{width:16px;height:16px;background:var(--accent);border-color:var(--accent);opacity:1;box-shadow:0 0 0 6px var(--accent-soft)}
+.tl-b--missed .tl-dot i{background:var(--miss);border-color:var(--miss);opacity:1}
+.tl-b--due .tl-dot i{background:var(--accent-soft);border-color:var(--accent);opacity:1}
+.tl-b--free .tl-dot i{border-style:dashed}
+.tl-b--free.tl-b--done .tl-dot i{border-style:solid}
+.tl-t{flex:1;min-width:0;display:grid;gap:1px}
+.tl-tt{display:flex;align-items:baseline;gap:8px;min-width:0}
+.tl-tt b{font-family:var(--font-display);font-size:18px;font-weight:600;white-space:nowrap}
+.tl-time{font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tl-sub{display:block;font-size:12.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-b--missed .tl-sub{color:var(--miss)}
+.tl-chip{flex:none;display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;background:var(--surface-2);color:var(--ink-2);font-variant-numeric:tabular-nums}
+.tl-chip.now{background:var(--accent);color:var(--on-accent)}
+.tl-chip.miss{background:var(--miss-soft);color:var(--miss)}
+.tl-chip.ok{background:var(--done-soft);color:var(--done)}
+.tl-chip.due{background:var(--accent-soft);color:var(--ink)}
+.tl-chip .ico{width:12px;height:12px;stroke-width:2.4}
+.tl-chev{flex:none;color:var(--ink-2);transition:transform .2s ease}
+.tl-h[aria-expanded="true"] .tl-chev{transform:rotate(180deg)}
+.tl-meta{flex:none;font-size:13px;color:var(--ink-2)}
+.tl-rows{margin:0 0 12px;margin-inline-start:42px;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.tl-b--now .tl-rows{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.tl-in{margin:0 0 12px;margin-inline-start:42px;display:grid;gap:10px}
+.tl-in .tl-rows{margin:0}
+.tl-r{display:flex;align-items:stretch}
+.tl-r + .tl-r{border-top:1px solid var(--line)}
+.tl-main{flex:1;min-width:0;display:flex;align-items:center;gap:12px;min-height:62px;padding:10px 14px;text-align:start}
+.tl-txt{flex:1;min-width:0;display:grid;gap:2px}
+.tl-txt b{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-txt span{font-size:12.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tl-r--now .tl-txt span{color:var(--accent);font-weight:600}
+.tl-r--missed .tl-txt span{color:var(--miss);font-weight:600}
+.tl-r--done .tl-txt b{color:var(--ink-2)}
+.tl-n{flex:none;font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.tl-n b{color:var(--ink);font-weight:700;font-size:14px}
+.tl-main{padding-inline-end:4px}
+.tl-edit{flex:none;width:44px;display:grid;place-items:center;color:var(--ink-2)}
+.tl-edit .ico{opacity:.7}
+.tl-ring{position:relative;flex:none;width:30px;height:30px;display:grid;place-items:center;color:var(--ink-2)}
+.tl-ring svg{position:absolute;inset:0;width:100%;height:100%}
+.tl-ring circle{fill:none;stroke-width:3}
+.tr-bg{stroke:var(--line)}
+.tr-fg{stroke:var(--accent);stroke-linecap:round}
+.tl-ring.is-now .tr-bg{stroke:var(--accent-soft)}
+.tl-ring.is-now{color:var(--accent)}
+.tl-ring.is-missed .tr-bg{stroke:var(--miss-soft)}
+.tl-ring.is-missed .tr-fg{stroke:var(--miss)}
+.tl-ring.is-missed{color:var(--miss)}
+.tl-ring.is-done{border-radius:50%;background:var(--done);color:var(--surface)}
+.tl-ring.is-done .ico{width:14px;height:14px;stroke-width:2.6}
+.tl-ring .ico{position:relative;width:13px;height:13px}
+
+/* ---------- التذكيرات: what arrives, and today's list ---------- */
+.rem-opts{margin:0 0 10px}
+.rem-opts .row-col{gap:10px}
+.rem-today-btn{width:100%;text-align:start;justify-content:flex-start;gap:8px}
+.rem-today-btn b{flex:1}
+.rem-today-n{font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.rem-today-btn .ico{width:14px;height:14px;color:var(--ink-2);transition:transform .2s ease}
+.rem-today-btn[aria-expanded="true"] .ico{transform:rotate(180deg)}
+.rem-today{border-top:1px solid var(--line)}
+.rem-li{box-sizing:border-box;display:flex;align-items:flex-start;gap:12px;width:100%;padding:11px 16px;text-align:start;border-top:1px solid var(--line)}
+.rem-li:first-child{border-top:0}
+.rem-at{flex:none;min-width:58px;font-weight:700;font-size:13.5px;color:var(--accent);font-variant-numeric:tabular-nums;padding-top:1px}
+.rem-tx{flex:1;min-width:0;display:grid;gap:2px}
+.rem-tx b{font-size:14px;font-weight:600}
+.rem-tx span{font-size:12.5px;color:var(--ink-2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rem-li .ico{flex:none;color:var(--done);margin-top:2px}
+.rem-li.is-past .rem-at,.rem-li.is-past .rem-tx b{color:var(--ink-2)}
+.rem-li.is-past{opacity:.75}
+.rem-none{margin:0;padding:12px 16px;font-size:13px;color:var(--ink-2)}
 </style>
 <style>
 /* standalone web app: clear the status bar and home indicator, keep the status bar legible in both themes */
@@ -900,6 +983,24 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
             <button class="btn btn-soft btn-sm" id="pushTest" hidden>إرسال تجربة</button>
             <button class="btn btn-line btn-sm" id="pushOff" hidden>إيقاف</button>
           </div>
+        </div>
+        <div class="rows rem-opts" id="remOpts" hidden>
+          <div class="row">
+            <div><b>أذكار الأذان والأوقات</b><div class="muted small">في وقت كل ذكر، وبعد كل أذان أو صلاة</div></div>
+            <label class="sw"><input type="checkbox" id="remTasbeeh" aria-label="تذكير أذكار الأذان والأوقات"><span></span></label>
+          </div>
+          <div class="row row-col" id="remBqRow">
+            <div><b>ورد سورة البقرة</b><div class="muted small" id="remBqHint"></div></div>
+            <div class="seg seg-wide seg-3" id="remBq"><button type="button" data-v="off">بدون</button><button type="button" data-v="b">قبل الصلاة</button><button type="button" data-v="ba">قبل وبعد</button></div>
+          </div>
+          <div class="row">
+            <div><b>اسم الوقت</b><div class="muted small">حين يتجدد الاسم كل ثماني ساعات، واسم الليل يصلك بعد صلاة الفجر</div></div>
+            <label class="sw"><input type="checkbox" id="remName" aria-label="تذكير اسم الوقت"><span></span></label>
+          </div>
+          <button type="button" class="row rem-today-btn" id="remTodayBtn" aria-expanded="false" aria-controls="remToday">
+            <b>تذكيرات اليوم</b><span class="rem-today-n" id="remTodayN"></span><i data-ico="chev"></i>
+          </button>
+          <div class="rem-today" id="remToday" hidden></div>
         </div>
         <div class="rows" id="remRows"></div>
         <div class="card info" id="copyCard">
@@ -1249,6 +1350,7 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
       <p class="st-today" id="stToday"></p>
       <div class="st-rule"><b>متى يُحسب اليوم؟</b>
         <div class="seg" id="stRule"><button type="button" data-v="any">أي ذكر</button><button type="button" data-v="half">نصف الورد</button><button type="button" data-v="full">الورد كامل</button></div>
+        <span class="st-rule-sub">والأيام المحسوبة تفتح لك مسابح جديدة</span>
       </div>
       <p class="hadith st-hadith">«أحب الأعمال إلى الله أدومها وإن قل»<cite>متفق عليه</cite></p>
       <button class="btn btn-soft btn-block" id="stMore" type="button">إنجازاتي</button>
@@ -1434,7 +1536,7 @@ function sampleState(){
     badges:{},
     asma:{done:[], seen:{}},
     material:'wood',
-    settings:{haptics:true, strength:'medium', sound:true, soundStyle:'beads', wake:true, digits:'arab', dayStart:3, city:'riyadh', theme:'auto', streakMin:'half'}
+    settings:{haptics:true, strength:'medium', sound:true, soundStyle:'beads', wake:true, digits:'arab', dayStart:3, city:'riyadh', theme:'auto', streakMin:'half', rem:{tasbeeh:true, bq:'ba', name:false}}
   };
 }
 
@@ -1487,6 +1589,9 @@ function normalize(s){
   if(!SOUNDS.some(x => x.id === out.settings.soundStyle)) out.settings.soundStyle = 'beads';
   if(['auto', 'light', 'dark'].indexOf(out.settings.theme) < 0) out.settings.theme = 'auto';
   if(['any', 'half', 'full'].indexOf(out.settings.streakMin) < 0) out.settings.streakMin = 'half';
+  /* which reminders arrive: the timed and after-adhan adhkar, the al-Baqarah portions (before and after, before only, none), اسم الوقت */
+  const rm = (s.settings && s.settings.rem && typeof s.settings.rem === 'object') ? s.settings.rem : {};
+  out.settings.rem = {tasbeeh: rm.tasbeeh !== false, bq: ['ba', 'b', 'off'].indexOf(rm.bq) >= 0 ? rm.bq : 'ba', name: rm.name === true};
   return out;
 }
 /* the names: those marked «تأمّلته» (done), and which of each day's three names were opened that day (seen) */
@@ -1820,6 +1925,15 @@ function streakNeed(){
 }
 function bestStreak(){ return Math.max(state.stats.best || 0, streakInfo().streak); }
 function doneCount(){ return (state.stats.archivedDone || 0) + Object.values(state.days).filter(d => d && d.d).length; }
+/* the beads open with the days that count (the same rule as المداومة), and once open they stay open */
+function countedDays(){ return (state.stats.archivedCounted || 0) + Object.values(state.days).filter(dayCounts).length; }
+function unlockedUpTo(){ return Math.max(state.stats.maxDone || 0, state.stats.maxCounted || 0); }
+function countedPhrase(k){
+  if(k === 1) return 'يوم واحد محسوب';
+  if(k === 2) return 'يومان محسوبان';
+  if(k >= 3 && k <= 10) return n(k) + ' أيام محسوبة';
+  return n(k) + ' يومًا محسوبًا';
+}
 function maxDayTotal(){ let m = 0; for(const d of Object.values(state.days)) if(d && d.t > m) m = d.t; return m; }
 function currentMat(){ return MATERIALS.find(m => m.id === state.material) || MATERIALS[0]; }
 function matStyle(m){ return '--l:' + m.light + ';--b:' + m.base + ';--d:' + m.dark; }
@@ -1868,12 +1982,15 @@ function setPages(key, val, day){
   return {applied: val - cur, dayJustDone: !r.wasDone && r.nowDone, day:k};
 }
 function checkUnlocks(){
-  const out = {badges:[], material:null};
+  const out = {badges:[], material:null, materials:[]};
   for(const b of BADGES){ if(!state.badges[b.id] && b.test()){ state.badges[b.id] = todayKey(); out.badges.push(b); } }
-  const dc = doneCount(); const prev = state.stats.maxDone || 0;
-  if(dc > prev){
-    state.stats.maxDone = dc;
-    const m = MATERIALS.filter(x => x.need > prev && x.need <= dc).pop();
+  const prev = unlockedUpTo(), dc = doneCount(), cc = countedDays();
+  if(dc > (state.stats.maxDone || 0)){ state.stats.maxDone = dc; markDirty(); }
+  if(cc > (state.stats.maxCounted || 0)){ state.stats.maxCounted = cc; markDirty(); }
+  const up = unlockedUpTo();
+  if(up > prev){
+    out.materials = MATERIALS.filter(x => x.need > prev && x.need <= up);
+    const m = out.materials[out.materials.length - 1];
     if(m){ out.material = m; state.material = m.id; }
   }
   if(out.badges.length || out.material) markDirty();
@@ -1884,7 +2001,11 @@ function prune(){
   let changed = false;
   for(const k of Object.keys(state.days)){
     const d = state.days[k];
-    if(k < cutoff){ if(d && d.d) state.stats.archivedDone = (state.stats.archivedDone || 0) + 1; delete state.days[k]; changed = true; continue; }
+    if(k < cutoff){
+      if(d && d.d) state.stats.archivedDone = (state.stats.archivedDone || 0) + 1;
+      if(dayCounts(d)) state.stats.archivedCounted = (state.stats.archivedCounted || 0) + 1;
+      delete state.days[k]; changed = true; continue;
+    }
     if(!d) continue;
     if(k < snapCut && (d.g || d.m || d.mc)){ delete d.g; delete d.m; delete d.mc; changed = true; }
     if(k < countCut && d.c){ delete d.c; changed = true; }
@@ -1936,7 +2057,7 @@ function mergeStates(a, b){
     const cur = out.days[k];
     if(d && (!cur || (d.t || 0) > (cur.t || 0))) out.days[k] = cloneJSON(d);
   }
-  for(const f of ['lifetime', 'best', 'maxDone', 'archivedDone']) out.stats[f] = Math.max(a.stats[f] || 0, b.stats[f] || 0);
+  for(const f of ['lifetime', 'best', 'maxDone', 'archivedDone', 'maxCounted', 'archivedCounted']) out.stats[f] = Math.max(a.stats[f] || 0, b.stats[f] || 0);
   for(const src of [a.stats.perItem || {}, b.stats.perItem || {}]) for(const [k, v] of Object.entries(src)) out.stats.perItem[k] = Math.max(out.stats.perItem[k] || 0, v);
   out.badges = Object.assign({}, older.badges, newer.badges);
   const sa = (a.asma || {}).seen || {}, sb = (b.asma || {}).seen || {}, seen = {};
@@ -2214,6 +2335,7 @@ function bqGrid(es, rec, now){
 function renderList(rec){
   const host = $('#list');
   if(!state.items.length){ host.innerHTML = ''; return; }
+  if(TIMELINE){ renderTimeline(rec); return; }
   const now = normMin(nowMin()); const all = entries();
   const head = (title, meta, id) => '<section class="slot"' + (id ? ' id="' + id + '"' : '') + '><div class="slot-h"><h3>' + title + '</h3><span class="slot-meta">' + meta + '</span></div><div class="items">';
   const isDone = e => countOf(e.key, rec) >= e.target;
@@ -2237,6 +2359,99 @@ function renderList(rec){
   h += section('بوقت محدد', all.filter(e => !e.prayer && e.time).sort((a, b) => timeKey(a) - timeKey(b)), 'timedSec', 'timed');
   h += section('في أي وقت خلال اليوم', all.filter(e => !e.time), 'freeSec', 'free');
   host.innerHTML = h;
+}
+/* ---------- the day as one line: a block for each prayer, in order, then «في أي وقت» ----------
+   Each prayer's block holds what belongs to it in the order it comes: the al-Baqarah portion before it, the adhkar
+   after its adhan or after the prayer, the portion after it, and any dhikr set for a time in that part of the day.
+   The block whose time it is is open; the rest are one line (naming what they hold, or what was missed), and a tap
+   opens them.
+   (TIMELINE = false brings back the earlier sections.) */
+const TIMELINE = true;
+let tlOpen = {};
+function wirdPhrase(k){ if(k === 1) return 'ورد واحد'; if(k === 2) return 'وردان'; return n(k) + (k <= 10 ? ' أوراد' : ' وردًا'); }
+function tlBlocks(all, rec, now){
+  const pt = prayerTimesFor(todayKey()), B = state.settings.dayStart * 60;
+  const bs = PRAYERS.map((p, i) => ({id:p.id, prayer:p, adhan:pt[p.id], start: i ? normMin(toMin(pt[p.id])) - BQ_EARLY : B, list:[]}));
+  bs.forEach((b, i) => { b.end = i < bs.length - 1 ? bs[i + 1].start : B + 1440; });
+  for(const e of all){
+    if(!e.time) continue;
+    const b = e.prayer ? bs.find(x => x.id === e.prayer.id) : (bs.slice().reverse().find(x => timeKey(e) >= x.start) || bs[0]);
+    b.list.push(e);
+  }
+  const rank = e => e.quran ? (e.quran.w === 'b' ? 0 : 2) : 1;
+  const out = bs.filter(b => b.list.length);
+  for(const b of out){
+    b.list.sort((x, y) => timeKey(x) - timeKey(y) || rank(x) - rank(y));
+    const ss = b.list.map(e => stateOf(e, rec, now)), cnt = v => ss.filter(x => x === v).length;
+    const due = b.list.filter((e, i) => ss[i] === 'now');
+    b.done = cnt('done'); b.missed = cnt('missed'); b.due = due.length;
+    /* a dhikr set for a time stays due until the day ends: in a block whose part of the day has passed it waits on one
+       line («باقي»), so only the block of the moment opens */
+    b.kind = due.length && ((now >= b.start && now < b.end) || due.some(e => e.prayer)) ? 'now'
+      : b.done === ss.length ? 'done' : b.missed ? 'missed' : due.length ? 'due' : 'up';
+  }
+  return out;
+}
+function tlRing(e, s, c){
+  const C = 2 * Math.PI * 12, p = Math.min(1, c / e.target);
+  if(s === 'done') return '<span class="tl-ring is-done" aria-hidden="true">' + icon('check', 'ico ico-xs') + '</span>';
+  return '<span class="tl-ring is-' + s + (e.quran ? ' q' : '') + '" aria-hidden="true"><svg viewBox="0 0 30 30"><circle class="tr-bg" cx="15" cy="15" r="12"/>'
+    + (p > 0 ? '<circle class="tr-fg" cx="15" cy="15" r="12" stroke-dasharray="' + (p * C).toFixed(1) + ' ' + C.toFixed(1) + '" transform="rotate(-90 15 15)"/>' : '') + '</svg>'
+    + (e.quran ? icon('book', 'ico ico-xs') : '') + '</span>';
+}
+function tlRow(e, rec, now){
+  const s = stateOf(e, rec, now), c = Math.min(countOf(e.key, rec), e.target), it = e.item;
+  /* the second line says when: the time it starts, «حتى» when its time is now, nothing once it was missed */
+  let name, sub;
+  if(e.quran){ name = 'سورة البقرة، ' + (e.quran.w === 'b' ? 'قبل الصلاة' : 'بعد الصلاة'); sub = 'الصفحات ' + n(e.quran.from) + ' إلى ' + n(e.quran.to); }
+  else if(e.prayer){ name = dname(it); sub = it.delay === 'prayer' ? 'بعد الصلاة' : (it.delay ? 'بعد الأذان بـ' + n(it.delay) + ' د' : 'بعد الأذان'); }
+  else { name = dname(it); sub = e.time ? '' : (it.tag ? it.text : ''); }
+  if(e.time){
+    const at = !e.prayer ? 'الساعة ' + fmtTime(e.time) : s === 'now' ? 'حتى ' + fmtTime(hm(windowEnd(e))) : fmtTime(e.time);
+    if(s === 'missed') sub = 'فاتك' + (sub ? '، ' + sub : '');
+    else sub = sub ? sub + '، ' + at : at;
+  }
+  const cnt = s === 'done' ? n(e.target) : '<b>' + n(c) + '</b>/' + n(e.target);
+  return '<div class="tl-r tl-r--' + s + '"><button type="button" class="tl-main" data-open="' + e.key + '">' + tlRing(e, s, c)
+    + '<span class="tl-txt"><b>' + escapeHtml(name) + '</b>' + (sub ? '<span>' + escapeHtml(sub) + '</span>' : '') + '</span>'
+    + '<span class="tl-n">' + cnt + '</span></button>'
+    + (e.quran ? '<span class="tl-edit" aria-hidden="true"></span>' : '<button type="button" class="tl-edit" data-edit="' + it.id + '" aria-label="تعديل الذكر">' + icon('pencil', 'ico ico-sm') + '</button>') + '</div>';
+}
+function tlBlock(b, rec, now, nextUp){
+  const k = todayKey() + '|' + b.id + '|' + b.kind;
+  const open = k in tlOpen ? tlOpen[k] : b.kind === 'now';
+  let chip = '';
+  if(b.kind === 'now') chip = '<span class="tl-chip now">حان وقته</span>';
+  else if(b.kind === 'missed') chip = '<span class="tl-chip miss">فاتك ' + wirdPhrase(b.missed) + '</span>';
+  else if(b.kind === 'done') chip = '<span class="tl-chip ok">' + icon('check', 'ico ico-xs') + 'تم</span>';
+  else if(b.kind === 'due') chip = '<span class="tl-chip due">باقي ' + wirdPhrase(b.due) + '</span>';
+  else if(b === nextUp){ const t = (b.list.find(e => stateOf(e, rec, now) === 'up') || b.list[0]).time; chip = '<span class="tl-chip" id="tlNext" data-at="' + t + '">' + fmtIn(minsUntil(t)) + '</span>'; }
+  const nameOf = e => e.quran ? (b.kind === 'missed' ? 'سورة البقرة ' + (e.quran.w === 'b' ? 'قبل الصلاة' : 'بعد الصلاة') : 'سورة البقرة') : dname(e.item);
+  const only = {missed:'missed', due:'now'}[b.kind];
+  const names = Array.from(new Set((only ? b.list.filter(e => stateOf(e, rec, now) === only) : b.list).map(nameOf)));
+  return '<section class="tl-b tl-b--' + b.kind + '" id="tl-' + b.id + '">'
+    + '<button type="button" class="tl-h" data-act="tl" data-k="' + k + '" aria-expanded="' + open + '">'
+    + '<span class="tl-dot" aria-hidden="true"><i>' + (b.kind === 'done' ? icon('check', 'ico ico-xs') : '') + '</i></span>'
+    + '<span class="tl-t"><span class="tl-tt"><b>' + b.prayer.name + '</b><span class="tl-time">' + fmtTime(b.adhan) + '</span></span>'
+    + (open ? '' : '<span class="tl-sub">' + (b.kind === 'missed' ? 'فاتك: ' : b.kind === 'due' ? 'باقي: ' : '') + escapeHtml(names.join('، ')) + '</span>') + '</span>'
+    + chip + icon('chev', 'ico ico-xs tl-chev') + '</button>'
+    + (open ? '<div class="tl-rows">' + b.list.map(e => tlRow(e, rec, now)).join('') + '</div>' : '')
+    + '</section>';
+}
+function renderTimeline(rec){
+  const now = normMin(nowMin()), all = entries(), bs = tlBlocks(all, rec, now);
+  const free = all.filter(e => !e.time), isDone = e => countOf(e.key, rec) >= e.target;
+  let h = '<section class="slot tl-slot"><div class="slot-h"><h3>يومك</h3>' + (bs.length ? '<span class="slot-meta">حسب توقيت ' + currentCity().name + '</span>' : '') + '</div><div class="tl">';
+  h += bs.map(b => tlBlock(b, rec, now, bs.find(x => x.kind === 'up'))).join('');
+  if(free.length){
+    const left = free.filter(e => !isDone(e)), fin = free.filter(isDone);
+    h += '<section class="tl-b tl-b--free' + (left.length ? '' : ' tl-b--done') + '" id="tl-free"><div class="tl-h tl-h--static"><span class="tl-dot" aria-hidden="true"><i>' + (left.length ? '' : icon('check', 'ico ico-xs')) + '</i></span>'
+      + '<span class="tl-t"><span class="tl-tt"><b>في أي وقت خلال اليوم</b></span></span><span class="tl-meta">' + n(fin.length) + ' من ' + n(free.length) + '</span></div>'
+      + (left.length ? '<div class="tl-rows">' + left.map(e => tlRow(e, rec, now)).join('') + '</div>' : '')
+      + (fin.length ? '<div class="tl-in">' + foldRow('free', fin.map(e => e.item), ['<div class="tl-rows">' + fin.map(e => tlRow(e, rec, now)).join('') + '</div>']) + '</div>' : '')
+      + '</section>';
+  }
+  $('#list').innerHTML = h + '</div></section>';
 }
 function itemCard(e, rec, now){
   const it = e.item; const c = Math.min(countOf(e.key, rec), e.target); const done = c >= e.target;
@@ -2287,9 +2502,9 @@ function prayerCard(it, es, rec, now){
 
 /* ---------- achievements ---------- */
 function renderProgress(){
-  const st = streakInfo(); const dc = doneCount(); const maxDone = state.stats.maxDone || 0;
-  const cur = currentMat(); const nextM = MATERIALS.find(m => m.need > maxDone);
-  const prevNeed = MATERIALS.filter(m => m.need <= maxDone).pop().need;
+  const st = streakInfo(); const cc = countedDays(); const up = unlockedUpTo();
+  const cur = currentMat(); const nextM = MATERIALS.find(m => m.need > up);
+  const prevNeed = MATERIALS.filter(m => m.need <= up).pop().need;
   const h = [];
   h.push('<h2 class="view-h">إنجازاتي</h2>');
   const rule = STREAK_RULES.find(r => r.v === state.settings.streakMin) || STREAK_RULES[1];
@@ -2299,13 +2514,13 @@ function renderProgress(){
     + '<p class="hadith">«أحب الأعمال إلى الله أدومها وإن قل»<cite>متفق عليه</cite></p></div>');
   h.push('<div class="sec"><div class="stats">'
     + '<div class="stat"><b>' + n(state.stats.lifetime || 0) + '</b><span>مجموع التسبيحات</span></div>'
-    + '<div class="stat"><b>' + n(dc) + '</b><span>أيام أتممت فيها الورد</span></div>'
+    + '<div class="stat"><b>' + n(cc) + '</b><span>أيام محسوبة</span></div>'
     + '<div class="stat"><b>' + n(maxDayTotal()) + '</b><span>أعلى يوم</span></div></div></div>');
-  const nextLine = nextM ? 'باقي ' + daysPhrase(nextM.need - maxDone) + ' من إتمام الورد لفتح ' + nextM.full : 'فتحت كل المسابح، بارك الله فيك';
-  const barW = nextM ? Math.round((maxDone - prevNeed) / (nextM.need - prevNeed) * 100) : 100;
+  const nextLine = nextM ? 'باقي ' + countedPhrase(nextM.need - up) + ' لفتح ' + nextM.full : 'فتحت كل المسابح، بارك الله فيك';
+  const barW = nextM ? Math.round((up - prevNeed) / (nextM.need - prevNeed) * 100) : 100;
   h.push('<div class="sec"><h3>مسبحتك</h3><div class="card level"><span class="swatch" style="' + matStyle(cur) + '"></span><div><b>' + cur.full + '</b><div class="muted small">' + nextLine + '</div><span class="bar"><i style="width:' + barW + '%"></i></span></div></div>'
     + '<div class="mats">' + MATERIALS.map(m => {
-      const un = m.need <= maxDone; const sel = m.id === state.material;
+      const un = m.need <= up; const sel = m.id === state.material;
       const cond = un ? (sel ? 'مختارة' : 'اختر') : icon('lock', 'ico ico-xs') + 'بعد ' + daysPhrase(m.need);
       return '<button class="mat' + (un ? '' : ' locked') + '" data-mat="' + m.id + '" aria-pressed="' + sel + '"><span class="swatch" style="' + matStyle(m) + '"></span><span class="nm">' + m.name + '</span><span class="cond">' + cond + '</span></button>';
     }).join('') + '</div></div>');
@@ -2347,6 +2562,7 @@ function renderSettings(){
   cs.value = s.city;
   renderPrayerTimes();
   renderRemRows();
+  renderRemOpts();
   renderPush();
   setSaveStatus(remote.status);
 }
@@ -2356,7 +2572,7 @@ function renderPrayerTimes(){
 }
 function renderRemRows(){
   const host = $('#remRows');
-  const rows = state.items.filter(it => it.prayers.length).map(it => ({it, when:prayersPhrase(it), n:it.target, sort:-1}))
+  const rows = state.items.filter(it => it.prayers.length && it.kind !== 'baqarah').map(it => ({it, when:prayersPhrase(it), n:it.target, sort:-1}))
     .concat(state.items.filter(it => !it.prayers.length && it.time).map(it => ({it, when:fmtTime(it.time), n:it.target, sort:normMin(toMin(it.time))})))
     .sort((a, b) => a.sort - b.sort);
   if(!rows.length){ host.innerHTML = '<div class="row muted small">لا توجد أذكار مرتبطة بوقت أو بالأذان. افتح أي ذكر واختر «وقت محدد» أو «بعد الأذان».</div>'; return; }
@@ -2367,7 +2583,7 @@ function reminderText(){
   const parts = [];
   for(const it of state.items.filter(x => !x.prayers.length && x.time).sort((a, b) => normMin(toMin(a.time)) - normMin(toMin(b.time))))
     parts.push(dname(it) + ' (' + n(it.target) + ' مرة) الساعة ' + fmtTime(it.time));
-  for(const it of state.items.filter(x => x.prayers.length))
+  for(const it of state.items.filter(x => x.prayers.length && x.kind !== 'baqarah'))
     parts.push(dname(it) + ' (' + n(it.target) + ' مرة) ' + prayersPhrase(it) + ' حسب توقيت ' + currentCity().name);
   if(!parts.length) return '';
   return 'اضبط لي تذكيرات في تطبيق التذكيرات بجوالي لأذكاري: ' + parts.join('، ') + '.';
@@ -2472,7 +2688,7 @@ function deleteItem(){
   state.sample = false;
   afterItemsChanged(); closeEditor(); toast('حُذف الذكر من وردك');
 }
-function afterItemsChanged(){ refreshToday(); checkUnlocks(); markDirty(); renderAll(); }
+function afterItemsChanged(){ refreshToday(); const u = checkUnlocks(); markDirty(); renderAll(); announce(u); }
 
 /* ---------- المداومة: the sheet behind the chip ---------- */
 function renderStreakSheet(){
@@ -2924,7 +3140,7 @@ function doCount(pt){
   renderCounter();
   const unl = checkUnlocks();
   if(doneNow) onItemDone(res, unl);
-  else unl.badges.forEach(b => toast('وسام جديد: ' + b.name));
+  else announce(unl);
 }
 function onItemDone(res, unl){
   C.lockUntil = performance.now() + 900; burst();
@@ -2934,7 +3150,7 @@ function onItemDone(res, unl){
     C.autoT = setTimeout(() => { closeCounter(); showDayDone(unl); }, 1400);
     return;
   }
-  unl.badges.forEach(b => toast('وسام جديد: ' + b.name));
+  announce(unl);
   const cur = entryFor(C.id, C.day);
   const nx = C.qada ? nextMissedAfter(C.id, C.day) : (cur ? queueAfter(cur) : null);
   C.autoT = setTimeout(() => {
@@ -2997,6 +3213,13 @@ function stepParticles(){
 }
 
 /* ---------- day complete, reminders, toasts ---------- */
+/* new badges and beads, said in a toast (the day-complete sheet lists them itself) */
+function announce(unl){
+  if(!unl) return;
+  const ms = unl.materials || [];
+  if(ms.length) toast('فُتحت لك ' + ms.map(m => m.full).join(' و') + (ms.length > 1 ? '، وصارت ' + ms[ms.length - 1].full + ' مسبحتك الآن' : '، وصارت مسبحتك الآن'), 4200);
+  (unl.badges || []).forEach(b => toast('وسام جديد: ' + b.name));
+}
 function showDayDone(unl){
   const st = streakInfo(); const list = [];
   list.push('<div class="unlock">' + icon('chain') + '<span>المداومة: ' + daysPhrase(Math.max(1, st.streak)) + '</span></div>');
@@ -3026,14 +3249,17 @@ function reminderTick(){
     const diff = now - toMin(e.time); if(diff < 0 || diff > 30) continue;
     const fk = k + '|' + e.key; if(fired[fk]) continue;
     fired[fk] = 1;
-    if(countOf(e.key, rec) < e.target) arrived.push(e);
+    if(countOf(e.key, rec) < e.target && remWants(e)) arrived.push(e);
   }
   if(Object.keys(fired).some(key => key.indexOf(k) !== 0)) for(const key of Object.keys(fired)) if(key.indexOf(k) !== 0) delete fired[key];
   try{ localStorage.setItem(FIRED_KEY, JSON.stringify(fired)); }catch(e){}
   flagMissed(); renderBadge();
   if(tab === 'today' && !C.open){
     if(todaySig() !== lastSig) renderToday();
-    else { const f = featured(); const w = $('#featWhen'); if(w && f.kind === 'upcoming') w.textContent = whenLabel(f.entry) + '، ' + fmtIn(minsUntil(f.entry.time)); }
+    else {
+      const f = featured(); const w = $('#featWhen'); if(w && f.kind === 'upcoming') w.textContent = whenLabel(f.entry) + '، ' + fmtIn(minsUntil(f.entry.time));
+      const nx = $('#tlNext'); if(nx) nx.textContent = fmtIn(minsUntil(nx.dataset.at));
+    }
   }
   if(arrived.length) onArrive(arrived);
 }
@@ -3094,7 +3320,11 @@ function pushApi(path, body, keepalive){
     .then(r => r.json().catch(() => ({})).then(data => ({status:r.status, ok:r.ok, data})));
 }
 
-/* the coming reminders; adhkar that fall in the same minute share one notification */
+/* the coming reminders. What arrives follows the choices under «التذكيرات»; reminders a few minutes apart share one
+   notification, and tapping it opens that dhikr or portion. (REM2 = false brings back one notice per exact minute, all
+   of them, opening the home page.) */
+const REM2 = true;
+const REM_MERGE = 5 * 60000;
 function entriesOnDay(k){
   const pt = prayerTimesFor(k); const out = [];
   for(const it of state.items){
@@ -3105,25 +3335,70 @@ function entriesOnDay(k){
   return out;
 }
 function atOf(k, t){ const d = keyToDate(k); d.setHours(0, 0, 0, 0); return d.getTime() + normMin(toMin(t)) * 60000; }
+function remWants(e){
+  if(!REM2) return true;
+  const r = state.settings.rem;
+  if(e.quran) return r.bq === 'ba' || (r.bq === 'b' && e.quran.w === 'b');
+  return r.tasbeeh;
+}
+/* اسم الوقت: one notice as each of the day's three names begins; the night's name waits until after the Fajr prayer */
+function azRemOn(k){
+  const names = azData(); if(!REM2 || !state.settings.rem.name || !names.length) return [];
+  const pt = prayerTimesFor(k), base = keyToDate(k).setHours(0, 0, 0, 0), fajr = toMin(pt.fajr);
+  return azSlotIds(k).map((id, i) => {
+    let m = state.settings.dayStart * 60 + i * AZ_SLOT / 60000; const clock = m % 1440;
+    if(clock >= 22 * 60 || clock < fajr) m = normMin(fajr) + AFTER_PRAYER.fajr;
+    return {at: base + m * 60000, az: names[id - 1], id, day: k};
+  }).filter(x => x.az);
+}
+function remItemsOn(k){
+  const base = keyToDate(k).setHours(0, 0, 0, 0), out = [];
+  for(const e of entriesOnDay(k)) if(remWants(e)) out.push({at: e.tk != null ? base + e.tk * 60000 : atOf(k, e.time), e, day: k});
+  /* at the same minute: the portion before the prayer first, the adhkar, then the portion after it */
+  const rank = x => x.az ? 3 : x.e.quran ? (x.e.quran.w === 'b' ? 0 : 2) : 1;
+  return out.concat(azRemOn(k)).sort((a, b) => a.at - b.at || rank(a) - rank(b));
+}
+function remDone(x, rec){
+  if(x.az) return ((state.asma.seen || {})[x.day] || []).indexOf(x.id) >= 0;
+  return countOf(x.e.key, rec) >= x.e.target;
+}
+function groupRem(items){
+  const out = [];
+  for(const x of items){
+    const g = out[out.length - 1];
+    if(g && x.at - g.at <= (REM2 ? REM_MERGE : 0)) g.list.push(x); else out.push({at: x.at, list: [x]});
+  }
+  return out;
+}
+/* the link a notice opens: its adhkar and portions on its day (the first one not done opens), or the name */
+function remUrl(g){
+  if(!REM2) return './';
+  const es = g.list.filter(y => y.e);
+  return es.length ? './#go=' + es.map(y => encodeURIComponent(y.e.key)).join(',') + '@' + es[0].day : './#n' + g.list[0].id;
+}
 function pushSchedule(){
-  const now = Date.now(), k0 = todayKey(), rec0 = state.days[k0], groups = new Map();
+  const now = Date.now(), k0 = todayKey(), rec0 = state.days[k0], out = [];
   for(let i = 0; i < PUSH_DAYS; i++){
     const k = addDays(k0, i);
-    for(const e of entriesOnDay(k)){
-      const at = e.tk != null ? keyToDate(k).setHours(0, 0, 0, 0) + e.tk * 60000 : atOf(k, e.time);
-      if(at <= now + 5000 || (i === 0 && countOf(e.key, rec0) >= e.target)) continue;   /* past, or already done today */
-      if(!groups.has(at)) groups.set(at, []);
-      groups.get(at).push(e);
-    }
+    const items = remItemsOn(k).filter(x => x.at > now + 5000 && !(i === 0 && remDone(x, rec0)));   /* past, or already done today */
+    for(const g of groupRem(items)) out.push(Object.assign({at: g.at, tag: 'subha-' + g.at, url: remUrl(g)}, pushText(g.list)));
   }
-  return Array.from(groups.keys()).sort((a, b) => a - b).map(at => Object.assign({at, tag:'subha-' + at, url:'./'}, pushText(groups.get(at))));
+  return out;
 }
 const timesTxt = k => k === 1 ? 'مرة واحدة' : (k === 2 ? 'مرتين' : timesPhrase(k));
 const clip = (s, max) => s.length > max ? s.slice(0, max - 1) + '…' : s;
-function pushText(list){
+function pushText(items){
+  const list = items.filter(x => x.e).map(x => x.e), az = (items.find(x => x.az) || {}).az;
+  if(!list.length) return {title: 'اسم الوقت: ' + az.v, body: clip(az.s, 240)};
+  const t = entriesText(list);
+  if(az) t.body = clip(t.body, 220) + '، واسم الوقت: ' + az.n;
+  return t;
+}
+function entriesText(list){
   const q = list.filter(e => e.quran), t = list.filter(e => !e.quran);
   const pagesOf = e => 'الصفحات ' + n(e.quran.from) + ' إلى ' + n(e.quran.to);
-  if(q.length && !t.length) return {title:'ورد سورة البقرة: ' + bqWhen(q[0]), body:pagesOf(q[0])};
+  if(q.length && !t.length) return q.length === 1 ? {title:'ورد سورة البقرة: ' + bqWhen(q[0]), body:pagesOf(q[0])}
+    : {title:'ورد سورة البقرة', body:q.map(e => bqWhen(e) + ': ' + pagesOf(e)).join('، ')};
   if(q.length) list = t.concat(q);
   const line = list.map(e => e.quran ? 'سورة البقرة (' + pagesOf(e) + ')' : dname(e.item) + ' (' + n(e.target) + ')').join('، ');
   const p = list[0].prayer;
@@ -3305,6 +3580,37 @@ function renderPush(){
   $('#pushTest').disabled = $('#pushOff').disabled = pushBusy;
 }
 
+/* «التذكيرات»: what arrives, and today's list as it will arrive (on the phone, and inside the app while it is open) */
+function remCountPhrase(k){ if(k === 1) return 'تذكير واحد'; if(k === 2) return 'تذكيران'; return n(k) + (k <= 10 ? ' تذكيرات' : ' تذكيرًا'); }
+function renderRemOpts(){
+  const box = $('#remOpts'); if(!box) return;
+  box.hidden = !REM2; $('#remRows').hidden = REM2;
+  if(!REM2) return;
+  const r = state.settings.rem, bq = bqItemOf();
+  $('#remTasbeeh').checked = r.tasbeeh;
+  $('#remName').checked = r.name;
+  $('#remBqRow').hidden = !bq;
+  setSeg('#remBq', r.bq);
+  $('#remBqHint').textContent = r.bq === 'off' ? 'لا تذكير بالورد، وتجده في صفحتك الرئيسية' : r.bq === 'b' ? 'تذكير قبل كل صلاة بنصف ساعة' : 'قبل كل صلاة بنصف ساعة، وبعد الصلاة';
+  renderRemToday();
+}
+function renderRemToday(){
+  const host = $('#remToday'); if(!host) return;
+  const k = todayKey(), rec = state.days[k], now = Date.now(), gs = groupRem(remItemsOn(k));
+  $('#remTodayN').textContent = gs.length ? remCountPhrase(gs.length) : 'لا شيء';
+  if(host.hidden) return;
+  if(!gs.length){ host.innerHTML = '<p class="rem-none">لا تذكير اليوم بهذه الاختيارات.</p>'; return; }
+  host.innerHTML = gs.map(g => {
+    const t = pushText(g.list), d = new Date(g.at), past = g.at <= now, done = g.list.every(x => remDone(x, rec));
+    const ed = g.list.find(x => x.e && !x.e.quran);
+    return '<' + (ed ? 'button type="button" data-edit="' + ed.e.item.id + '"' : 'div') + ' class="rem-li' + (past ? ' is-past' : '') + (done ? ' is-done' : '') + '">'
+      + '<span class="rem-at">' + fmtTime(hm(d.getHours() * 60 + d.getMinutes())) + '</span>'
+      + '<span class="rem-tx"><b>' + escapeHtml(t.title) + '</b><span>' + escapeHtml(t.body) + '</span></span>'
+      + (done ? icon('check', 'ico ico-sm') : '') + '</' + (ed ? 'button' : 'div') + '>';
+  }).join('');
+}
+function remChanged(){ markDirty(); renderRemOpts(); renderPush(); }
+
 /* ---------- أسماء الله الحسنى: the centre tab ----------
    The page itself (azModule) is brought in from the names page by asma_build.py. The site's explanations
    (surahquran.com) are not part of the app: they appear only when the person imports their own copy on the phone. */
@@ -3313,8 +3619,8 @@ let AZ = null, azSiteCount = 0;
 /* numbers in this tab are written like the names page (١٢٣) */
 function azAr(x){ return String(x).replace(/[0-9]/g, d => AR_DIGITS[+d]); }
 /* a link straight to a name (…/Subha/#n12): open it, then take the mark off the address so a reload doesn't reopen it */
-function azFromHash(){
-  const h = (location.hash || '').replace('#', ''), m = /^n(\d{1,2})$/.exec(h);
+function azFromHash(hash){
+  const h = (hash == null ? location.hash || '' : hash).replace('#', ''), m = /^n(\d{1,2})$/.exec(h);
   if(!m || +m[1] < 1 || +m[1] > 99) return false;
   if(tab !== 'names') setTab('names');
   if(AZ) AZ.open(+m[1]);
@@ -3411,7 +3717,7 @@ function azDayDone(){
   const seen = (state.asma && state.asma.seen) || {};
   return Object.keys(seen).some(k => azSlotIds(k).every(i => seen[k].indexOf(i) >= 0));
 }
-function azBadges(){ checkUnlocks().badges.forEach(b => toast('وسام جديد: ' + b.name)); }
+function azBadges(){ announce(checkUnlocks()); }
 
 /* opening a name from the home page or the achievements page, and going back there when it closes */
 let azReturn = null;
@@ -4084,7 +4390,7 @@ function readerFinish(){
   feedback('done');
   closeReader();
   if(res && res.dayJustDone && res.day === todayKey()){ showDayDone(unl); return; }
-  unl.badges.forEach(b => toast('وسام جديد: ' + b.name));
+  announce(unl);
   toast(res ? 'تقبّل الله، أتممت ورد ' + bqWhen(e) : 'تقبّل الله منك');
 }
 
@@ -4148,8 +4454,9 @@ function wire(){
     else if(d.tab){ setTab(d.tab); }
     else if(d.mat){
       const m = MATERIALS.find(x => x.id === d.mat); if(!m) return;
-      if(m.need <= (state.stats.maxDone || 0)){ state.material = m.id; markDirty(); renderProgress(); toast('مسبحتك الآن: ' + m.full); }
-      else toast('تُفتح بعد إتمام الورد ' + daysPhrase(m.need));
+      const up = unlockedUpTo();
+      if(m.need <= up){ state.material = m.id; markDirty(); renderProgress(); toast('مسبحتك الآن: ' + m.full); }
+      else toast('باقي ' + countedPhrase(m.need - up) + ' لفتح ' + m.full, 3200);
     }
     else if(d.qt !== undefined){ $('#edText').value = d.qt; edSuggest(); renderEdChips(); }
     else if(d.qc !== undefined){ $('#edCount').value = digits(d.qc); renderEdChips(); }
@@ -4158,13 +4465,14 @@ function wire(){
     else if(d.act === 'bq-no'){ try{ localStorage.setItem('subha.bqNote', '1'); }catch(err){} renderBqNote(); }
     else if(d.act === 'fold'){ foldOpen[d.sec] = !foldOpen[d.sec]; renderList(state.days[todayKey()]); }
     else if(d.act === 'pr-open'){ prOpen[d.it] = true; renderList(state.days[todayKey()]); }
+    else if(d.act === 'tl'){ tlOpen[d.k] = t.getAttribute('aria-expanded') !== 'true'; renderList(state.days[todayKey()]); }
     else if(d.act === 'backup-save') backupSave();
     else if(d.act === 'backup-later'){ try{ localStorage.setItem(BACKUP_SNOOZE, String(Date.now() + 7 * 864e5)); }catch(err){} renderBackupNote(); }
     else if(d.act === 'add') openEditor(null);
     else if(d.act === 'free'){ ensureAudio(); openCounter(null, true); }
     else if(d.act === 'to-missed') setTab('missed');
     else if(d.act === 'qada-all'){ const first = missedList().find(x => !x.done); if(first){ ensureAudio(); openCounter(first.key, false, first.day); } }
-    else if(d.act === 'to-list'){ const s = $('#timedSec'); if(s) s.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block:'start'}); }
+    else if(d.act === 'to-list'){ const s = $('.tl-b--now') || $('#timedSec'); if(s) s.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block:'start'}); }
     else if(d.act === 'dismiss-sample'){ state.sample = false; markDirty(); renderToday(); }
     else if(d.act === 'dismiss-install'){ try{ localStorage.setItem('subha.installHint', '1'); }catch(err){} $('#installHint').hidden = true; }
     else if(d.act === 'import'){ setTab('settings'); openImport(); setTimeout(() => { const r = $('#backupRow'); if(r) r.scrollIntoView({block:'center'}); }, 60); }
@@ -4331,6 +4639,22 @@ function wire(){
     if(e.key === 'Escape') closeReader(); else if(e.key === 'ArrowLeft') readerStep(1); else if(e.key === 'ArrowRight') readerStep(-1);
   });
   window.addEventListener('resize', () => { if(RD.open && !$('#rdPage').classList.contains('is-loading')){ const pg = bqPage(RD.pages[RD.idx]); if(pg) rdFit(pg); } });
+  /* which reminders arrive */
+  $('#remTasbeeh').addEventListener('change', e => { state.settings.rem.tasbeeh = e.target.checked; remChanged(); });
+  $('#remName').addEventListener('change', e => { state.settings.rem.name = e.target.checked; remChanged(); });
+  $('#remBq').addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; state.settings.rem.bq = b.dataset.v; remChanged(); });
+  $('#remTodayBtn').addEventListener('click', e => {
+    const h = $('#remToday'); h.hidden = !h.hidden; e.currentTarget.setAttribute('aria-expanded', String(!h.hidden)); renderRemToday();
+  });
+  /* a tapped notification, while the app is open in the background */
+  if(!inFrame && 'serviceWorker' in navigator){
+    navigator.serviceWorker.addEventListener('message', ev => {
+      const d = ev.data || {}; if(d.type !== 'subha-go' || typeof d.url !== 'string') return;
+      let h = ''; try{ h = new URL(d.url, location.href).hash; }catch(err){}
+      if(h) routeHash(h);
+    });
+    try{ navigator.serviceWorker.startMessages(); }catch(err){}
+  }
   $('#backupSave').addEventListener('click', backupSave);
   $('#backupFile').addEventListener('change', e => { backupRead(e.target.files && e.target.files[0]); e.target.value = ''; });
   /* the streak sheet */
@@ -4340,7 +4664,7 @@ function wire(){
   $('#stRule').addEventListener('click', e => {
     const b = e.target.closest('button'); if(!b) return;
     state.settings.streakMin = b.dataset.v; markDirty();
-    checkUnlocks().badges.forEach(x => toast('وسام جديد: ' + x.name));
+    announce(checkUnlocks());
     renderStreakSheet(); renderTab();
   });
   document.addEventListener('keydown', e => { if(e.key === 'Escape' && !$('#streakSheet').hidden) closeStreak(); });
@@ -4407,15 +4731,41 @@ function openImport(){
 function closeImport(){ $('#backupBox').hidden = true; $('#importActions').hidden = true; $('#importErr').hidden = true; }
 /* after the first touch anywhere, keep audio ready (only once something has asked for it) */
 function ensureAudioSoft(){ if(actx && actx.state !== 'running') ensureAudio(); }
+/* links into the app: «#n12» opens a name; «#go=KEY@DAY», from a tapped reminder, opens that dhikr or portion */
+function routeHash(h){
+  h = h == null ? location.hash : h;
+  const g = /^#go=([^@]+)@(\d{4}-\d{2}-\d{2})$/.exec(h || ''), isName = /^#n\d{1,2}$/.test(h || '');
+  if(!g && !isName) return false;
+  $('#remind').hidden = true;
+  if(C.open) closeCounter();
+  if(RD.open) closeReader();
+  if(isName) return azFromHash(h);
+  try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
+  let keys = []; try{ keys = g[1].split(',').map(decodeURIComponent); }catch(e){}
+  const day = g[2], rec = state.days[day];
+  /* the notice already said it: no second window for the same adhkar inside the app */
+  for(const k of keys) fired[day + '|' + k] = 1;
+  try{ localStorage.setItem(FIRED_KEY, JSON.stringify(fired)); }catch(e){}
+  setTab('today');
+  const es = day === todayKey() ? keys.map(k => entryFor(k, day)).filter(Boolean) : [];
+  if(!es.length) return true;
+  const open = es.find(x => countOf(x.key, rec) < x.target)
+    || es.map(x => sameGroup(x).find(y => countOf(y.key, rec) < y.target)).find(Boolean);
+  if(!open){ toast('أتممت هذا الورد، تقبّل الله منك'); return true; }
+  openCounter(open.key, false, day);
+  return true;
+}
 function init(){
   hydrateIcons(document);
   prune();
   wire();
   const h = (location.hash || '').replace('#', '');
-  if(!azFromHash()) setTab(['today', 'missed', 'names', 'progress', 'settings'].indexOf(h) >= 0 ? h : 'today');
-  window.addEventListener('hashchange', () => { if(!C.open) azFromHash(); });
+  if(!routeHash()) setTab(['today', 'missed', 'names', 'progress', 'settings'].indexOf(h) >= 0 ? h : 'today');
+  window.addEventListener('hashchange', () => routeHash());
   setSaveStatus('local');
   connectRemote();
+  /* beads earned by days already counted (after an update, say) open on the first launch */
+  setTimeout(() => { const u = checkUnlocks(); if(u.material || u.badges.length){ announce(u); renderTab(); } }, 1600);
   setTimeout(reminderTick, 1200);
   setInterval(reminderTick, 20000);
   setTimeout(() => pushSync(false), 3000);

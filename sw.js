@@ -1,5 +1,5 @@
 /* سُبحة: works offline, updates itself when online, and shows reminders pushed to it. */
-const VERSION = 'subha-v4';
+const VERSION = 'subha-v5';
 const FONTS = 'subha-fonts';
 const SHELL = [
   './',
@@ -75,12 +75,16 @@ self.addEventListener('push', event => {
   }));
 });
 
+/* tapping a reminder opens its dhikr or portion: an open app is told which one, otherwise the app opens on its link */
 self.addEventListener('notificationclick', event => {
   event.notification.close();
   const url = (event.notification.data && event.notification.data.url) || './';
   event.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
     for (const client of list) {
-      if ('focus' in client) return client.focus();
+      if ('focus' in client) {
+        if (url !== './') client.postMessage({ type: 'subha-go', url });
+        return client.focus();
+      }
     }
     return self.clients.openWindow(url);
   }));
