@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>سُبحة</title>
-<meta name="subha-version" content="20261026174734">
+<meta name="subha-version" content="20261027224828">
 <meta name="description" content="ورد يومي للتسبيح بأعداد وأوقات ومواقيت الأذان">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#0C1618">
@@ -468,7 +468,7 @@ textarea.field.plain{font-family:var(--font-ui);font-size:15px;min-height:64px}
 
 /* day complete */
 .dayDone{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:var(--scrim);padding-top:calc(env(safe-area-inset-top,0px) + 20px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 20px);padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
-.dd-card{background:var(--surface);border-radius:28px;padding:22px 20px;max-width:380px;width:100%;text-align:center;display:grid;gap:8px;justify-items:center;box-shadow:0 20px 60px var(--shade);animation:pop .45s cubic-bezier(.2,1.3,.4,1)}
+.dd-card{box-sizing:border-box;background:var(--surface);border-radius:28px;padding:22px 20px;max-width:380px;width:100%;text-align:center;display:grid;gap:8px;justify-items:center;box-shadow:0 20px 60px var(--shade);animation:pop .45s cubic-bezier(.2,1.3,.4,1)}
 @keyframes pop{from{transform:scale(.86);opacity:0}}
 .dd-card canvas{width:150px;height:150px}
 .dd-card h2{font-family:var(--font-display);font-size:26px;margin:0}
@@ -1003,6 +1003,55 @@ textarea.field.plain{font-family:var(--font-ui);font-size:15px;min-height:64px}
 .tl-b--past .tl-dot i{opacity:.45}
 .tl-x .tl-r--now.tl-mark .tl-txt span{color:var(--x)}
 .tl-part{display:inline-block;margin-inline-start:6px;padding:0 7px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);font-size:11.5px;font-weight:600;vertical-align:1px;font-variant-numeric:tabular-nums}
+
+/* ---------- after update 10: «يومك» in the first screen, a dot per wird of a closed prayer, a prayer's wird in one go ---------- */
+/* the name of the hour as one slim line */
+.azh-strip{margin-top:12px;border-radius:18px;background:var(--az-paper);border:1px solid var(--az-line);overflow:hidden}
+.azh-main{display:flex;align-items:center;gap:12px;width:100%;padding:10px 10px 8px 12px;text-align:start;color:var(--ink)}
+.azh-mini{--cut:12px;flex:none}
+.azh-mini .az-cart-in{min-width:0;padding:1px calc(var(--cut) + 8px) 3px}
+.azh-mini b{font-family:var(--font-dhikr);font-weight:700;font-size:21px;line-height:1.55;color:var(--az-band-ink);white-space:nowrap}
+.azh-t{flex:1;min-width:0;display:grid;gap:1px}
+.azh-t small{font-family:var(--font-display);font-size:12.5px;font-weight:600;color:var(--accent)}
+.azh-t span{font-size:14px;font-weight:600;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.azh-main > .ico{flex:none;color:var(--ink-2)}
+.azh-sub{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 12px;padding:2px 0 4px;border-top:1px solid color-mix(in srgb,var(--az-line) 45%,transparent)}
+.azh-sub .azh-next{font-size:12.5px}
+.azh-sub .azh-star{width:30px;height:30px}
+.azh-sub .azs{width:17px;height:17px}
+.azh-sub .azs i{inset:2px}
+/* the day's progress as the heading of «يومك» */
+.ux-home .daybar{margin-top:20px;padding:0;background:none;border:0;border-radius:0;gap:2px 12px}
+.ux-home .daybar .hero-ring{width:52px;height:52px}
+.ux-home .daybar .pct{font-size:13.5px}
+.ux-home .daybar-txt b{font-size:22px;font-weight:700}
+.ux-home .daybar .week{display:none}
+.ux-home .tl-slot{margin-top:6px}
+.tl-city{margin:4px 0 0;font-size:12px;color:var(--ink-2)}
+/* closed prayers: a dot per wird */
+.tl-dots{display:block}
+.td-row{display:flex;align-items:center;flex-wrap:wrap;gap:6px;padding-top:6px}
+.td{display:block;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--ink-2);opacity:.5;box-sizing:border-box}
+.td.q{border-radius:3px}
+.td.x{width:9px;height:9px;border-radius:2px;transform:rotate(45deg)}
+.td--done{background:var(--done);border-color:var(--done);opacity:1}
+.td--missed{background:var(--miss);border-color:var(--miss);opacity:1}
+.td--now{background:var(--accent);border-color:var(--accent);opacity:1}
+.td--gone{opacity:.25}
+.tl-x .td--now{background:var(--x);border-color:var(--x)}
+.vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+/* the now card's one button for a prayer's wird */
+.feat-go--sess > span{display:grid;justify-items:center;line-height:1.25}
+.feat-go--sess small{font-size:12px;font-weight:500;opacity:.85}
+/* the end of the walk */
+.sd-card{gap:10px}
+.sd-ic{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:var(--done-soft);color:var(--done)}
+.sd-ic .ico{width:30px;height:30px;stroke-width:2.4}
+.sd-list{list-style:none;margin:2px 0 0;padding:0;width:100%;display:grid;gap:6px;text-align:start}
+.sd-list li{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:var(--surface-2);font-size:14px}
+.sd-list li .ico{flex:none;width:15px;height:15px;color:var(--done);stroke-width:2.6}
+.sd-list li span{flex:1;min-width:0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sd-list li small{flex:none;font-size:13px;color:var(--ink-2);font-variant-numeric:tabular-nums}
 </style>
 <style>
 /* standalone web app: clear the status bar and home indicator, keep the status bar legible in both themes */
@@ -1554,6 +1603,17 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
     </div>
   </div>
 
+  <!-- ورد الصلاة كله بضغطة: آخره -->
+  <div class="dayDone sessDone" id="sessDone" hidden>
+    <div class="dd-card sd-card" role="dialog" aria-modal="true" aria-labelledby="sdTitle">
+      <span class="sd-ic" aria-hidden="true"><i data-ico="check"></i></span>
+      <h2 id="sdTitle">تم الورد</h2>
+      <ul class="sd-list" id="sdList"></ul>
+      <p class="dua">تقبّل الله منك</p>
+      <button class="btn btn-primary btn-block" id="sdOk">الحمد لله</button>
+    </div>
+  </div>
+
   <!-- تنبيه الوقت -->
   <div class="remind" id="remind" hidden role="alert">
     <span class="bell"><i data-ico="bell"></i></span>
@@ -1580,6 +1640,9 @@ document.documentElement.setAttribute('lang', 'ar');
 /* ---------- constants ---------- */
 const STORE_KEY = 'subha.state.v1';
 const FIRED_KEY = 'subha.fired.v1';
+/* three changes after update 10, each switchable for comparison: «يومك» in the first screen, a dot for each wird of a
+   closed prayer, and a prayer's wird in one go (NO_UX=1 at build turns all three off) */
+const UX_HOME = true, UX_DOTS = true, UX_SESSION = true;
 const MATERIALS = [
   {id:'wood',  name:'صندل',  full:'مسبحة الصندل',  need:0,  base:'#8A5A32', light:'#CF9F6E', dark:'#4A2C16'},
   {id:'agate', name:'عقيق',  full:'مسبحة العقيق',  need:1,  base:'#A8322A', light:'#EC8A6E', dark:'#5A1410'},
@@ -2558,11 +2621,15 @@ function renderFeatPage(f, rec, pg){
     go = f.kind === 'missed' ? 'اقضه الآن' : f.kind === 'upcoming' ? 'ابدأ مبكرًا' : (c ? 'تابع القراءة' : 'اقرأ الآن');
     if(f.kind === 'due') chip = '<span class="fchip due">' + icon('book', 'ico ico-sm') + 'حان وقته</span>';
   }
+  const sess = UX_SESSION && f.kind === 'due' && e.prayer ? sessList(e.prayer.id) : [];
+  const btn = sess.length > 1
+    ? '<button class="btn btn-primary btn-block feat-go feat-go--sess" data-act="sess" data-p="' + e.prayer.id + '"><span>ابدأ ورد ' + e.prayer.name + '<small>' + wirdPhrase(sess.length) + ' بالترتيب</small></span>' + icon('left') + '</button>'
+    : '<button class="btn ' + (f.kind === 'missed' ? 'btn-miss' : 'btn-primary') + ' btn-block feat-go" data-open="' + e.key + '" data-day="' + (e.day || todayKey()) + '"><span>' + go + '</span>' + icon('left') + '</button>';
   host.innerHTML = '<div class="feat-top">' + chip + '<span class="feat-when" id="featWhen">' + when + '</span></div>'
     + '<div class="feat-body"><div class="feat-ring"><canvas id="featRing" aria-hidden="true"></canvas>'
     + '<div class="feat-count">' + n(c) + '<small>من ' + n(e.target) + '</small></div></div>'
     + '<div class="feat-words">' + (tag ? '<span class="feat-tag">' + escapeHtml(tag) + '</span>' : '') + '<div class="feat-text' + (text.length > 40 ? ' long' : '') + '">' + escapeHtml(text) + '</div>' + sub + '</div></div>'
-    + '<button class="btn ' + (f.kind === 'missed' ? 'btn-miss' : 'btn-primary') + ' btn-block feat-go" data-open="' + e.key + '" data-day="' + (e.day || todayKey()) + '"><span>' + go + '</span>' + icon('left') + '</button>' + foot;
+    + btn + foot;
   FA.entry = e; FA.ctx = null;
   drawFeatRing(null);
   if(f.kind === 'due') startFeatAnim();
@@ -2625,7 +2692,7 @@ function renderMissedPage(){
   h += '<div class="card msum"><div class="msum-top"><b class="big-num miss-num' + (left.length ? '' : ' ok') + '">' + n(left.length) + '</b><div><div class="lbl">' + (left.length ? leftPhrase(left.length) : 'قضيت كل ما فاتك اليوم') + '</div>'
     + '<div class="muted small">' + (left.length ? 'باقي ' + remTxt + '، وقضيت ' + n(doneN) + ' من ' + n(all.length) : 'تقبّل الله منك') + '</div></div></div>'
     + '<span class="bar"><i style="width:' + Math.round(doneN / all.length * 100) + '%;background:var(--done)"></i></span>'
-    + (left.length ? '<button class="btn btn-miss btn-block" data-act="qada-all">' + icon('reset') + 'ابدأ القضاء واحدًا تلو الآخر</button>' : '') + '</div>';
+    + (left.length ? '<button class="btn btn-miss btn-block" data-act="qada-all">' + icon('reset') + (UX_SESSION ? 'اقضها كلها بالترتيب' : 'ابدأ القضاء واحدًا تلو الآخر') + '</button>' : '') + '</div>';
   const m = new Map(); for(const x of all){ const g = m.get(x.item.id) || {item:x.item, list:[]}; g.list.push(x); m.set(x.item.id, g); }
   const gs = Array.from(m.values()).sort((a, b) => (a.list.every(x => x.done) ? 1 : 0) - (b.list.every(x => x.done) ? 1 : 0));
   host.innerHTML = h + '<div class="sec"><div class="mcard">' + gs.map(missedRow).join('') + '</div></div>';
@@ -2810,14 +2877,26 @@ function tlBlock(b, rec, now, nextUp){
   const nameOf = e => e.quran ? (b.kind === 'missed' && e.quran.w !== 'x' ? 'سورة البقرة ' + (e.quran.w === 'b' ? 'قبل الصلاة' : 'بعد الصلاة') : 'سورة البقرة') : dname(e.item);
   const only = {missed:'missed', due:'now'}[b.kind];
   const names = Array.from(new Set((only ? b.list.filter(e => !e.mark && stateOf(e, rec, now) === only) : b.list).map(e => e.mark ? e.item.text : nameOf(e))));
+  const subTxt = (b.kind === 'missed' ? 'فاتك: ' : b.kind === 'due' ? 'باقي: ' : '') + names.join('، ');
   return '<section class="tl-b tl-b--' + b.kind + (b.extra ? ' tl-x tl-x-' + b.id : '') + '" id="tl-' + b.id + '">'
     + '<button type="button" class="tl-h" data-act="tl" data-k="' + k + '" aria-expanded="' + open + '">'
     + '<span class="tl-dot" aria-hidden="true"><i>' + (b.kind === 'done' ? icon('check', 'ico ico-xs') : b.extra ? icon(b.id === 'duha' ? 'sun' : 'moon', 'ico ico-xs') : '') + '</i></span>'
     + '<span class="tl-t"><span class="tl-tt"><b>' + b.prayer.name + '</b><span class="tl-time">' + fmtTime(b.adhan) + '</span></span>'
-    + (open ? '' : '<span class="tl-sub">' + (b.kind === 'missed' ? 'فاتك: ' : b.kind === 'due' ? 'باقي: ' : '') + escapeHtml(names.join('، ')) + '</span>') + '</span>'
+    + (open ? '' : UX_DOTS ? tlDots(b, rec, now, subTxt) : '<span class="tl-sub">' + escapeHtml(subTxt) + '</span>') + '</span>'
     + chip + icon('chev', 'ico ico-xs tl-chev') + '</button>'
     + (open ? '<div class="tl-rows">' + b.list.map(e => tlRow(e, rec, now)).join('') + '</div>' : '')
     + '</section>';
+}
+/* a closed prayer: a dot for each wird (filled once done, red when missed, the accent when its time is now, hollow
+   while it is still to come); a page for an al-Baqarah portion, a diamond for الضحى or الوتر itself. The names stay
+   for screen readers. */
+function tlDots(b, rec, now, label){
+  const dot = e => {
+    let s = stateOf(e, rec, now);
+    if(e.mark) s = countOf(e.key, rec) >= 1 ? 'done' : s === 'missed' ? 'gone' : s;
+    return '<i class="td td--' + s + (e.quran ? ' q' : e.mark ? ' x' : '') + '"></i>';
+  };
+  return '<span class="tl-dots"><span class="td-row" aria-hidden="true">' + b.list.map(dot).join('') + '</span><span class="vh">' + escapeHtml(label) + '</span></span>';
 }
 /* the next al-Baqarah portion still to come, offered when none is due: read in the car now, busy at its time */
 function bqAhead(all, rec, now){
@@ -2828,7 +2907,7 @@ function bqAhead(all, rec, now){
 function renderTimeline(rec){
   const now = normMin(nowMin()), all = entries(), bs = tlBlocks(all, rec, now);
   const free = all.filter(e => !e.time), isDone = e => countOf(e.key, rec) >= e.target;
-  let h = '<section class="slot tl-slot"><div class="slot-h"><h3>يومك</h3>' + (bs.length ? '<span class="slot-meta">حسب توقيت ' + currentCity().name + '</span>' : '') + '</div>';
+  let h = '<section class="slot tl-slot">' + (UX_HOME ? '' : '<div class="slot-h"><h3>يومك</h3>' + (bs.length ? '<span class="slot-meta">حسب توقيت ' + currentCity().name + '</span>' : '') + '</div>');
   const ahead = bqAhead(all, rec, now);
   if(ahead) h += '<button type="button" class="tl-ahead" data-open="' + ahead.key + '">' + icon('book', 'ico ico-sm') + '<span><b>عندك وقت؟ اقرأ ورد ' + bqWhen(ahead).replace('صلاة ', '') + ' الحين</b>'
     + '<small>الصفحات ' + n(ahead.quran.from) + ' إلى ' + n(ahead.quran.to) + '، ويُحسب لك وما يجيك تذكيره</small></span>' + icon('left', 'ico ico-sm') + '</button>';
@@ -2842,7 +2921,7 @@ function renderTimeline(rec){
       + (fin.length ? '<div class="tl-in">' + foldRow('free', fin.map(e => e.item), ['<div class="tl-rows">' + fin.map(e => tlRow(e, rec, now)).join('') + '</div>']) + '</div>' : '')
       + '</section>';
   }
-  $('#list').innerHTML = h + '</div></section>';
+  $('#list').innerHTML = h + '</div>' + (UX_HOME && bs.length ? '<p class="tl-city">المواقيت حسب توقيت ' + currentCity().name + '</p>' : '') + '</section>';
 }
 function itemCard(e, rec, now){
   const it = e.item; const c = Math.min(countOf(e.key, rec), e.target); const done = c >= e.target;
@@ -3576,6 +3655,7 @@ function openCounter(id, free, day){
 function closeCounter(){
   if(!C.open) return;
   C.open = false; clearTimeout(C.autoT);
+  if(SS.on && !SS.handoff) SS.on = false;
   $('#counter').hidden = true;
   if($('#editor').hidden) document.body.classList.remove('locked');
   keepAwake(false); flushAll(); renderTab();
@@ -3590,6 +3670,8 @@ function renderCounter(){
     if(C.qada){
       const open = missedList().filter(x => !x.done).length;
       $('#cTitle').textContent = 'قضاء: ' + missLabel(e) + (C.day !== todayKey() ? '، أمس' : '') + (open > 1 ? ' (باقي ' + n(open) + ')' : '');
+    } else if(SS.on && SS.items.some(x => x.key === e.key)){
+      $('#cTitle').textContent = SS.title + ' (' + sessPos(e.key) + ')';
     } else {
       const sibs = sameGroup(e).map(x => x.key); const pos = sibs.indexOf(e.key);
       const head = e.fri ? 'أذكار ' + entryWhen(e) : e.prayer ? entryWhen(e) : (e.time ? 'ورد الساعة ' + fmtTime(e.time) : 'في أي وقت خلال اليوم');
@@ -3687,11 +3769,17 @@ function onItemDone(res, unl){
   C.lockUntil = performance.now() + 900; burst();
   if(res.dayJustDone && res.day !== todayKey()) toast('اكتمل ورد أمس بالقضاء، ومداومتك محفوظة', 3600);
   else if(res.dayJustDone){
+    SS.on = false;   /* the whole day is done: its own celebration says it */
     setTimeout(() => feedback('day'), 350);
     C.autoT = setTimeout(() => { closeCounter(); showDayDone(unl); }, 1400);
     return;
   }
   announce(unl);
+  if(SS.on){   /* in a walk: the next one opens by itself, or the walk ends with its word */
+    const sx = sessNext(C.id);
+    C.autoT = setTimeout(() => { if(!C.open) return; if(sx) sessGo(sx); else sessClose(); }, 1300);
+    return;
+  }
   const cur = entryFor(C.id, C.day);
   const nx = C.qada ? nextMissedAfter(C.id, C.day) : (cur ? queueAfter(cur) : null);
   C.autoT = setTimeout(() => {
@@ -3702,6 +3790,7 @@ function onItemDone(res, unl){
 }
 function goNext(){
   clearTimeout(C.autoT);
+  if(SS.on){ const sx = sessNext(C.id); if(sx) sessGo(sx); else sessClose(); return; }
   const cur = entryFor(C.id, C.day); const f = featured();
   const nx = C.qada ? nextMissedAfter(C.id, C.day)
     : ((cur && queueAfter(cur)) || (f.entry && !(f.entry.key === C.id && (f.entry.day || todayKey()) === C.day) ? f.entry : null));
@@ -3728,6 +3817,62 @@ function resetCount(){
   const m = ringModel(); if(!m.count) return;
   addCount(C.free ? null : C.id, -m.count, C.day); clearTimeout(C.autoT); C.lockUntil = 0; renderCounter(); toast('صُفّر العداد');
 }
+
+/* ---------- a prayer's wird in one go ----------
+   «ابدأ ورد الظهر» walks through what is left of that prayer in the order it comes (the counter for adhkar, the mushaf
+   for al-Baqarah), each opening by itself when the one before is done, and ends on «تم ورد الظهر». «اقضها كلها» does
+   the same with what was missed. Closing the counter or the mushaf ends the walk; the button picks up what is left. */
+const SS = {on:false, kind:'', title:'', items:[], handoff:false};
+function sessList(pid){
+  const rec = state.days[todayKey()], now = normMin(nowMin());
+  const b = tlBlocks(entries(), rec, now).find(x => x.id === pid);
+  return b ? b.list.filter(e => !e.mark && ['now', 'missed'].indexOf(stateOf(e, rec, now)) >= 0) : [];
+}
+function sessBegin(kind, title, list){
+  if(!list.length) return;
+  SS.on = true; SS.kind = kind; SS.title = title; SS.items = list.map(e => ({key:e.key, day:e.day || todayKey()}));
+  ensureAudio();
+  const x = SS.items[0];
+  if(isQuranKey(x.key)) openReader(x.key, x.day); else openCounter(x.key, false, x.day);
+}
+/* from a notice, the walk starts with what the notice named and comes round to the rest */
+function sessStart(pid, first){
+  const p = anchorById(pid); if(!p) return;
+  let list = sessList(pid); const i = first ? list.findIndex(e => e.key === first) : -1;
+  if(i > 0) list = list.slice(i).concat(list.slice(0, i));
+  sessBegin('prayer', 'ورد ' + p.name, list);
+}
+function sessStartQada(){ sessBegin('qada', 'القضاء', missedList().filter(x => !x.done)); }
+const sessLeft = x => { const e = entryFor(x.key, x.day); return !!e && countOf(x.key, state.days[x.day]) < e.target; };
+/* the next one still open after this one, then any passed over before it */
+function sessNext(key){
+  const i = SS.items.findIndex(x => x.key === key);
+  return SS.items.slice(i + 1).concat(i > 0 ? SS.items.slice(0, i) : []).find(sessLeft) || null;
+}
+function sessPos(key){ const i = SS.items.findIndex(x => x.key === key); return i < 0 ? '' : n(i + 1) + ' من ' + n(SS.items.length); }
+/* from one to the next: the counter and the mushaf hand over without ending the walk */
+function sessGo(x){
+  SS.handoff = true;
+  try{
+    if(isQuranKey(x.key)){ if(C.open) closeCounter(); openReader(x.key, x.day); }
+    else { if(RD.open) closeReader(); if(C.open) switchTo({key:x.key, day:x.day}); else openCounter(x.key, false, x.day); }
+  } finally { SS.handoff = false; }
+}
+/* the end of the walk: close what is open, and if everything in it is done, say so with what it held */
+function sessClose(){
+  if(!SS.on) return;
+  SS.handoff = true;
+  try{ if(C.open) closeCounter(); if(RD.open) closeReader(); } finally { SS.handoff = false; }
+  SS.on = false;
+  const es = SS.items.map(x => ({x, e:entryFor(x.key, x.day)})).filter(y => y.e);
+  if(!es.length || es.some(y => countOf(y.x.key, state.days[y.x.day]) < y.e.target)){ toast('توقّفت، وتكمل من نفس المكان متى شئت'); return; }
+  $('#sdTitle').textContent = SS.kind === 'qada' ? 'قضيت ما فاتك' : 'تم ' + SS.title;
+  $('#sdList').innerHTML = es.map(({e}) => '<li>' + icon('check', 'ico ico-xs') + '<span>' + escapeHtml(e.quran ? 'سورة البقرة، ' + bqWhen(e).replace('صلاة ', '') : dname(e.item)) + '</span><small>'
+    + (e.quran ? pagesPhrase(e.target) : n(e.target)) + '</small></li>').join('');
+  $('#sessDone').hidden = false; document.body.classList.add('locked');
+  try{ $('#sdOk').focus({preventScroll:true}); }catch(err){}
+}
+function closeSessDone(){ $('#sessDone').hidden = true; if(!C.open && !RD.open) document.body.classList.remove('locked'); }
 
 /* ---------- particles ---------- */
 const P = []; let fxCtx = null;
@@ -4281,6 +4426,13 @@ function renderAzHome(){
       + lbl + ': ' + escapeHtml(x.n) + (got ? '، قرأته' : '') + '">' + AZ_STAR + '</button>';
   }).join('');
   const again = seen.indexOf(t.id) >= 0;
+  if(UX_HOME){   /* slim on the home page: the name and its sense (a tap opens it), when the next comes, and the day's three stars */
+    host.className = 'azt azh-strip';
+    host.innerHTML = '<button type="button" class="azh-main" data-az-open="' + t.id + '"><span class="az-cart azh-mini"><span class="az-cart-in"><b class="azh-name">' + escapeHtml(nm.v) + '</b></span></span>'
+      + '<span class="azh-t"><small>اسم الوقت</small><span>' + escapeHtml(nm.s) + '</span></span>' + icon('left', 'ico ico-sm') + '</button>'
+      + '<div class="azh-sub"><span class="azh-next">الاسم التالي ' + azAt(t, t.slot + 1) + '</span><span class="azh-stars" role="group" aria-label="أسماء اليوم الثلاثة">' + stars + '</span></div>';
+    host.hidden = false; return;
+  }
   host.innerHTML = '<div class="azh-top"><span class="az-eyebrow">اسم الوقت</span><span class="azh-stars" role="group" aria-label="أسماء اليوم الثلاثة">' + stars + '</span></div>'
     + '<div class="az-cart azh-cart"><div class="az-cart-in"><p class="az-cart-name' + (nm.n.indexOf(' ') > -1 ? ' az-long' : '') + '">' + escapeHtml(nm.v) + '</p></div></div>'
     + '<p class="azh-s">' + escapeHtml(nm.s) + '</p>'
@@ -4892,6 +5044,7 @@ function openReader(key, day){
 function closeReader(){
   if(!RD.open) return;
   RD.open = false; RD.token++;
+  if(SS.on && !SS.handoff) SS.on = false;   /* closed by hand: the walk ends here */
   $('#reader').hidden = true; $('#rdEnd').hidden = true;
   if($('#counter').hidden && $('#editor').hidden) document.body.classList.remove('locked');
   keepAwake(false); flushAll(); renderTab();
@@ -4901,7 +5054,8 @@ function closeReader(){
 function renderReader(){
   const e = RD.e, total = RD.pages.length, last = RD.idx === total - 1;
   $('#rdTitle').textContent = e.fri ? 'سورة الكهف · ' + entryWhen(e) : 'ورد سورة البقرة · ' + bqWhen(e).replace('صلاة ', '');
-  $('#rdSub').textContent = 'الصفحة ' + n(RD.idx + 1) + ' من ' + n(total) + (e.fri ? '' : RD.day !== todayKey() ? '، قضاء' : (RD.qada ? '، قضاء ما فاتك' : ''));
+  $('#rdSub').textContent = 'الصفحة ' + n(RD.idx + 1) + ' من ' + n(total) + (e.fri ? '' : RD.day !== todayKey() ? '، قضاء' : (RD.qada ? '، قضاء ما فاتك' : ''))
+    + (SS.on && SS.items.some(x => x.key === RD.key) ? ' · ' + SS.title + ' ' + sessPos(RD.key) : '');
   $('#rdDots').innerHTML = RD.pages.map((p, i) => '<i class="' + (i < RD.idx ? 'is-read' : i === RD.idx ? 'is-on' : '') + '"></i>').join('');
   $('#rdPrev').disabled = RD.idx === 0;
   const nx = $('#rdNext');
@@ -4935,6 +5089,13 @@ function readerFinish(){
   }
   const unl = checkUnlocks();
   feedback('done');
+  if(SS.on){   /* in a walk through a prayer's wird: straight on to the next, or its end */
+    if(res && res.dayJustDone && res.day === todayKey()){ SS.on = false; closeReader(); showDayDone(unl); return; }
+    announce(unl);
+    const sx = sessNext(RD.key);
+    if(sx) sessGo(sx); else sessClose();
+    return;
+  }
   /* time to spare: the next portion still unread follows straight away, before its time if it has not come */
   const next = RD.day === todayKey() ? bqNextUnread(e) : null;
   if(next && !(res && res.dayJustDone)){
@@ -5057,7 +5218,11 @@ function wire(){
     else if(d.act === 'add') openEditor(null);
     else if(d.act === 'free'){ ensureAudio(); openCounter(null, true); }
     else if(d.act === 'to-missed') setTab('missed');
-    else if(d.act === 'qada-all'){ const first = missedList().find(x => !x.done); if(first){ ensureAudio(); openCounter(first.key, false, first.day); } }
+    else if(d.act === 'sess') sessStart(d.p);
+    else if(d.act === 'qada-all'){
+      if(UX_SESSION) sessStartQada();
+      else { const first = missedList().find(x => !x.done); if(first){ ensureAudio(); openCounter(first.key, false, first.day); } }
+    }
     else if(d.act === 'to-list'){ const s = $('.tl-b--now') || $('#timedSec'); if(s) s.scrollIntoView({behavior: reduceMotion ? 'auto' : 'smooth', block:'start'}); }
     else if(d.act === 'dismiss-sample'){ state.sample = false; markDirty(); renderToday(); }
     else if(d.act === 'dismiss-install'){ try{ localStorage.setItem('subha.installHint', '1'); }catch(err){} $('#installHint').hidden = true; }
@@ -5339,6 +5504,8 @@ function wire(){
 
   /* overlays */
   $('#ddOk').addEventListener('click', () => { $('#dayDone').hidden = true; renderTab(); });
+  $('#sdOk').addEventListener('click', () => { closeSessDone(); renderTab(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape' && !$('#sessDone').hidden){ closeSessDone(); renderTab(); } });
   $('#rmGo').addEventListener('click', () => {
     $('#remind').hidden = true; ensureAudio();
     const e = entryByKey(remindId); if(!e) return;
@@ -5402,10 +5569,16 @@ function routeHash(h){
   const open = es.find(x => countOf(x.key, rec) < x.target)
     || es.map(x => sameGroup(x).find(y => countOf(y.key, rec) < y.target)).find(Boolean);
   if(!open){ toast('أتممت هذا الورد، تقبّل الله منك'); return true; }
+  if(UX_SESSION && open.prayer && sessList(open.prayer.id).length > 1){ sessStart(open.prayer.id, open.key); return true; }
   openCounter(open.key, false, day);
   return true;
 }
 function init(){
+  if(UX_HOME){   /* «يومك» right under the now card: the day's progress becomes its heading, the name of the hour a slim line */
+    document.documentElement.classList.add('ux-home');
+    const bar = $('.daybar'), list = $('#list');
+    if(bar && list){ list.parentNode.insertBefore(bar, list); $('.daybar-txt b').textContent = 'يومك'; }
+  }
   hydrateIcons(document);
   prune();
   wire();
